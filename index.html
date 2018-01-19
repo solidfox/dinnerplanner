@@ -42,61 +42,89 @@
 			  .article {-webkit-flex:5 0px;flex:5 0px;-webkit-order:2;order:2;}
 			  footer {-webkit-order:3;order:3;}
 		  }
+
+		  .inactive {
+			  display: none;
+		  }
 	  </style>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
   </head>
   <body >
-<!--
-	<div class="container">
-		<h1 style="font-size:5vw"><center>Dinner planner</h1>
-		<div id="exampleView">
-			<div>
-				Number of guests: <span id="numberOfGuests"></span>
-			</div>
-			<div>
-          <button id="minusGuest" class="btn"><span class="glyphicon glyphicon-minus"></span></button>
-				<button id="plusGuest" class="btn"><span class="glyphicon glyphicon-plus"></span></button>
-			</div>
-		</div>
-	</div>
--->
 
 	<div class="flex-container">
 		<header>
 			<h1>Dinner Planner</h1>
 		</header>
 
-		<div class="menu" id="menu-view">
-			<div style="margin-left: 20px">
-				Number of guests: <span id="numberOfGuests"></span>
-			</div>
-			<div style="margin-left: 20px">
-				<button id="minusGuest" class="btn"><span class="glyphicon glyphicon-minus"></span></button>
-				<button id="plusGuest" class="btn"><span class="glyphicon glyphicon-plus"></span></button>
-			</div>
-		</div>
-
-
-		<article class="article" id="welcome-view">
-			<h1>London</h1>
+		<div class="article inactive" id="welcome-view">
 			<p>Welcome to Dinner Planner of Group 5.</p>
 			<p>Press the button new Create a New Dinner Plan.</p>
 			<button type="button" class="btn btn-primary">Create New Dinner</button>
-		</article>
+		</div>
 
-		<article id="select-dish-view" class="inactive">
-		</article>
 
-		<article id="dish-details-view" class="inactive">
-		</article>
 
-		<article id="dinner-overview-view" class="inactive">
-		</article>
 
-		<article id="dinner-print-view" class="inactive">
-		</article>
+		<div class="menu" id="menu-view">
+			<div style="margin-left: 20px">
+				My Dinner<br>
+				People: <span id="numberOfGuests"></span><button id="minusGuest" class="btn"><span class="glyphicon glyphicon-minus"></span></button>
+				<button id="plusGuest" class="btn"><span class="glyphicon glyphicon-plus"></span></button>
+			</div>
+			</div>
+
+
+		<div class="article" id="select-dish-view">
+			<strong>FIND A DISH</strong><br>
+			<form>
+				<input name="keyword" type="text" placeholder="Enter Keywords">
+				<select id = "dishType">
+					<option value = "1">All</option>
+					<option value = "2">Starter</option>
+					<option value = "3">Main Dish</option>
+					<option value = "4">Desert</option>
+				</select>
+				<input name="search" type="submit" placeholder="Search" >
+			</form>
+		<hr>
+			<strong>SELECT A DISH</strong><br>
+<!-- Sample Area for images-->
+			<div class="dish">
+				<img src="images/bakedbrie.jpg" height="70" width="124"/>
+				<br>Baked Brie
+			</div>
+			<div class="dish">
+				<img src="images/bakedbrie.jpg" height="70" width="124"/>
+				<br>Baked Brie
+			</div>
+			<div class="dish">
+				<img src="images/bakedbrie.jpg" height="70" width="124"/>
+				<br>Baked Brie
+			</div>
+			<div class="dish">
+				<img src="images/bakedbrie.jpg" height="70" width="124"/>
+				<br>Baked Brie
+			</div>
+			<div class="dish">
+				<img src="images/bakedbrie.jpg" height="70" width="124"/>
+				<br>Baked Brie
+			</div>
+
+
+		</div>
+
+		<div class="article
+
+		ctive" id="dish-details-view">
+		</div>
+
+		<div class="article inactive" id="dinner-overview-view">
+		</div>
+
+		<div class="article inactive" id="dinner-print-view">
+		</div>
 
 		<footer>Lab Group 5</footer>
 	</div>
