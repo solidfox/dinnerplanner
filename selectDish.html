@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dinner planner</title>
+<!--Non Bootstrap-->
+	  <style>
+		  .flex-container {
+			  display: -webkit-flex;
+			  display: flex;
+			  -webkit-flex-flow: row wrap;
+			  flex-flow: row wrap;
+			  text-align: center;
+		  }
+
+		  .flex-container > * {
+			  padding: 15px;
+			  -webkit-flex: 1 100%;
+			  flex: 1 100%;
+		  }
+
+		  .article {
+			  text-align: left;
+		  }
+
+		  header {background: black;color:white;}
+		  footer {background: #aaa;color:white;}
+		  .menu {background:#eee;}
+
+		  .menu ul {
+			  list-style-type: none;
+			  padding: 0;
+		  }
+		  .menu ul a {
+			  text-decoration: none;
+		  }
+
+		  @media all and (min-width: 768px) {
+			  .menu {text-align:left;-webkit-flex: 1 auto;flex:1 auto;-webkit-order:1;order:1;}
+			  .article {-webkit-flex:5 0px;flex:5 0px;-webkit-order:2;order:2;}
+			  footer {-webkit-order:3;order:3;}
+		  }
+	  </style>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+
+  </head>
+  <body >
+<!--
+	<div class="container">
+		<h1 style="font-size:5vw"><center>Dinner planner</h1>
+		<div id="exampleView">
+			<div>
+				Number of guests: <span id="numberOfGuests"></span>
+			</div>
+			<div>
+          <button id="minusGuest" class="btn"><span class="glyphicon glyphicon-minus"></span></button>
+				<button id="plusGuest" class="btn"><span class="glyphicon glyphicon-plus"></span></button>
+			</div>
+		</div>
+	</div>
+-->
+
+	<div class="flex-container">
+		<header>
+			<h1>Dinner Planner</h1>
+		</header>
+
+		<div class="menu" id="exampleView">
+			<div style="margin-left: 20px">
+				Number of guests: <span id="numberOfGuests"></span>
+			</div>
+			<div style="margin-left: 20px">
+				<button id="minusGuest" class="btn"><span class="glyphicon glyphicon-minus"></span></button>
+				<button id="plusGuest" class="btn"><span class="glyphicon glyphicon-plus"></span></button>
+			</div>
+		</div>
+
+		<article class="article">
+			<h1>London</h1>
+			<p>London is the capital city of England. It is the most populous city in the United Kingdom,
+				with a metropolitan area of over 13 million inhabitants.</p>
+			<p>Standing on the River Thames, London has been a major settlement for two millennia,
+				its history going back to its founding by the Romans, who named it Londinium.</p>
+			<p><strong>Resize this page to see what happens!</strong></p>
+		</article>
+
+		<footer>Copyright &copy; W3Schools.com</footer>
+	</div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Bootstrap JavaScript, needed if you want for instance tabs, models, popovers etc. -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+	<!-- The application JavaScript code -->
+	<script src="js/app.js"></script>
+	<script src="js/model/dinnerModel.js"></script>
+	<script src="js/view/exampleView.js"></script>
+	<!-- TODO: Here you should include JS code for your other views -->
+
+  </body>
+</html>
