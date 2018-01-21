@@ -13,5 +13,10 @@ What's in the project
 * [images/](https://github.com/kth-csc-iprog/dinnerplanner-html/tree/master/images) - folder contains some pictures you can use for your dishes
 
 ## Installing dependencies
+
 1. Make sure you have yarn `brew install yarn`
 2. Run `yarn install` from the root of the project.
+
+## Serving the site locally
+
+Safari will grumble if you just open index.html because javascript is not allowed to import from file: (or something). Just start a simple webserver to get around it: `python -m SimpleHTTPServer 8000`.
