@@ -1,3 +1,5 @@
+import Rx from 'rxjs/Rx';
+
 /** ExampleView Object constructor
  * 
  * This object represents the code for one specific view (in this case the Example view). 
@@ -12,7 +14,7 @@
  * @param {jQuery object} container - references the HTML parent element that contains the view.
  * @param {Object} model - the reference to the Dinner Model
  */ 
-var ExampleView = function (container, model) {
+var MenuView = function (container, model) {
 	
 	/**
 	 * We use the @method find() on @var {jQuery object} container to look for various elements 
@@ -45,6 +47,7 @@ var ExampleView = function (container, model) {
 	 * this button and do something with it (see Lab 2).
 	 * 
 	 */
+
 	this.plusButton = container.find("#plusGuest");
 	this.minusButton = container.find("#minusGuest");
 	
