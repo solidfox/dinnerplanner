@@ -58,15 +58,7 @@
 			<h1>Dinner Planner</h1>
 		</header>
 
-		<div class="article inactive" id="welcome-view">
-			<p>Welcome to Dinner Planner of Group 5.</p>
-			<p>Press the button new Create a New Dinner Plan.</p>
-			<button type="button" class="btn btn-primary">Create New Dinner</button>
-		</div>
-
-
-
-
+        <!-- View 0 : Menu-->
 		<div class="menu" id="menu-view">
 			<div style="margin-left: 20px">
 				My Dinner<br>
@@ -75,8 +67,15 @@
 			</div>
 			</div>
 
+        <!-- View 1 : Welcome-->
+        <div class="article inactive" id="welcome-view">
+            <p>Welcome to Dinner Planner of Group 5.</p>
+            <p>Press the button new Create a New Dinner Plan.</p>
+            <button type="button" class="btn btn-primary">Create New Dinner</button>
+        </div>
 
-		<div class="article" id="select-dish-view">
+        <!-- View 2 : Select Dish-->
+		<div class="article inactive" id="select-dish-view">
 			<strong>FIND A DISH</strong><br>
 			<form>
 				<input name="keyword" type="text" placeholder="Enter Keywords">
@@ -90,39 +89,56 @@
 			</form>
 		<hr>
 			<strong>SELECT A DISH</strong><br>
-<!-- Sample Area for images-->
-			<div class="dish">
-				<img src="images/bakedbrie.jpg" height="70" width="124"/>
-				<br>Baked Brie
-			</div>
-			<div class="dish">
-				<img src="images/bakedbrie.jpg" height="70" width="124"/>
-				<br>Baked Brie
-			</div>
-			<div class="dish">
-				<img src="images/bakedbrie.jpg" height="70" width="124"/>
-				<br>Baked Brie
-			</div>
-			<div class="dish">
-				<img src="images/bakedbrie.jpg" height="70" width="124"/>
-				<br>Baked Brie
-			</div>
-			<div class="dish">
-				<img src="images/bakedbrie.jpg" height="70" width="124"/>
-				<br>Baked Brie
-			</div>
+
+            <div class="row" id="selectedDishes" style="margin: 20px">
+
+                <!-- Sample Area for images-->
+                <div class="dish" style="width: 140px">
+
+                <div id="image1" class="image">
+				<img src="images/meatballs.jpg" height="140" width="140"/>
+				</div>
+				<div id="label1" class="label" align="center">
+					Baked Brie
+				</div>
+
+                </div>
+
+
+            </div>
+
+		</div>
+
+        <!-- View 3 : Dish Details-->
+		<div class="row article" id="dish-details-view">
+            <div class="col-lg-4">
+                <div class="imgDish" id="dishImage">
+                    <img src="images/meatballs.jpg" height="100%" /></div>
+                <div id="imageText">
+                </div>
+                <button class="btn-lg btn-warning" id="backToSelectButton">back to Select Dish</button>
+            </div>
+            <div class="col-lg-5">
+                <div id="ingredientsDiv">
+                    <p id="ingredientsDiv2"></p>
+                    <table class="countTable center" id="ingredientsTable" style="font-family: Avenir">
+                    </table>
+                    <button class="btn btn-warning selectButton" id="confirm_dish">Confirm Dish</button>
+                    <div class="ingredientsCost" id="ingredientsCost">
+                    </div>
+                </div>
+            </div>
 
 
 		</div>
 
-		<div class="article
 
-		ctive" id="dish-details-view">
-		</div>
-
+        <!-- View 4 : Overview-->
 		<div class="article inactive" id="dinner-overview-view">
 		</div>
 
+
+        <!-- View 5 : Print View-->
 		<div class="article inactive" id="dinner-print-view">
 		</div>
 
