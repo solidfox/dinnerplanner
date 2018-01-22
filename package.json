@@ -1,0 +1,13 @@
+{
+  "name": "dinnerplanner-html",
+  "version": "1.0.0",
+  "description": "Lab in DH2642 @ KTH",
+  "main": "js/app.js",
+  "repository": "https://solidfox@github.com/solidfox/dinnerplanner-html.git",
+  "author": "Daniel Schlaug <daniel.schlaug@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "rxjs": "^5.5.6"
+  }
+}
