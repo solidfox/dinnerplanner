@@ -111,31 +111,72 @@
 		</div>
 
         <!-- View 3 : Dish Details-->
-		<div class="row article" id="dish-details-view">
-            <div class="col-lg-4">
+		<div class="article inactive" id="dish-details-view">
+			<h1>Dish Name</h1>
+            <hr width="100%">
+			<div class="row">
+			<div style="width: 40%;margin-left: 20px">
                 <div class="imgDish" id="dishImage">
-                    <img src="images/meatballs.jpg" height="100%" /></div>
+                    <img src="images/meatballs.jpg"  /></div>
                 <div id="imageText">
                 </div>
+				<br>
+                <p>Description here. In a large mixing bowl, beat the eggs. Add the milk, brown sugar and nutmeg; stir well to combine. Soak bread slices in the egg mixture until saturated. Heat a lightly oiled griddle or frying pan over medium high heat. Brown slices on both sides, sprinkle with cinnamon and serve hot.</p>
                 <button class="btn-lg btn-warning" id="backToSelectButton">back to Select Dish</button>
             </div>
-            <div class="col-lg-5">
-                <div id="ingredientsDiv">
-                    <p id="ingredientsDiv2"></p>
-                    <table class="countTable center" id="ingredientsTable" style="font-family: Avenir">
+            <div class="" style="width:50%; margin-left: 20px; background-color: yellow">
+                <div id="ingredientsDiv" style="margin: 20px">
+                    <h5>Ingredients for 3 People</h5><hr>
+					<table class="countTable center" id="ingredientsTable" width="100%">
+						<thead>
+						<tr>
+							<th>Quantity</th>
+							<th>Ingredient</th>
+							<th></th>
+							<th>Cost</th>
+						</tr>
+						</thead>
+						<tbody>
+						<!-- Load Ingredients here-->
+						<tr>
+							<td>2 tbsp</td>
+							<td>olive oil</td>
+							<td>SEK</td>
+							<td>0,20</td>
+						</tr>
+						<tr>
+							<td>750 g</td>
+							<td>lean bean mince</td>
+							<td>SEK</td>
+							<td>10,00</td>
+						</tr>
+						</tbody>
+						<tfoot>
+                        <tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>
+						<tr>
+							<td><button class="btn btn-warning selectButton" id="confirm_dish">Confirm Dish</button></td>
+							<td><strong>Total:</strong></td>
+							<td><strong>SEK</strong></td>
+							<td><strong>10,20</strong></td>
+						</tr>
+						</tfoot>
                     </table>
-                    <button class="btn btn-warning selectButton" id="confirm_dish">Confirm Dish</button>
+
                     <div class="ingredientsCost" id="ingredientsCost">
                     </div>
                 </div>
             </div>
-
-
+			</div>
+			<div class="row" style="margin-left: 20px">
+				<hr width="100%">
+				<h2>Preparations</h2>
+				<p>In a large mixing bowl, beat the eggs. Add the milk, brown sugar and nutmeg; stir well to combine. Soak bread slices in the egg mixture until saturated. Heat a lightly oiled griddle or frying pan over medium high heat. Brown slices on both sides, sprinkle with cinnamon and serve hot.</p>
+			</div>
 		</div>
 
 
         <!-- View 4 : Overview-->
-		<div class="article inactive" id="dinner-overview-view">
+		<div class="article active" id="dinner-overview-view">
 		</div>
 
 
