@@ -37,6 +37,65 @@
 			  text-decoration: none;
 		  }
 
+		  form {
+			  width: 300px;
+			  margin: 0 auto;
+			  text-align: left;
+			  padding-top: 50px;
+		  }
+
+		  .value-button {
+			  display: inline-block;
+			  border: 1px solid #ddd;
+			  margin: 0px;
+			  width: 40px;
+			  height: 45px;
+			  text-align: center;
+			  padding: 11px 0;
+			  background: #eee;
+			  -webkit-touch-callout: none;
+			  -webkit-user-select: none;
+			  -khtml-user-select: none;
+			  -moz-user-select: none;
+			  -ms-user-select: none;
+			  user-select: none;
+		  }
+
+		  .value-button:hover {
+			  cursor: pointer;
+		  }
+
+		  form #decrease {
+			  margin-right: -4px;
+			  border-radius: 8px 0 0 8px;
+		  }
+
+		  form #increase {
+			  margin-left: -4px;
+			  border-radius: 0 8px 8px 0;
+		  }
+
+		  form #input-wrap {
+			  margin: 0px;
+			  padding: 0px;
+		  }
+
+		  input#number {
+			  text-align: center;
+			  border: none;
+			  border-top: 1px solid #ddd;
+			  border-bottom: 1px solid #ddd;
+			  margin: 0px;
+			  width: 40px;
+			  height: 45px;
+		  }
+
+		  input[type=number]::-webkit-inner-spin-button,
+		  input[type=number]::-webkit-outer-spin-button {
+			  -webkit-appearance: none;
+			  margin: 0;
+		  }
+
 		  @media all and (min-width: 768px) {
 			  .menu {text-align:left;-webkit-flex: 1 auto;flex:1 auto;-webkit-order:1;order:1;}
 			  .article {-webkit-flex:5 0px;flex:5 0px;-webkit-order:2;order:2;}
@@ -48,11 +107,27 @@
 		  }
 
 	  </style>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Bootstrap CSS-->
+    	<link rel="stylesheet" href="css/bootstrap.min.css">
 
   </head>
   <body >
+		<script>
+			function increaseValue() {
+            var value = parseInt(document.getElementById('number').value, 10);
+            value = isNaN(value) ? 0 : value;
+            value++;
+            document.getElementById('number').value = value;
+        }
+
+        function decreaseValue() {
+            var value = parseInt(document.getElementById('number').value, 10);
+            value = isNaN(value) ? 0 : value;
+            value < 1 ? value = 1 : '';
+            value--;
+            document.getElementById('number').value = value;
+        }
+		</script>
 
 	<div class="flex-container">
 		<header>
@@ -60,13 +135,50 @@
 		</header>
 
         <!-- View 0 : Menu-->
-		<div class="menu" id="menu-view">
+		<div class="menu inactive" id="menu-view">
 			<div style="margin-left: 20px">
-				My Dinner<br>
-				People: <span id="numberOfGuests"></span><button id="minusGuest" class="btn"><span class="glyphicon glyphicon-minus"></span></button>
-				<button id="plusGuest" class="btn"><span class="glyphicon glyphicon-plus"></span></button>
+				<h4>My Dinner</h4><br>
+				<div align="left" style="align-content: left; margin-left: -120px; margin-top: -70px">
+					<form>
+						<div>People:
+							<div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+							<input type="number" id="number" value="1" />
+							<div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+						</div>
+					</form></div>
+
+				<div>
+					<table class="countTable center" id="ingredientsTable" width="100%">
+						<thead>
+						<tr>
+							<th>Dish Name</th>
+
+							<th>Cost</th>
+						</tr>
+						</thead>
+						<tbody>
+						<!-- Load Ingredients here
+						<tr>
+							<td>Lasagne</td>
+
+							<td>25,00</td>
+						</tr>-->
+						</tbody>
+						<tfoot>
+						<tr><td><hr></td><td></td>
+						<tr>
+							<td><strong>Total (SEK):</strong></td>
+							<td><strong>0,00</strong></td>
+						</tr>
+						</tfoot>
+					</table>
+					<br><br>
+					<button class="btn btn-disabled selectButton" id="confirm_dinner">Confirm Dinner</button>
+				</div>
+
 			</div>
-			</div>
+
+		</div>
 
         <!-- View 1 : Welcome-->
         <div class="article inactive" id="welcome-view">
@@ -79,6 +191,7 @@
 		<div class="article inactive" id="select-dish-view">
 			<strong>FIND A DISH</strong><br>
 			<form>
+				<div style="width: 100% ;align-self: left; align-content: left; margin-left: -440px">
 				<input name="keyword" type="text" placeholder="Enter Keywords">
 				<select id = "dishType">
 					<option value = "1">All</option>
@@ -88,6 +201,7 @@
 				</select>
 				<input name="search" type="submit" placeholder="Search" >
 			</form>
+		</div>
 		<hr>
 			<strong>SELECT A DISH</strong><br>
 
@@ -174,14 +288,99 @@
 			</div>
 		</div>
 
+		<!-- View Menu 2: For showing added dishes -->
+		<div class="menu inactive" id="menu-added">
+			<div style="margin-left: 20px">
+			<h4>My Dinner</h4><br>
+				<div align="left" style="align-content: left; margin-left: -120px; margin-top: -70px">
+				<form>
+					<div>People:
+					<div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+					<input type="number" id="number" value="3" />
+					<div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+					</div>
+				</form></div>
+
+				<div>
+					<table class="countTable center" id="ingredientsTable" width="100%">
+						<thead>
+						<tr>
+							<th>Dish Name</th>
+
+							<th>Cost</th>
+						</tr>
+						</thead>
+						<tbody>
+						<!-- Load Ingredients here-->
+						<tr>
+							<td>Lasagne</td>
+
+							<td>25,00</td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<tr><td><hr></td><td>x3</td>
+						<tr>
+							<td><strong>Total (SEK):</strong></td>
+							<td><strong>75,00</strong></td>
+						</tr>
+						</tfoot>
+					</table>
+					<br><br>
+					<button class="btn btn-warning selectButton" id="confirm_dinner">Confirm Dinner</button>
+				</div>
+
+			</div>
+
+		</div>
 
         <!-- View 4 : Overview-->
-		<div class="article active" id="dinner-overview-view">
+		<div class="article inactive" id="dinner-overview-view">
+		<div class="row">
+			<div style="margin-left:20px; "><button class="btn btn-warning selectButton" id="back_confirm_dinner">Go Back & Edit Dinner</button></div>
+			<div style="margin-left: 20px;" align="center">
+				<h1 align="center">My Dinner : 3 People</h1>
+			</div>
+		</div>
+			<div><hr ></div>
+		<div>
+			<!-- Load Dishes Here -->
+		</div><div><hr ></div>
+		<div align="center">
+			<button class="btn btn-warning selectButton" id="print_recipe">Print Full Recipe</button></div>
 		</div>
 
 
         <!-- View 5 : Print View-->
-		<div class="article inactive" id="dinner-print-view">
+		<div class="article active" id="dinner-print-view">
+				<div class="row">
+					<div style="margin-left:20px; "><button class="btn btn-warning selectButton" id="back_confirm_dinner">Go Back & Edit Dinner</button></div>
+					<div style="margin-left: 20px;" align="center">
+						<h1 align="center">My Dinner : 3 People</h1>
+					</div>
+				</div>
+				<div><hr ></div>
+			<div class="row" id="selectedDishes" style="margin: 20px">
+
+				<!-- Sample Area for images-->
+				<div class="row dish" style="width: 100%">
+
+					<div id="image1" class="image">
+						<img src="images/meatballs.jpg" height="140" width="140"/>
+					</div>
+					<div id="label1" class="label" style="margin-left: 20px"> <h4>Lasagne</h4>
+					<p>Lorem Ipsum Description</p>
+					</div>
+					<div id="prep" style="margin-left: 100px">
+					<h6>PREPERATIONS</h6>
+					<p>Detailed preprations</p>
+					</div>
+
+				</div>
+
+
+			</div>
+
 		</div>
 
 		<footer>Lab Group 5</footer>
