@@ -19,4 +19,9 @@ What's in the project
 
 ## Serving the site locally
 
-Safari will grumble if you just open index.html because javascript is not allowed to import from file: (or something). Just start a simple webserver to get around it: `python -m SimpleHTTPServer 8000`.
+Don't start files from the file-system. Serve them by running `webpack-dev-server` at the project root.
+
+## Tutorials
+* https://gokulkrishh.github.io/webpack/2017/02/03/how-to-setup-webpack-2.html
+* https://www.toptal.com/front-end/webpack-browserify-gulp-which-is-better
+* http://exploringjs.com/es6/ch_modules.html

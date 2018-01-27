@@ -1,18 +1,23 @@
-import {Rx} from '/node_modules/rxjs/Rx.js';
+// import Rx from '/node_modules/rxjs/Rx.js';
+import $ from 'jquery'
+import DinnerModel from './model/dinnerModel.js'
+import { MenuView } from './view/menuView.js'
+
+console.log($);
 
 $(function() {
 	//We instantiate our model
     let model = new DinnerModel();
 
     // And create the instance of ExampleView
-    let exampleView = new ExampleView($("#exampleView"));
+    // let exampleView = new ExampleView($("#exampleView"));
 
-    let menuView = new MenuView($("menu-view"));
-	let welcomeView = new WelcomeView($('welcome-view'));
-	let selectDishView = new SelectDishView($('select-dish-view'));
-    let dishDetailsView = new DishDetailsView($('dish-details-view'));
-    let dinnerOverviewView = new DinnerOverviewView($('dinner-overview-view'));
-    let dinnerPrintView = new DinnerPrintView($('dinner-print-view'));
+    let menuView = new MenuView($("#menu-view", model));
+	let welcomeView = new WelcomeView($('#welcome-view', model));
+	let selectDishView = new SelectDishView($('#select-dish-view', model));
+    let dishDetailsView = new DishDetailsView($('#dish-details-view', model));
+    let dinnerOverviewView = new DinnerOverviewView($('#dinner-overview-view', model));
+    let dinnerPrintView = new DinnerPrintView($('#dinner-print-view', model));
 
     function activate(view) {
 
