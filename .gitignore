@@ -50,3 +50,8 @@ crashlytics-build.properties
 fabric.properties
 
 node_modules
+
+dist
+
+yarn-error.log
+.DS_Store
