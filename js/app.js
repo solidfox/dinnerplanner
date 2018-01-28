@@ -1,37 +1,82 @@
 // import Rx from '/node_modules/rxjs/Rx.js';
-import $ from 'jquery'
+// import $ from 'jquery'
 import DinnerModel from './model/dinnerModel.js'
 import { MenuView } from './view/menuView.js'
+import {WelcomeView} from "./view/welcomeView";
+import {SelectDishView} from "./view/selectDishView";
+import {DishDetailsView} from "./view/dishDetailsView";
+import {DinnerOverviewView} from "./view/dinnerOverviewView";
+import {DinnerPrintView} from "./view/dinnerPrintView";
 
-console.log($);
-
-$(function() {
+function main() {
 	//We instantiate our model
     let model = new DinnerModel();
 
+    model.addDishToMenu(1);
+    model.addDishToMenu(2);
+    model.addDishToMenu(100);
+    model.addDishToMenu(101);
+    model.addDishToMenu(200);
+    model.addDishToMenu(201);
     // And create the instance of ExampleView
     // let exampleView = new ExampleView($("#exampleView"));
 
-    let menuView = new MenuView($("#menu-view", model));
-	let welcomeView = new WelcomeView($('#welcome-view', model));
-	let selectDishView = new SelectDishView($('#select-dish-view', model));
-    let dishDetailsView = new DishDetailsView($('#dish-details-view', model));
-    let dinnerOverviewView = new DinnerOverviewView($('#dinner-overview-view', model));
-    let dinnerPrintView = new DinnerPrintView($('#dinner-print-view', model));
-
-    function activate(view) {
-
+	function getNode(id) {
+		return document.getElementById(id);
     }
 
-    function hashchanged() {
-        let hash = location.hash.replace( /^#/, '' );
+    let menuView = new MenuView(getNode('menu-view'), model);
+	let welcomeView = new WelcomeView(getNode('welcome-view'), model);
+	let selectDishView = new SelectDishView(getNode('select-dish-view'), model);
+    let dishDetailsView = new DishDetailsView(getNode('dish-details-view'), model);
+    let dinnerOverviewView = new DinnerOverviewView(getNode('dinner-overview-view'), model);
+    let dinnerPrintView = new DinnerPrintView(getNode('dinner-print-view'), model);
 
-        switch (hash) {
-			case '':
-				activate(welcomeView);
-			cas
+    let allViews = [menuView, welcomeView, selectDishView, dishDetailsView, dinnerOverviewView, dinnerPrintView];
+
+	function route(location) {
+		function deactivateAllBut(viewsToActivate) {
+			allViews.forEach(view => {view.active = viewsToActivate.includes(view);})
+        }
+        console.log("Switching to " + location.hash);
+		switch (location.hash) {
+			case selectDishView.locationHash:
+				console.log("Activating dish selection view.");
+				deactivateAllBut([menuView, selectDishView]);
+				break;
+			case dishDetailsView.locationHash:
+				deactivateAllBut([menuView, dishDetailsView]);
+				break;
+			case dinnerOverviewView.locationHash:
+				deactivateAllBut([dinnerOverviewView]);
+				break;
+			case dinnerPrintView.locationHash:
+                deactivateAllBut([dinnerPrintView]);
+                break;
+			default:
+				deactivateAllBut([welcomeView]);
 		}
+	}
+
+	function onLocationHashChange() {
+		console.log("hash change");
+		route(window.location);
     }
+
+    console.log("Adding event listeners.");
+	window.addEventListener('hashchange', onLocationHashChange, false);
+
+	route(window.location);
+
+    // function hashchanged() {
+    //     let hash = location.hash.replace( /^#/, '' );
+    //
+    //     switch (hash) {
+		// 	case '':
+		// 		activate(welcomeView);
+		// 	cas
+		// }
+    // }
     
 	/**
 	 * IMPORTANT: app.js is the only place where you are allowed to
@@ -40,6 +85,8 @@ $(function() {
 	 * of the specific view you're working with (see menuView.js).
 	 */
 
-	$(window).hashchange(hashchanged);
+	// $(window).hashchange(hashchanged);
 
-});
+}
+
+main();

@@ -1,72 +1,84 @@
+export function totalCostOfDish(dish) {
+	return dish.ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0)
+}
+
 //DinnerModel Object constructor
 export default function() {
  
 	//TODO Lab 1 implement the data structure that will hold number of guest
-	// and selected dishes for the dinner menu
-	this.menu = [];
+	// and selected dishes for the dinner _menu
+	this._menu = [];
+
+	this._numberOfGuests = 2;
 
 	this.setNumberOfGuests = function(num) {
 		this._numberOfGuests = num;
-	}
+	};
 	
 	this.getNumberOfGuests = function() {
 		return this._numberOfGuests
-	}
+	};
 
-	//Returns the dish that is on the menu for selected type 
+	//Returns the dish that is on the _menu for selected type
 	this.getSelectedDish = function(type) {
-		this.menu.filter(function (dish) { return dish.type === type; })
-	}
+		this._menu.filter(function (dish) { return dish.type === type; })
+	};
 
-	//Returns all the dishes on the menu.
+	//Returns all the dishes on the _menu.
 	this.getFullMenu = function() {
-		return this.menu;
-	}
+		return this._menu;
+	};
 
-	//Returns all ingredients for all the dishes on the menu.
+	//Returns all ingredients for all the dishes on the _menu.
 	this.getAllIngredients = function() {
-		var lists_of_ingredients = this.menu.map(function (dish) { return dish.ingredients; });
-		var ingredients = [].concat(lists_of_ingredients);
-		return ingredients;
-	}
+        let lists_of_ingredients = this._menu.map(function (dish) {
+            return dish.ingredients;
+        });
+        return [].concat(lists_of_ingredients);
+	};
 
-	//Returns the total price of the menu (all the ingredients multiplied by number of guests).
+	//Returns the total price of the _menu (all the ingredients multiplied by number of guests).
 	this.getTotalMenuPrice = function() {
-		return this.menu.reduce(function (acc, n) { return acc + n }, 0)
-	}
+		return this.getNumberOfGuests() * this._menu.reduce((acc, dish) => acc + totalCostOfDish(dish), 0)
+	};
 
-	//Adds the passed dish to the menu. If the dish of that type already exists on the menu
-	//it is removed from the menu and the new one added.
+	//Adds the passed dish to the _menu. If the dish of that type already exists on the _menu
+	//it is removed from the _menu and the new one added.
 	this.addDishToMenu = function(id) {
-		this.menu.push(this.getDish(id))
-	}
+		let newDish = this.getDish(id);
+		this._menu = this._menu.filter(dish => dish.type !== newDish.type);
+		this._menu.push(newDish);
+	};
 
-	//Removes dish from menu
+	//Removes dish from _menu
 	this.removeDishFromMenu = function(id) {
-		this.menu = this.menu.filter(function (dish) { return dish.id != id; });
-	}
+		this._menu = this._menu.filter(function (dish) { return dish.id !== id; });
+	};
 
 	//function that returns all dishes of specific type (i.e. "starter", "main dish" or "dessert")
 	//you can use the filter argument to filter out the dish by name or ingredient (use for search)
 	//if you don't pass any filter all the dishes will be returned
-	this.getAllDishes = function (type,filter) {
+	this.getAllDishes = function (type = 'all',filter) {
 	  return dishes.filter(function(dish) {
 		var found = true;
 		if(filter){
 			found = false;
 			dish.ingredients.forEach(function(ingredient) {
-				if(ingredient.name.indexOf(filter)!=-1) {
+				if(ingredient.name.indexOf(filter) !== -1) {
 					found = true;
 				}
 			});
-			if(dish.name.indexOf(filter) != -1)
+			if(dish.name.indexOf(filter) !== -1)
 			{
 				found = true;
 			}
 		}
-	  	return dish.type == type && found;
+
+		let typeMatch = type === 'all' || dish.type === type;
+
+	  	return typeMatch && found;
 	  });	
-	}
+	};
 
 	//function that returns a dish of specific ID
 	this.getDish = function (id) {
@@ -75,24 +87,24 @@ export default function() {
 				return dishes[key];
 			}
 		}
-	}
+	};
 
 
-	// the dishes variable contains an array of all the 
+	// the dishes variable contains an array of all the
 	// dishes in the database. each dish has id, name, type,
 	// image (name of the image file), description and
-	// array of ingredients. Each ingredient has name, 
-	// quantity (a number), price (a number) and unit (string 
+	// array of ingredients. Each ingredient has name,
+	// quantity (a number), price (a number) and unit (string
 	// defining the unit i.e. "g", "slices", "ml". Unit
 	// can sometimes be empty like in the example of eggs where
 	// you just say "5 eggs" and not "5 pieces of eggs" or anything else.
-	var dishes = [{
+	let dishes = [{
 		'id':1,
 		'name':'French toast',
 		'type':'starter',
 		'image':'toast.jpg',
 		'description':"In a large mixing bowl, beat the eggs. Add the milk, brown sugar and nutmeg; stir well to combine. Soak bread slices in the egg mixture until saturated. Heat a lightly oiled griddle or frying pan over medium high heat. Brown slices on both sides, sprinkle with cinnamon and serve hot.",
-		'ingredients':[{ 
+		'ingredients':[{
 			'name':'eggs',
 			'quantity':0.5,
 			'unit':'',
@@ -124,7 +136,7 @@ export default function() {
 		'type':'starter',
 		'image':'sourdough.jpg',
 		'description':"Here is how you make it... Lore ipsum...",
-		'ingredients':[{ 
+		'ingredients':[{
 			'name':'active dry yeast',
 			'quantity':0.5,
 			'unit':'g',
@@ -146,7 +158,7 @@ export default function() {
 		'type':'starter',
 		'image':'bakedbrie.jpg',
 		'description':"Here is how you make it... Lore ipsum...",
-		'ingredients':[{ 
+		'ingredients':[{
 			'name':'round Brie cheese',
 			'quantity':10,
 			'unit':'g',
@@ -168,7 +180,7 @@ export default function() {
 		'type':'main dish',
 		'image':'meatballs.jpg',
 		'description':"Preheat an oven to 400 degrees F (200 degrees C). Place the beef into a mixing bowl, and season with salt, onion, garlic salt, Italian seasoning, oregano, red pepper flakes, hot pepper sauce, and Worcestershire sauce; mix well. Add the milk, Parmesan cheese, and bread crumbs. Mix until evenly blended, then form into 1 1/2-inch meatballs, and place onto a baking sheet. Bake in the preheated oven until no longer pink in the center, 20 to 25 minutes.",
-		'ingredients':[{ 
+		'ingredients':[{
 			'name':'extra lean ground beef',
 			'quantity':115,
 			'unit':'g',
@@ -230,7 +242,7 @@ export default function() {
 		'type':'main dish',
 		'image':'bakedbrie.jpg',
 		'description':"Here is how you make it... Lore ipsum...",
-		'ingredients':[{ 
+		'ingredients':[{
 			'name':'ingredient 1',
 			'quantity':1,
 			'unit':'pieces',
@@ -252,7 +264,7 @@ export default function() {
 		'type':'main dish',
 		'image':'meatballs.jpg',
 		'description':"Here is how you make it... Lore ipsum...",
-		'ingredients':[{ 
+		'ingredients':[{
 			'name':'ingredient 1',
 			'quantity':2,
 			'unit':'pieces',
@@ -274,7 +286,7 @@ export default function() {
 		'type':'main dish',
 		'image':'meatballs.jpg',
 		'description':"Here is how you make it... Lore ipsum...",
-		'ingredients':[{ 
+		'ingredients':[{
 			'name':'ingredient 1',
 			'quantity':1,
 			'unit':'pieces',
@@ -296,7 +308,7 @@ export default function() {
 		'type':'dessert',
 		'image':'icecream.jpg',
 		'description':"Here is how you make it... Lore ipsum...",
-		'ingredients':[{ 
+		'ingredients':[{
 			'name':'ice cream',
 			'quantity':100,
 			'unit':'ml',
@@ -308,7 +320,7 @@ export default function() {
 		'type':'dessert',
 		'image':'icecream.jpg',
 		'description':"Here is how you make it... Lore ipsum...",
-		'ingredients':[{ 
+		'ingredients':[{
 			'name':'ice cream',
 			'quantity':100,
 			'unit':'ml',
@@ -320,7 +332,7 @@ export default function() {
 		'type':'dessert',
 		'image':'icecream.jpg',
 		'description':"Here is how you make it... Lore ipsum...",
-		'ingredients':[{ 
+		'ingredients':[{
 			'name':'ice cream',
 			'quantity':100,
 			'unit':'ml',

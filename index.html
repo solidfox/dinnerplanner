@@ -7,10 +7,12 @@
     <title>Dinner planner</title>
 <!--Non Bootstrap-->
 	  <style>
+		  td.currency {
+			  text-align: right;
+		  }
+
 		  .flex-container {
-			  display: -webkit-flex;
 			  display: flex;
-			  -webkit-flex-flow: row wrap;
 			  flex-flow: row wrap;
 			  text-align: center;
 		  }
@@ -27,7 +29,10 @@
 
 		  header {background: black;color:white;}
 		  footer {background: #aaa;color:white;}
-		  .menu {background:#eee;}
+		  .menu {
+			  background:#eee;
+			  padding: 20px;
+		  }
 
 		  .menu ul {
 			  list-style-type: none;
@@ -35,13 +40,6 @@
 		  }
 		  .menu ul a {
 			  text-decoration: none;
-		  }
-
-		  form {
-			  width: 300px;
-			  margin: 0 auto;
-			  text-align: left;
-			  padding-top: 50px;
 		  }
 
 		  .value-button {
@@ -80,7 +78,7 @@
 			  padding: 0px;
 		  }
 
-		  input#number {
+		  #numberOfGuests {
 			  text-align: center;
 			  border: none;
 			  border-top: 1px solid #ddd;
@@ -97,13 +95,42 @@
 		  }
 
 		  @media all and (min-width: 768px) {
-			  .menu {text-align:left;-webkit-flex: 1 auto;flex:1 auto;-webkit-order:1;order:1;}
-			  .article {-webkit-flex:5 0px;flex:5 0px;-webkit-order:2;order:2;}
-			  footer {-webkit-order:3;order:3;}
+			  .menu {
+				  text-align: left;
+				  flex: 1 auto;
+				  order: 1;
+			  }
+			  .article {
+				  flex: 5 0;
+				  order: 2;
+			  }
+			  footer {
+				  order:3;
+			  }
 		  }
 
 		  .inactive {
 			  display: none;
+		  }
+
+		  #select-dish-search-form {
+			  width: 100%;
+		  }
+
+		  #select-dish-list {
+			  list-style-type: none;
+			  display: inline-block;
+			  padding: 0;
+		  }
+
+		  #select-dish-list > li {
+			  display: inline-block;
+			  text-align: center;
+			  margin: 10px;
+		  }
+
+		  .dish > div {
+			  width: 100%;
 		  }
 
 	  </style>
@@ -135,15 +162,15 @@
 		</header>
 
         <!-- View 0 : Menu-->
-		<div class="menu inactive" id="menu-view">
-			<div style="margin-left: 20px">
-				<h4>My Dinner</h4><br>
-				<div align="left" style="align-content: left; margin-left: -120px; margin-top: -70px">
+		<div class="menu" id="menu-view">
+			<div>
+				<h3>My Dinner</h3><br>
+				<div>
 					<form>
 						<div>People:
-							<div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
-							<input type="number" id="number" value="1" />
-							<div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+							<div class="value-button" id="decreaseNumberOfGuests">-</div>
+							<input type="number" id="numberOfGuests" value="1" />
+							<div class="value-button" id="increaseNumberOfGuests">+</div>
 						</div>
 					</form></div>
 
@@ -156,7 +183,7 @@
 							<th>Cost</th>
 						</tr>
 						</thead>
-						<tbody>
+						<tbody id="menuDishes">
 						<!-- Load Ingredients here
 						<tr>
 							<td>Lasagne</td>
@@ -168,12 +195,12 @@
 						<tr><td><hr></td><td></td>
 						<tr>
 							<td><strong>Total (SEK):</strong></td>
-							<td><strong>0,00</strong></td>
+							<td class="currency" id="menuTotals"></td>
 						</tr>
 						</tfoot>
 					</table>
 					<br><br>
-					<button class="btn btn-disabled selectButton" id="confirm_dinner">Confirm Dinner</button>
+					<button class="btn btn-disabled selectButton" id="confirm_dinner" onclick="window.location.hash = '#dinner-overview'">Confirm Dinner</button>
 				</div>
 
 			</div>
@@ -181,46 +208,62 @@
 		</div>
 
         <!-- View 1 : Welcome-->
-        <div class="article inactive" id="welcome-view">
+        <div class="article" id="welcome-view">
             <p>Welcome to Dinner Planner of Group 5.</p>
             <p>Press the button new Create a New Dinner Plan.</p>
-            <button type="button" class="btn btn-primary">Create New Dinner</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.hash = '#select-dish'">Create New Dinner</button>
         </div>
 
         <!-- View 2 : Select Dish-->
 		<div class="article inactive" id="select-dish-view">
-			<strong>FIND A DISH</strong><br>
-			<form>
-				<div style="width: 100% ;align-self: left; align-content: left; margin-left: -440px">
+			<h3>Find a dish</h3>
+			<form id="select-dish-search-form">
 				<input name="keyword" type="text" placeholder="Enter Keywords">
-				<select id = "dishType">
-					<option value = "1">All</option>
-					<option value = "2">Starter</option>
-					<option value = "3">Main Dish</option>
-					<option value = "4">Desert</option>
+				<select id="dishType">
+					<option value="all">All</option>
+					<option value="starter">Starter</option>
+					<option value="main">Main Dish</option>
+					<option value="desert">Desert</option>
 				</select>
-				<input name="search" type="submit" placeholder="Search" >
+				<button>Search</button>
 			</form>
-		</div>
 		<hr>
-			<strong>SELECT A DISH</strong><br>
+			<h3>Select a dish</h3>
+			<ul id="select-dish-list">
+				<li class="dish">
+					<img src="images/meatballs.jpg" />
+					<div>Title</div>
+				</li>
+				<li class="dish">
+					<img src="images/meatballs.jpg" />
+					<div>Title</div>
+				</li>
+				<li class="dish">
+					<img src="images/meatballs.jpg" />
+					<div>Title</div>
+				</li>
+				<li class="dish">
+					<img src="images/meatballs.jpg" />
+					<div>Title</div>
+				</li>
+				<li class="dish">
+					<img src="images/meatballs.jpg" />
+					<div>Title</div>
+				</li>
+				<li class="dish">
+					<img src="images/meatballs.jpg" />
+					<div>Title</div>
+				</li>
+				<li class="dish">
+					<img src="images/meatballs.jpg" />
+					<div>Title</div>
+				</li>
+				<li class="dish">
+					<img src="images/meatballs.jpg" />
+					<div>Title</div>
+				</li>
 
-            <div class="row" id="selectedDishes" style="margin: 20px">
-
-                <!-- Sample Area for images-->
-                <div class="dish" style="width: 140px">
-
-                <div id="image1" class="image">
-				<img src="images/meatballs.jpg" height="140" width="140"/>
-				</div>
-				<div id="label1" class="label" align="center">
-					Baked Brie
-				</div>
-
-                </div>
-
-
-            </div>
+			</ul>
 
 		</div>
 
@@ -236,7 +279,7 @@
                 </div>
 				<br>
                 <p>Description here. In a large mixing bowl, beat the eggs. Add the milk, brown sugar and nutmeg; stir well to combine. Soak bread slices in the egg mixture until saturated. Heat a lightly oiled griddle or frying pan over medium high heat. Brown slices on both sides, sprinkle with cinnamon and serve hot.</p>
-                <button class="btn-lg btn-warning" id="backToSelectButton">back to Select Dish</button>
+                <button class="btn-lg btn-warning" id="backToSelectButton" onclick="window.location.hash = '#select-dish'">back to Select Dish</button>
             </div>
             <div class="" style="width:50%; margin-left: 20px; background-color: yellow">
                 <div id="ingredientsDiv" style="margin: 20px">
@@ -347,14 +390,14 @@
 			<!-- Load Dishes Here -->
 		</div><div><hr ></div>
 		<div align="center">
-			<button class="btn btn-warning selectButton" id="print_recipe">Print Full Recipe</button></div>
+			<button class="btn btn-warning selectButton" id="print_recipe" onclick="window.location.hash = '#print-dinner'">Print Full Recipe</button></div>
 		</div>
 
 
         <!-- View 5 : Print View-->
-		<div class="article active" id="dinner-print-view">
+		<div class="article inactive" id="dinner-print-view">
 				<div class="row">
-					<div style="margin-left:20px; "><button class="btn btn-warning selectButton" id="back_confirm_dinner">Go Back & Edit Dinner</button></div>
+					<div style="margin-left:20px; "><button class="btn btn-warning selectButton" id="back_confirm_dinner" onclick="window.location.hash = '#select-dish'">Go Back & Edit Dinner</button></div>
 					<div style="margin-left: 20px;" align="center">
 						<h1 align="center">My Dinner : 3 People</h1>
 					</div>
