@@ -28,11 +28,10 @@ function createDishRow(document, dishName, dishCost) {
  * @param {jQuery object} container - references the HTML parent element that contains the view.
  * @param {Object} model - the reference to the Dinner Model
  */
-export class MenuView extends View {
+export class WelcomeView extends View {
 
     constructor(containerElement, model) {
         super(containerElement);
-
         this._guestsElement = containerElement.querySelector("#numberOfGuests");
 
         this._dishesTable = containerElement.querySelector("#menuDishes");
@@ -41,7 +40,10 @@ export class MenuView extends View {
         this._plusButton = containerElement.querySelector("#plusGuest");
         this._minusButton = containerElement.querySelector("#minusGuest");
 
-        this.update(model);
+    }
+
+    get locationHash() {
+        return "";
     }
 
     get numberOfGuests() {
