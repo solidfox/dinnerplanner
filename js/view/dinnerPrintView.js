@@ -1,18 +1,6 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
-
-function createDishRow(document, dishName, dishCost) {
-    let tableRow = document.createElement("tr");
-    let dishNameCell = document.createElement("td");
-    dishNameCell.textContent = dishName;
-    let dishCostCell = document.createElement("td");
-    dishCostCell.textContent = dishCost;
-    dishCostCell.classList.add("currency");
-    tableRow.appendChild(dishNameCell);
-    tableRow.appendChild(dishCostCell);
-
-    return tableRow;
-}
+import {createDishPrintView} from "./dishPrintView";
 
 /** MenuView Object constructor
  *
@@ -32,18 +20,23 @@ export class DinnerPrintView extends View {
 
     constructor(containerElement, model) {
         super(containerElement);
-        this._guestsElement = containerElement.querySelector("#numberOfGuests");
-
-        this._dishesTable = containerElement.querySelector("#menuDishes");
-        this._totalsElement = containerElement.querySelector("#menuTotals");
-
-        this._plusButton = containerElement.querySelector("#plusGuest");
-        this._minusButton = containerElement.querySelector("#minusGuest");
-
+        this._dishList = containerElement.querySelector("#print-dish-list");
+        this.update(model);
     }
 
     get locationHash() {
         return "#print-dinner";
+    }
+
+    set dishList(newList) {
+        this._dishList.innerHTML = "";
+        newList.forEach(dish => {
+            this._dishList.appendChild(createDishPrintView(document, dish));
+        });
+    }
+
+    update(model) {
+        this.dishList = model.getFullMenu();
     }
 
 }

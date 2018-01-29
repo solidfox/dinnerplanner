@@ -1,439 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dinner planner</title>
-<!--Non Bootstrap-->
-	  <style>
-		  td.currency {
-			  text-align: right;
-		  }
-
-		  .flex-container {
-			  display: flex;
-			  flex-flow: row wrap;
-			  text-align: center;
-		  }
-
-		  .flex-container > * {
-			  padding: 15px;
-			  -webkit-flex: 1 100%;
-			  flex: 1 100%;
-		  }
-
-		  .article {
-			  text-align: left;
-		  }
-
-		  header {background: black;color:white;}
-		  footer {background: #aaa;color:white;}
-		  .menu {
-			  background:#eee;
-			  padding: 20px;
-		  }
-
-		  .menu ul {
-			  list-style-type: none;
-			  padding: 0;
-		  }
-		  .menu ul a {
-			  text-decoration: none;
-		  }
-
-		  .value-button {
-			  display: inline-block;
-			  border: 1px solid #ddd;
-			  margin: 0px;
-			  width: 40px;
-			  height: 45px;
-			  text-align: center;
-			  padding: 11px 0;
-			  background: #eee;
-			  -webkit-touch-callout: none;
-			  -webkit-user-select: none;
-			  -khtml-user-select: none;
-			  -moz-user-select: none;
-			  -ms-user-select: none;
-			  user-select: none;
-		  }
-
-		  .value-button:hover {
-			  cursor: pointer;
-		  }
-
-		  form #decrease {
-			  margin-right: -4px;
-			  border-radius: 8px 0 0 8px;
-		  }
-
-		  form #increase {
-			  margin-left: -4px;
-			  border-radius: 0 8px 8px 0;
-		  }
-
-		  form #input-wrap {
-			  margin: 0px;
-			  padding: 0px;
-		  }
-
-		  #numberOfGuests {
-			  text-align: center;
-			  border: none;
-			  border-top: 1px solid #ddd;
-			  border-bottom: 1px solid #ddd;
-			  margin: 0px;
-			  width: 40px;
-			  height: 45px;
-		  }
-
-		  input[type=number]::-webkit-inner-spin-button,
-		  input[type=number]::-webkit-outer-spin-button {
-			  -webkit-appearance: none;
-			  margin: 0;
-		  }
-
-		  @media all and (min-width: 768px) {
-			  .menu {
-				  text-align: left;
-				  flex: 1 auto;
-				  order: 1;
-			  }
-			  .article {
-				  flex: 5 0;
-				  order: 2;
-			  }
-			  footer {
-				  order:3;
-			  }
-		  }
-
-		  .inactive {
-			  display: none;
-		  }
-
-		  #select-dish-search-form {
-			  width: 100%;
-		  }
-
-		  #select-dish-list {
-			  list-style-type: none;
-			  display: inline-block;
-			  padding: 0;
-		  }
-
-		  #select-dish-list > li {
-			  display: inline-block;
-			  text-align: center;
-			  margin: 10px;
-		  }
-
-		  .dish > div {
-			  width: 100%;
-		  }
-
-	  </style>
+    <!--Non Bootstrap-->
+    <link rel="stylesheet" href="css/app.css">
     <!-- Bootstrap CSS-->
-    	<link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 
-  </head>
-  <body >
-		<script>
-			function increaseValue() {
-            var value = parseInt(document.getElementById('number').value, 10);
-            value = isNaN(value) ? 0 : value;
-            value++;
-            document.getElementById('number').value = value;
-        }
+</head>
+<body>
+<header>
+    <h1>Dinner Planner</h1>
+</header>
+<div class="flex-container">
+    <!-- View 0 : Menu-->
+    <div class="menu" id="menu-view">
+        <div>
+            <h3>My Dinner</h3><br>
+            <div>
+                <form>
+                    <div>People:
+                        <div class="value-button" id="decreaseNumberOfGuests">-</div>
+                        <input type="number" id="numberOfGuests" value="1"/>
+                        <div class="value-button" id="increaseNumberOfGuests">+</div>
+                    </div>
+                </form>
+            </div>
 
-        function decreaseValue() {
-            var value = parseInt(document.getElementById('number').value, 10);
-            value = isNaN(value) ? 0 : value;
-            value < 1 ? value = 1 : '';
-            value--;
-            document.getElementById('number').value = value;
-        }
-		</script>
+            <div>
+                <table class="countTable center" id="ingredientsTable" width="100%">
+                    <thead>
+                    <tr>
+                        <th class="title">Dish Name</th>
+                        <th>Cost</th>
+                    </tr>
+                    </thead>
+                    <tbody id="menuDishes">
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td><strong>Total (SEK):</strong></td>
+                        <td class="currency" id="menuTotals"></td>
+                    </tr>
+                    </tfoot>
+                </table>
+                <button class="btn btn-disabled selectButton" id="confirm_dinner"
+                        onclick="window.location.hash = '#dinner-overview'">Confirm Dinner
+                </button>
+            </div>
 
-	<div class="flex-container">
-		<header>
-			<h1>Dinner Planner</h1>
-		</header>
-
-        <!-- View 0 : Menu-->
-		<div class="menu" id="menu-view">
-			<div>
-				<h3>My Dinner</h3><br>
-				<div>
-					<form>
-						<div>People:
-							<div class="value-button" id="decreaseNumberOfGuests">-</div>
-							<input type="number" id="numberOfGuests" value="1" />
-							<div class="value-button" id="increaseNumberOfGuests">+</div>
-						</div>
-					</form></div>
-
-				<div>
-					<table class="countTable center" id="ingredientsTable" width="100%">
-						<thead>
-						<tr>
-							<th>Dish Name</th>
-
-							<th>Cost</th>
-						</tr>
-						</thead>
-						<tbody id="menuDishes">
-						<!-- Load Ingredients here
-						<tr>
-							<td>Lasagne</td>
-
-							<td>25,00</td>
-						</tr>-->
-						</tbody>
-						<tfoot>
-						<tr><td><hr></td><td></td>
-						<tr>
-							<td><strong>Total (SEK):</strong></td>
-							<td class="currency" id="menuTotals"></td>
-						</tr>
-						</tfoot>
-					</table>
-					<br><br>
-					<button class="btn btn-disabled selectButton" id="confirm_dinner" onclick="window.location.hash = '#dinner-overview'">Confirm Dinner</button>
-				</div>
-
-			</div>
-
-		</div>
-
-        <!-- View 1 : Welcome-->
-        <div class="article" id="welcome-view">
-            <p>Welcome to Dinner Planner of Group 5.</p>
-            <p>Press the button new Create a New Dinner Plan.</p>
-            <button type="button" class="btn btn-primary" onclick="window.location.hash = '#select-dish'">Create New Dinner</button>
         </div>
 
-        <!-- View 2 : Select Dish-->
-		<div class="article inactive" id="select-dish-view">
-			<h3>Find a dish</h3>
-			<form id="select-dish-search-form">
-				<input name="keyword" type="text" placeholder="Enter Keywords">
-				<select id="dishType">
-					<option value="all">All</option>
-					<option value="starter">Starter</option>
-					<option value="main">Main Dish</option>
-					<option value="desert">Desert</option>
-				</select>
-				<button>Search</button>
-			</form>
-		<hr>
-			<h3>Select a dish</h3>
-			<ul id="select-dish-list">
-				<li class="dish">
-					<img src="images/meatballs.jpg" />
-					<div>Title</div>
-				</li>
-				<li class="dish">
-					<img src="images/meatballs.jpg" />
-					<div>Title</div>
-				</li>
-				<li class="dish">
-					<img src="images/meatballs.jpg" />
-					<div>Title</div>
-				</li>
-				<li class="dish">
-					<img src="images/meatballs.jpg" />
-					<div>Title</div>
-				</li>
-				<li class="dish">
-					<img src="images/meatballs.jpg" />
-					<div>Title</div>
-				</li>
-				<li class="dish">
-					<img src="images/meatballs.jpg" />
-					<div>Title</div>
-				</li>
-				<li class="dish">
-					<img src="images/meatballs.jpg" />
-					<div>Title</div>
-				</li>
-				<li class="dish">
-					<img src="images/meatballs.jpg" />
-					<div>Title</div>
-				</li>
+    </div>
 
-			</ul>
+    <!-- View 1 : Welcome-->
+    <div class="article" id="welcome-view">
+        <p>Welcome to Dinner Planner of Group 5.</p>
+        <p>Press the button new Create a New Dinner Plan.</p>
+        <button type="button" class="btn btn-primary" onclick="window.location.hash = '#select-dish'">Create New
+            Dinner
+        </button>
+    </div>
 
-		</div>
+    <!-- View 2 : Select Dish-->
+    <div class="article inactive" id="select-dish-view">
+        <h3>Find a dish</h3>
+        <form id="select-dish-search-form">
+            <input name="keyword" type="text" placeholder="Enter Keywords">
+            <select id="dishType">
+                <option value="all">All</option>
+                <option value="starter">Starter</option>
+                <option value="main">Main Dish</option>
+                <option value="desert">Desert</option>
+            </select>
+            <button>Search</button>
+        </form>
+        <hr>
+        <h3>Select a dish</h3>
+        <ul class="dish-thumbnail-list" id="select-dish-list">
+        </ul>
+    </div>
 
-        <!-- View 3 : Dish Details-->
-		<div class="article inactive" id="dish-details-view">
-			<h1>Dish Name</h1>
-            <hr width="100%">
-			<div class="row">
-			<div style="width: 40%;margin-left: 20px">
+    <!-- View 3 : Dish Details-->
+    <div class="article inactive" id="dish-details-view">
+        <h1>Dish Name</h1>
+        <hr width="100%">
+        <div class="row">
+            <div style="width: 40%;margin-left: 20px">
                 <div class="imgDish" id="dishImage">
-                    <img src="images/meatballs.jpg"  /></div>
+                    <img src="images/meatballs.jpg"/></div>
                 <div id="imageText">
                 </div>
-				<br>
-                <p>Description here. In a large mixing bowl, beat the eggs. Add the milk, brown sugar and nutmeg; stir well to combine. Soak bread slices in the egg mixture until saturated. Heat a lightly oiled griddle or frying pan over medium high heat. Brown slices on both sides, sprinkle with cinnamon and serve hot.</p>
-                <button class="btn-lg btn-warning" id="backToSelectButton" onclick="window.location.hash = '#select-dish'">back to Select Dish</button>
+                <br>
+                <p>Description here. In a large mixing bowl, beat the eggs. Add the milk, brown sugar and nutmeg; stir
+                    well to combine. Soak bread slices in the egg mixture until saturated. Heat a lightly oiled griddle
+                    or frying pan over medium high heat. Brown slices on both sides, sprinkle with cinnamon and serve
+                    hot.</p>
+                <button class="btn-lg btn-warning" id="backToSelectButton"
+                        onclick="window.location.hash = '#select-dish'">back to Select Dish
+                </button>
             </div>
             <div class="" style="width:50%; margin-left: 20px; background-color: yellow">
                 <div id="ingredientsDiv" style="margin: 20px">
-                    <h5>Ingredients for 3 People</h5><hr>
-					<table class="countTable center" id="ingredientsTable" width="100%">
-						<thead>
-						<tr>
-							<th>Quantity</th>
-							<th>Ingredient</th>
-							<th></th>
-							<th>Cost</th>
-						</tr>
-						</thead>
-						<tbody>
-						<!-- Load Ingredients here-->
-						<tr>
-							<td>2 tbsp</td>
-							<td>olive oil</td>
-							<td>SEK</td>
-							<td>0,20</td>
-						</tr>
-						<tr>
-							<td>750 g</td>
-							<td>lean bean mince</td>
-							<td>SEK</td>
-							<td>10,00</td>
-						</tr>
-						</tbody>
-						<tfoot>
-                        <tr><td><hr></td><td><hr></td><td><hr></td><td><hr></td></tr>
-						<tr>
-							<td><button class="btn btn-warning selectButton" id="confirm_dish">Confirm Dish</button></td>
-							<td><strong>Total:</strong></td>
-							<td><strong>SEK</strong></td>
-							<td><strong>10,20</strong></td>
-						</tr>
-						</tfoot>
+                    <h5>Ingredients for 3 People</h5>
+                    <hr>
+                    <table class="countTable center" id="ingredientsTable" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Quantity</th>
+                            <th>Ingredient</th>
+                            <th></th>
+                            <th>Cost</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Load Ingredients here-->
+                        <tr>
+                            <td>2 tbsp</td>
+                            <td>olive oil</td>
+                            <td>SEK</td>
+                            <td>0,20</td>
+                        </tr>
+                        <tr>
+                            <td>750 g</td>
+                            <td>lean bean mince</td>
+                            <td>SEK</td>
+                            <td>10,00</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td>
+                                <hr>
+                            </td>
+                            <td>
+                                <hr>
+                            </td>
+                            <td>
+                                <hr>
+                            </td>
+                            <td>
+                                <hr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn btn-warning selectButton" id="confirm_dish">Confirm Dish</button>
+                            </td>
+                            <td><strong>Total:</strong></td>
+                            <td><strong>SEK</strong></td>
+                            <td><strong>10,20</strong></td>
+                        </tr>
+                        </tfoot>
                     </table>
 
                     <div class="ingredientsCost" id="ingredientsCost">
                     </div>
                 </div>
             </div>
-			</div>
-			<div class="row" style="margin-left: 20px">
-				<hr width="100%">
-				<h2>Preparations</h2>
-				<p>In a large mixing bowl, beat the eggs. Add the milk, brown sugar and nutmeg; stir well to combine. Soak bread slices in the egg mixture until saturated. Heat a lightly oiled griddle or frying pan over medium high heat. Brown slices on both sides, sprinkle with cinnamon and serve hot.</p>
-			</div>
-		</div>
+        </div>
+        <div class="row" style="margin-left: 20px">
+            <hr width="100%">
+            <h2>Preparations</h2>
+            <p>In a large mixing bowl, beat the eggs. Add the milk, brown sugar and nutmeg; stir well to combine. Soak
+                bread slices in the egg mixture until saturated. Heat a lightly oiled griddle or frying pan over medium
+                high heat. Brown slices on both sides, sprinkle with cinnamon and serve hot.</p>
+        </div>
+    </div>
 
-		<!-- View Menu 2: For showing added dishes -->
-		<div class="menu inactive" id="menu-added">
-			<div style="margin-left: 20px">
-			<h4>My Dinner</h4><br>
-				<div align="left" style="align-content: left; margin-left: -120px; margin-top: -70px">
-				<form>
-					<div>People:
-					<div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
-					<input type="number" id="number" value="3" />
-					<div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
-					</div>
-				</form></div>
-
-				<div>
-					<table class="countTable center" id="ingredientsTable" width="100%">
-						<thead>
-						<tr>
-							<th>Dish Name</th>
-
-							<th>Cost</th>
-						</tr>
-						</thead>
-						<tbody>
-						<!-- Load Ingredients here-->
-						<tr>
-							<td>Lasagne</td>
-
-							<td>25,00</td>
-						</tr>
-						</tbody>
-						<tfoot>
-						<tr><td><hr></td><td>x3</td>
-						<tr>
-							<td><strong>Total (SEK):</strong></td>
-							<td><strong>75,00</strong></td>
-						</tr>
-						</tfoot>
-					</table>
-					<br><br>
-					<button class="btn btn-warning selectButton" id="confirm_dinner">Confirm Dinner</button>
-				</div>
-
-			</div>
-
-		</div>
-
-        <!-- View 4 : Overview-->
-		<div class="article inactive" id="dinner-overview-view">
-		<div class="row">
-			<div style="margin-left:20px; "><button class="btn btn-warning selectButton" id="back_confirm_dinner">Go Back & Edit Dinner</button></div>
-			<div style="margin-left: 20px;" align="center">
-				<h1 align="center">My Dinner : 3 People</h1>
-			</div>
-		</div>
-			<div><hr ></div>
-		<div>
-			<!-- Load Dishes Here -->
-		</div><div><hr ></div>
-		<div align="center">
-			<button class="btn btn-warning selectButton" id="print_recipe" onclick="window.location.hash = '#print-dinner'">Print Full Recipe</button></div>
-		</div>
+    <!-- View 4 : Overview-->
+    <article class="article inactive" id="dinner-overview-view">
+        <header>
+            <button class="btn btn-warning selectButton" onclick="window.location.hash = '#select-dish'">Go Back & Edit
+                Dinner
+            </button>
+            <h2>My Dinner : 3 People</h2>
+        </header>
+        <div>
+            <hr>
+        </div>
+        <ul class="dish-thumbnail-list" id="overview-dish-list">
+        </ul>
+        <div>
+            <hr>
+        </div>
+        <div align="center">
+            <button class="btn btn-warning selectButton" id="print_recipe"
+                    onclick="window.location.hash = '#print-dinner'">Print Full Recipe
+            </button>
+        </div>
+    </article>
 
 
-        <!-- View 5 : Print View-->
-		<div class="article inactive" id="dinner-print-view">
-				<div class="row">
-					<div style="margin-left:20px; "><button class="btn btn-warning selectButton" id="back_confirm_dinner" onclick="window.location.hash = '#select-dish'">Go Back & Edit Dinner</button></div>
-					<div style="margin-left: 20px;" align="center">
-						<h1 align="center">My Dinner : 3 People</h1>
-					</div>
-				</div>
-				<div><hr ></div>
-			<div class="row" id="selectedDishes" style="margin: 20px">
+    <!-- View 5 : Print View-->
+    <div class="article inactive" id="dinner-print-view">
+        <header>
+            <button class="btn btn-warning selectButton" onclick="window.location.hash = '#select-dish'">Go Back & Edit
+                Dinner
+            </button>
+            <h2>My Dinner : 3 People</h2>
+        </header>
+        <div>
+            <hr>
+        </div>
+        <div id="print-dish-list">
 
-				<!-- Sample Area for images-->
-				<div class="row dish" style="width: 100%">
-
-					<div id="image1" class="image">
-						<img src="images/meatballs.jpg" height="140" width="140"/>
-					</div>
-					<div id="label1" class="label" style="margin-left: 20px"> <h4>Lasagne</h4>
-					<p>Lorem Ipsum Description</p>
-					</div>
-					<div id="prep" style="margin-left: 100px">
-					<h6>PREPERATIONS</h6>
-					<p>Detailed preprations</p>
-					</div>
-
-				</div>
+            <!-- Sample Area for images-->
+            >
 
 
-			</div>
+        </div>
 
-		</div>
+    </div>
 
-		<footer>Lab Group 5</footer>
-	</div>
+</div>
+<footer>Lab Group 5</footer>
 
-	<!-- The application JavaScript code -->
-	<script src="dist/bundle.js"></script>
-	<!--<script src="js/model/dinnerModel.js"></script>-->
-	<!--<script src="js/view/menuView.js"></script>-->
-	<!-- TODO: Here you should include JS code for your other views -->
+<!-- The application JavaScript code -->
+<script src="dist/bundle.js"></script>
+<!--<script src="js/model/dinnerModel.js"></script>-->
+<!--<script src="js/view/menuView.js"></script>-->
+<!-- TODO: Here you should include JS code for your other views -->
 
-  </body>
+</body>
 </html>
