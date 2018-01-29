@@ -1,24 +1,6 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
-
-function createDishThumbnail(document, dishName, imageURL) {
-    let dishImageElement = document.createElement("img");
-    dishImageElement.src = imageURL;
-
-    let dishTitleElement = document.createElement("div");
-    dishTitleElement.textContent = dishName;
-
-    let anchor = document.createElement("a");
-    anchor.href = "#dish-details";
-    anchor.appendChild(dishImageElement);
-    anchor.appendChild(dishTitleElement);
-
-    let liElement = document.createElement("li");
-    liElement.classList.add('dish');
-    liElement.appendChild(anchor);
-
-    return liElement;
-}
+import {createDishThumbnail} from "./dishThumbnail";
 
 /** MenuView Object constructor
  *
@@ -56,8 +38,7 @@ export class SelectDishView extends View {
     set dishList(newList) {
         this._dishList.innerHTML = "";
         newList.forEach(dish => {
-            console.log(dish);
-            this._dishList.appendChild(createDishThumbnail(document, dish.name, 'images/' + dish.image))
+            this._dishList.appendChild(createDishThumbnail({document: document, title:dish.name, imageURL:'images/' + dish.image}))
         });
     }
 

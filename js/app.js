@@ -38,10 +38,8 @@ function main() {
 		function deactivateAllBut(viewsToActivate) {
 			allViews.forEach(view => {view.active = viewsToActivate.includes(view);})
         }
-        console.log("Switching to " + location.hash);
 		switch (location.hash) {
 			case selectDishView.locationHash:
-				console.log("Activating dish selection view.");
 				deactivateAllBut([menuView, selectDishView]);
 				break;
 			case dishDetailsView.locationHash:
@@ -59,24 +57,12 @@ function main() {
 	}
 
 	function onLocationHashChange() {
-		console.log("hash change");
 		route(window.location);
     }
 
-    console.log("Adding event listeners.");
 	window.addEventListener('hashchange', onLocationHashChange, false);
 
 	route(window.location);
-
-    // function hashchanged() {
-    //     let hash = location.hash.replace( /^#/, '' );
-    //
-    //     switch (hash) {
-		// 	case '':
-		// 		activate(welcomeView);
-		// 	cas
-		// }
-    // }
     
 	/**
 	 * IMPORTANT: app.js is the only place where you are allowed to
@@ -84,8 +70,6 @@ function main() {
 	 * In other places you should limit the search only to the children 
 	 * of the specific view you're working with (see menuView.js).
 	 */
-
-	// $(window).hashchange(hashchanged);
 
 }
 

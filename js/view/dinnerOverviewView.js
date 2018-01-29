@@ -1,18 +1,6 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
-
-function createDishRow(document, dishName, dishCost) {
-    let tableRow = document.createElement("tr");
-    let dishNameCell = document.createElement("td");
-    dishNameCell.textContent = dishName;
-    let dishCostCell = document.createElement("td");
-    dishCostCell.textContent = dishCost;
-    dishCostCell.classList.add("currency");
-    tableRow.appendChild(dishNameCell);
-    tableRow.appendChild(dishCostCell);
-
-    return tableRow;
-}
+import {createDishThumbnail} from "./dishThumbnail";
 
 /** MenuView Object constructor
  *
@@ -32,21 +20,43 @@ export class DinnerOverviewView extends View {
 
     constructor(containerElement, model) {
         super(containerElement);
-        this._guestsElement = containerElement.querySelector("#numberOfGuests");
 
-        this._dishesTable = containerElement.querySelector("#menuDishes");
-        this._totalsElement = containerElement.querySelector("#menuTotals");
+        this._dishList = containerElement.querySelector("#overview-dish-list");
 
-        this._plusButton = containerElement.querySelector("#plusGuest");
-        this._minusButton = containerElement.querySelector("#minusGuest");
+        this._divider = document.createElement("li");
+        this._divider.classList.add("vertical-divider");
+        this._totals = undefined;
 
+        this.update(model);
     }
 
     get locationHash() {
         return '#dinner-overview';
     }
 
+    set dishList(newList) {
+        this._dishList.innerHTML = "";
+        newList.forEach(dish => {
+            this._dishList.appendChild(createDishThumbnail({document: document, title:dish.name, imageURL:'images/' + dish.image, cost:totalCostOfDish(dish)}))
+        });
+        if (this._totals) {
+            this._dishList.appendChild(this._divider);
+            this._dishList.appendChild(this._totals);
+        }
+    }
+
+    set totals(newTotals) {
+        if (this._totals) {
+            this._totals.remove();
+        }
+        this._totals = createDishThumbnail({document:document, title: "Total cost", cost: newTotals});
+        this._dishList.appendChild(this._divider);
+        this._dishList.appendChild(this._totals);
+    }
+
     update(model) {
+        this.dishList = model.getFullMenu();
+        this.totals = model.getTotalMenuPrice();
     }
 
 }
