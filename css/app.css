@@ -4,34 +4,28 @@ html {
 
 body {
     min-height: 100%;
-    display: flex;
-    flex-direction: column;
 }
 
-.flex-container > * {
-    padding: 20px;
+body > * {
+    padding: 1em;
 }
-
-body > header {background: black;color:white;}
+body > header {
+    background: black;
+    color:white;
+}
 body > footer {
     background: #aaa;
     color:white;
 }
 body > header, body > footer {
-    padding: 15px;
     text-align: center;
 }
+body > header > *:last-child {
+    margin-bottom: 0;
+}
 
-.menu {
+.menu-view {
     background:#eee;
-}
-
-.menu ul {
-    list-style-type: none;
-    padding: 0;
-}
-.menu ul a {
-    text-decoration: none;
 }
 
 .value-button {
@@ -90,7 +84,7 @@ input[type=number]::-webkit-outer-spin-button {
         flex: 1 auto;
         order: 1;
     }
-    .article {
+    article {
         flex: 5 0;
         order: 2;
     }
@@ -152,14 +146,14 @@ input[type=number]::-webkit-outer-spin-button {
     width: 100%;
 }
 
-#ingredientsTable {
+#ingredients-table {
     margin: 30px 0;
 }
 
-#ingredientsTable > tfoot {
+#ingredients-table > tfoot {
     border-top: 1px solid rgb(183, 196, 198);
 }
-#ingredientsTable > thead {
+#ingredients-table > thead {
     border-bottom: 1px solid rgb(183, 196, 198);
 }
 
@@ -169,28 +163,34 @@ table .currency {
     white-space: nowrap;
 }
 
-.thumbnail .currency {
-    color: darkred;
-}
-
 .currency::after {
     content: " kr";
 }
 
-.article > header {
+article > header {
     display: flex;
     justify-content: space-between;
 }
 
-.article > header > button {
+article > header > button {
     order: 2;
 }
 
-.article > header > h2 {
+article > header > h2 {
     order: 1;
     margin: 0;
 }
 
 #overview-dish-list {
     justify-content: center;
+}
+
+#select-dish-search-form {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    grid-column-gap: 1em;
+}
+
+#select-dish-search-form > input {
+    width: auto;
 }
