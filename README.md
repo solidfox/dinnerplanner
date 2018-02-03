@@ -19,6 +19,14 @@ What's in the project
 
 ## Serving the site locally
 
+### Install webpack
+
+`brew install node`
+`npm install -g webpack`
+`npm install -g webpack-dev-server`
+
+### Run the site via webpack-dev-server
+
 Don't start files from the file-system. Serve them by running `webpack-dev-server` at the project root.
 
 ## Tutorials
