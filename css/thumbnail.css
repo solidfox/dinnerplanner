@@ -1,0 +1,19 @@
+.thumbnail > * {
+    display: block;
+}
+
+.thumbnail > label {
+    margin: 0;
+}
+
+.thumbnail.header {
+    text-align: left;
+}
+
+.thumbnail.header > h1 {
+    margin: 0;
+}
+
+.thumbnail .currency {
+    color: darkred;
+}

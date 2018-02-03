@@ -19,12 +19,12 @@ export function createDishThumbnail({document: document,
         liElement.appendChild(dishImageElement);
     }
 
-    let dishTitleElement = document.createElement("div");
+    let dishTitleElement = document.createElement("label");
     dishTitleElement.textContent = title;
     liElement.appendChild(dishTitleElement);
 
     if (cost) {
-        let priceLabel = document.createElement("div");
+        let priceLabel = document.createElement("label");
         priceLabel.classList.add("currency");
         priceLabel.textContent = cost;
         liElement.appendChild(priceLabel);

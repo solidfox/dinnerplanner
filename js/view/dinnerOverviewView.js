@@ -1,6 +1,7 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
-import {createDishThumbnail} from "./dishThumbnail";
+import {createDishThumbnail} from "../components/dishThumbnail";
+import {createThumbnailHeading} from "../components/thumbnailHeading";
 
 /** MenuView Object constructor
  *
@@ -37,7 +38,11 @@ export class DinnerOverviewView extends View {
     set dishList(newList) {
         this._dishList.innerHTML = "";
         newList.forEach(dish => {
-            this._dishList.appendChild(createDishThumbnail({document: document, title:dish.name, imageURL:'images/' + dish.image, cost:totalCostOfDish(dish)}))
+            this._dishList.appendChild(createDishThumbnail({
+                document: document,
+                title:dish.name,
+                imageURL:'images/' + dish.image,
+                cost:totalCostOfDish(dish)}))
         });
         if (this._totals) {
             this._dishList.appendChild(this._divider);
@@ -47,9 +52,14 @@ export class DinnerOverviewView extends View {
 
     set totals(newTotals) {
         if (this._totals) {
+            this._divider.remove();
             this._totals.remove();
         }
-        this._totals = createDishThumbnail({document:document, title: "Total cost", cost: newTotals});
+        this._totals = createThumbnailHeading({
+            document: document,
+            header:3 + " People",
+            caption: "Total cost",
+            subCaption: newTotals});
         this._dishList.appendChild(this._divider);
         this._dishList.appendChild(this._totals);
     }
