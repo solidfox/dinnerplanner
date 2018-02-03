@@ -82,8 +82,8 @@ export default function() {
 
 	//function that returns a dish of specific ID
 	this.getDish = function (id) {
-	  for(var key in dishes){
-			if(dishes[key].id == id) {
+	  for(let key in dishes){
+			if(dishes[key].id === id) {
 				return dishes[key];
 			}
 		}
