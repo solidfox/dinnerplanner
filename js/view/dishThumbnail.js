@@ -9,7 +9,7 @@ export function createDishThumbnail({document: document,
 
     let liElement = document.createElement("li");
     liElement.classList.add('dish');
-    liElement.classList.add('thumbnail')
+    liElement.classList.add('thumbnail');
     liElement.addEventListener('click', () => {
         window.location.hash = '#dish-details'})
 
