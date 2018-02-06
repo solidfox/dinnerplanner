@@ -1,0 +1,25 @@
+#dish-details-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+        "title title"
+        "description ingredients"
+        "preparations preparations";
+}
+
+#dish-details-view > header {
+    grid-area: title;
+}
+
+#dish-details-view > .description {
+    grid-area: description;
+}
+
+#dish-details-view > .ingredients {
+    grid-area: ingredients;
+}
+
+#dish-details-view > .preparations {
+    grid-area: preparations;
+}
