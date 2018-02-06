@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/thumbnail.css">
     <link rel="stylesheet" href="css/grid.css">
-
+    <link rel="stylesheet" href="css/dishDetailsView.css">
 </head>
 <body class="page-grid">
 <header>
@@ -77,17 +77,19 @@
 </article>
 
 <article class="inactive" id="dish-details-view">
-    <h1>Dish Name</h1>
-    <section>
+    <header>
+        <h1>Dish Name</h1>
+        <button class="btn-lg btn-warning" id="backToSelectButton"
+                onclick="window.location.hash = '#select-dish'">Back to Select Dish
+        </button>
+    </header>
+    <section class="description">
         <img src="images/meatballs.jpg"/>
         <h1>Description</h1>
         <p>Description here. In a large mixing bowl, beat the eggs. Add the milk, brown sugar and nutmeg; stir
             well to combine. Soak bread slices in the egg mixture until saturated. Heat a lightly oiled griddle
             or frying pan over medium high heat. Brown slices on both sides, sprinkle with cinnamon and serve
             hot.</p>
-        <button class="btn-lg btn-warning" id="backToSelectButton"
-                onclick="window.location.hash = '#select-dish'">Back to Select Dish
-        </button>
     </section>
     <section class="ingredients">
         <h5>Ingredients for 3 People</h5>
