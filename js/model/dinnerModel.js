@@ -157,7 +157,7 @@ export default function() {
 		'name':'Baked Brie with Peaches',
 		'type':'starter',
 		'image':'bakedbrie.jpg',
-		'description':"Here is how you make it... Lore ipsum...",
+		'description':"Here is how you make it../**/. Lore ipsum...",
 		'ingredients':[{
 			'name':'round Brie cheese',
 			'quantity':10,
