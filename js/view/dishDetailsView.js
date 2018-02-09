@@ -81,7 +81,7 @@ export function createDishDetail({document: document,
 
     let sectionIngredients = document.createElement('section');
     sectionIngredients.classList.add('ingredients');
-    sectionIngredients.id.value = 'ingredientsTable';
+    sectionIngredients.id = 'ingredientsTable';
     elements.push(sectionIngredients);
 
         let ingredientHeading= document.createElement('h5');
