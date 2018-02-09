@@ -164,7 +164,7 @@ export function createDishDetail({document: document,
                 confirmButton.textContent = 'Add to Menu';
 
     let sectionPrepration = document.createElement('section');
-    sectionDescription.classList.add('prepration');
+    sectionPrepration.classList.add('preparation');
     elements.push(sectionPrepration);
 
         let preprationHeading= document.createElement('h3');
