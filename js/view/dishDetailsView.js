@@ -71,7 +71,7 @@ export function createDishDetail({document: document,
         dishImage.src =  '/images/' + dish.image;
         sectionDescription.appendChild(dishImage);
 
-        let descriptionHeading= document.createElement('h2');
+        let descriptionHeading= document.createElement('h3');
         sectionDescription.appendChild(descriptionHeading);
         descriptionHeading.textContent = 'Description';
 
@@ -81,11 +81,12 @@ export function createDishDetail({document: document,
 
     let sectionIngredients = document.createElement('section');
     sectionIngredients.classList.add('ingredients');
+    sectionIngredients.id.value = 'ingredientsTable';
     elements.push(sectionIngredients);
 
         let ingredientHeading= document.createElement('h5');
         sectionIngredients.appendChild(ingredientHeading);
-        ingredientHeading.textContent = 'Ingredients for'+ nGuests +'People';
+        ingredientHeading.textContent = 'Ingredients for '+ nGuests +' People';
 
         let ingredientsTable = document.createElement('table');
         ingredientsTable.classList.value = 'ingredients countTable center';
@@ -140,16 +141,16 @@ export function createDishDetail({document: document,
 
                 let rowFoot = document.createElement('tr');
                 tfoot.appendChild(rowFoot);
-                let footQuantity = document.createElement('td');
+                let footQuantity = document.createElement('th');
                 rowFoot.appendChild(footQuantity);
                 footQuantity.textContent='';
-                let footTotal = document.createElement('td');
+                let footTotal = document.createElement('th');
                 rowFoot.appendChild(footTotal);
                 footTotal.textContent='Total: ';
                 let footSEK = document.createElement('th');
                 rowFoot.appendChild(footSEK);
                 footSEK.textContent='SEK ';
-                let footCost = document.createElement('td');
+                let footCost = document.createElement('th');
                 rowFoot.appendChild(footCost);
                 footCost.textContent= totalCostOfDish(dish)*nGuests;
 
@@ -161,6 +162,18 @@ export function createDishDetail({document: document,
                 confirmButton.addEventListener('click', () => {
                     window.location.hash = '#select-dish'})
                 confirmButton.textContent = 'Add to Menu';
+
+    let sectionPrepration = document.createElement('section');
+    sectionDescription.classList.add('prepration');
+    elements.push(sectionPrepration);
+
+        let preprationHeading= document.createElement('h3');
+        sectionPrepration.appendChild(preprationHeading);
+        preprationHeading.textContent = 'Prepration';
+
+        let preprationBody= document.createElement('p');
+        sectionPrepration.appendChild(preprationBody);
+        preprationBody.textContent = dish.description;
 
     return elements;
 }
