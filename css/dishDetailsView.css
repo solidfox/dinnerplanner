@@ -19,12 +19,8 @@ table.ingredients {
     width: 100%;
 }
 
-table.ingredients {
-    display: ;
-}
-
-#dish-details-view > .preparations {
-    grid-area: preparations;
+#dish-details-view > .preparation {
+    grid-area: preparation;
 }
 
 @media (min-width: 512px) {
@@ -35,6 +31,6 @@ table.ingredients {
         grid-template-areas:
                 "title title"
                 "description ingredients"
-                "preparations preparations";
+                "preparation preparation";
     }
 }

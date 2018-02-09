@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/thumbnail.css">
     <link rel="stylesheet" href="css/grid.css">
     <link rel="stylesheet" href="css/dishDetailsView.css">
+    <link rel="stylesheet" href="css/menu.css">
 </head>
 <body class="page-grid">
 <header>
@@ -21,11 +22,15 @@
 <article class="menu-view inactive" id="menu-view">
     <h1>My Dinner</h1>
 
-    <section class="number-of-people-view">
-        <label for="numberOfGuests">People</label>
-        <button class="value-button" id="decreaseNumberOfGuests">-</button>
-        <input type="number" id="numberOfGuests" value="1"/>
-        <button class="value-button" id="increaseNumberOfGuests">+</button>
+    <section class="input-group number-of-people-view">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="numberOfGuests">People</label>
+            <button class="btn btn-secondary" id="decreaseNumberOfGuests">-</button>
+        </div>
+        <input type="number" class="form-control" id="numberOfGuests"/>
+        <div class="input-group-append">
+            <button class="btn btn-secondary" id="increaseNumberOfGuests">+</button>
+        </div>
     </section>
 
     <table class="countTable center" id="ingredients-table" width="100%">
@@ -44,7 +49,7 @@
         </tr>
         </tfoot>
     </table>
-    <button class="btn selectButton" id="confirm-dinner"
+    <button class="btn btn-primary" id="confirm-dinner"
             onclick="window.location.hash = '#dinner-overview'">Confirm Dinner
     </button>
 </article>
