@@ -130,6 +130,10 @@ input[type=number]::-webkit-outer-spin-button {
 .dish-thumbnail-list > li {
     text-align: center;
     margin: 10px;
+    display: flex;
+    flex-direction: column;
+    /*justify-items: center;*/
+    align-items: center;
 }
 
 .dish-thumbnail-list > li > img {
