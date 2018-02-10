@@ -8,7 +8,6 @@
 }
 
 #dish-details-view > .ingredients {
-    margin: 1em;
     padding: 1em;
     background-color: #ffe8a1;
     border-radius: 5px;
@@ -19,8 +18,23 @@ table.ingredients {
     width: 100%;
 }
 
+table.ingredients > tfoot,
+table.ingredients > thead {
+    border-color: #f9c219;
+}
+
 #dish-details-view > .preparation {
     grid-area: preparation;
+}
+
+#dish-details-view section.ingredients {
+    min-height: 0;
+    height: min-content;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    align-self: center;
 }
 
 @media (min-width: 512px) {
@@ -28,6 +42,7 @@ table.ingredients {
         display: grid;
         grid-template-columns: 1fr auto;
         grid-template-rows: auto auto 1fr;
+        grid-column-gap: 1em;
         grid-template-areas:
                 "title title"
                 "description ingredients"

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/grid.css">
     <link rel="stylesheet" href="css/dishDetailsView.css">
     <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/overview.css">
 </head>
 <body class="page-grid">
 <header>
@@ -25,15 +26,19 @@
     <section class="input-group number-of-people-view">
         <div class="input-group-prepend">
             <label class="input-group-text" for="numberOfGuests">People</label>
-            <button class="btn btn-secondary" id="decreaseNumberOfGuests">-</button>
+            <button class="btn btn-secondary" id="decreaseNumberOfGuests">
+                -
+            </button>
         </div>
         <input type="number" class="form-control" id="numberOfGuests"/>
         <div class="input-group-append">
-            <button class="btn btn-secondary" id="increaseNumberOfGuests">+</button>
+            <button class="btn btn-secondary" id="increaseNumberOfGuests">
+                +
+            </button>
         </div>
     </section>
 
-    <table class="countTable center" id="ingredients-table" width="100%">
+    <table class="countTable center" width="100%">
         <thead>
         <tr>
             <th>Dish Name</th>

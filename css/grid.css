@@ -1,11 +1,13 @@
-.page-grid {
-    display: grid;
-    grid-template-columns: [main-start] 20em 1fr [main-end];
-    grid-template-rows: auto [main-start] minmax(auto, 1fr) [main-end] auto;
-    grid-template-areas:
-        "header header"
-        "menu article"
-        "footer footer";
+@media all and (min-width: 768px) {
+    .page-grid {
+        display: grid;
+        grid-template-columns: [main-start] 20em 1fr [main-end];
+        grid-template-rows: auto [main-start] minmax(auto, 1fr) [main-end] auto;
+        grid-template-areas:
+                "header header"
+                "menu article"
+                "footer footer";
+    }
 }
 
 .page-grid > header {
