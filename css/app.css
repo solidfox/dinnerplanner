@@ -29,19 +29,14 @@ body > header > *:last-child {
     margin-bottom: 0;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
 @media all and (min-width: 768px) {
     #print-dish-list > * {
         display: flex;
         margin: 20px -20px;
+        align-items: flex-start;
     }
     #print-dish-list > * > * {
-        margin: 0 20px;
+        margin: 0 1em;
     }
     #print-dish-list > * > *:nth-child(1) {
         width: 140px;
@@ -50,8 +45,12 @@ input[type=number]::-webkit-outer-spin-button {
         width: 30%;
     }
     #print-dish-list > * > *:nth-child(3) {
-        flex-grow: 5;
+        flex-grow: 1;
     }
+}
+
+body > article h1 {
+    font-size: 2em;
 }
 
 .inactive {
@@ -98,15 +97,22 @@ input[type=number]::-webkit-outer-spin-button {
     width: 100%;
 }
 
-#ingredients-table {
-    margin: 30px 0;
-}
-
-#ingredients-table > tfoot {
+tfoot {
     border-top: 1px solid rgb(183, 196, 198);
 }
-#ingredients-table > thead {
+thead {
     border-bottom: 1px solid rgb(183, 196, 198);
+}
+
+table th,
+table td {
+    padding: .3em .5em;
+}
+tr > *:first-child {
+    padding-left: 0;
+}
+tr > *:last-child {
+    padding-right: 0;
 }
 
 table .currency {
@@ -122,6 +128,9 @@ table .currency {
 article > header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+    align-self: stretch;
 }
 
 article > header > button {

@@ -9,3 +9,11 @@
 #numberOfGuests {
     text-align: center;
 }
+
+.menu-view > * {
+    margin-bottom: 1em;
+}
+
+.menu-view > h1 {
+    margin-bottom: .4em;
+}

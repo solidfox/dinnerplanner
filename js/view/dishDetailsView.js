@@ -81,7 +81,7 @@ export function createDishDetail({document: document,
 
     let sectionIngredients = document.createElement('section');
     sectionIngredients.classList.add('ingredients');
-    sectionIngredients.id = 'ingredientsTable';
+    sectionIngredients.id = 'ingredients-table';
     elements.push(sectionIngredients);
 
         let ingredientHeading= document.createElement('h5');
@@ -102,9 +102,6 @@ export function createDishDetail({document: document,
                     let headIngredients = document.createElement('th');
                     rowHead.appendChild(headIngredients);
                     headIngredients.textContent='Ingredients';
-                    let headSEK = document.createElement('th');
-                    rowHead.appendChild(headSEK);
-                    headSEK.textContent='';
                     let headCost = document.createElement('th');
                     rowHead.appendChild(headCost);
                     headCost.textContent='Cost';
@@ -121,11 +118,9 @@ export function createDishDetail({document: document,
                     let bodyIngredients = document.createElement('td');
                     rowBody.appendChild(bodyIngredients);
                     bodyIngredients.textContent=ingredient.name;
-                    let bodySEK = document.createElement('td');
-                    rowBody.appendChild(bodySEK);
-                    bodySEK.textContent='SEK ';
                     let bodyCost = document.createElement('td');
                     rowBody.appendChild(bodyCost);
+                    bodyCost.classList.add("currency");
                     bodyCost.textContent= nGuests*ingredient.price;
 
                     return rowBody;
@@ -143,25 +138,20 @@ export function createDishDetail({document: document,
                 tfoot.appendChild(rowFoot);
                 let footQuantity = document.createElement('th');
                 rowFoot.appendChild(footQuantity);
-                footQuantity.textContent='';
+                footQuantity.textContent='Total: ';
                 let footTotal = document.createElement('th');
                 rowFoot.appendChild(footTotal);
-                footTotal.textContent='Total: ';
-                let footSEK = document.createElement('th');
-                rowFoot.appendChild(footSEK);
-                footSEK.textContent='SEK ';
                 let footCost = document.createElement('th');
                 rowFoot.appendChild(footCost);
+                footCost.classList.add("currency");
                 footCost.textContent= totalCostOfDish(dish)*nGuests;
 
-                let rowButton = document.createElement('tr');
-                tfoot.appendChild(rowButton);
-                let confirmButton = document.createElement('button');
-                rowButton.appendChild(confirmButton);
-                confirmButton.classList.value = 'btn btn-warning selectButton';
-                confirmButton.addEventListener('click', () => {
-                    window.location.hash = '#select-dish'})
-                confirmButton.textContent = 'Add to Menu';
+        let confirmButton = document.createElement('button');
+        sectionIngredients.appendChild(confirmButton);
+        confirmButton.classList.value = 'btn btn-warning selectButton';
+        confirmButton.addEventListener('click', () => {
+            window.location.hash = '#select-dish'})
+        confirmButton.textContent = 'Add to Menu';
 
     let sectionPrepration = document.createElement('section');
     sectionPrepration.classList.add('preparation');
