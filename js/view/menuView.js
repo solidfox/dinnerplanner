@@ -1,12 +1,12 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
 
-function createDishRow(document, dishName, dishCost) {
+function createDishRow(document, dishName, dishCost, nGuests) {
     let tableRow = document.createElement("tr");
     let dishNameCell = document.createElement("td");
     dishNameCell.textContent = dishName;
     let dishCostCell = document.createElement("td");
-    dishCostCell.textContent = dishCost;
+    dishCostCell.textContent = dishCost*nGuests;
     dishCostCell.classList.add("currency");
     tableRow.appendChild(dishNameCell);
     tableRow.appendChild(dishCostCell);
@@ -54,7 +54,7 @@ export class MenuView extends View {
 
     set menu(newMenu) {
         this._dishesTable.innerHTML = "";
-        newMenu.forEach(dish => { this._dishesTable.appendChild(createDishRow(document, dish.name, totalCostOfDish(dish))) })
+        newMenu.forEach(dish => { this._dishesTable.appendChild(createDishRow(document, dish.name, totalCostOfDish(dish), this.numberOfGuests)) })
     }
 
     get menuTotals() {
@@ -99,6 +99,7 @@ export function wholemenu ({document: document}) {
     buttonMinus.classList.value = 'btn btn-secondary';
     buttonMinus.id = 'decreaseNumberOfGuests';
     buttonMinus.textContent = '-';
+    buttonMinus.addEventListener('click', () => {}) // decrease number of guests
 
     let guestInput = document.createElement('input');
     guestCounter.appendChild(guestInput);
@@ -114,6 +115,7 @@ export function wholemenu ({document: document}) {
     buttonPlus.classList.value = 'btn btn-secondary';
     buttonPlus.id = 'increaseNumberOfGuests';
     buttonPlus.textContent = '+';
+    buttonPlus.addEventListener('click', () => {}) // increase number of guests
 
 
     let menuTable = document.createElement('table');
