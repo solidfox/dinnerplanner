@@ -40,4 +40,25 @@ export class DinnerPrintView extends View {
     }
 
 }
- 
+ //dummy function
+export function printView ({document:document, nGuests:nGuests})
+{
+    let printElement = [];
+
+    let printHeader = document.createElement('header');
+    printElement.push(printHeader);
+    let buttonBack = document.createElement('button');
+    printHeader.appendChild(buttonBack);
+    buttonBack.classList.value ='btn btn-warning selectButton';
+    buttonBack.addEventListener('click', () => {window.location.hash = '#select-dish'})
+    buttonBack.textContent = 'Go Back & Edit Dinner';
+    let viewHeading = document.createElement('h1');
+    printHeader.appendChild(viewHeading);
+    viewHeading.textContent = 'Dinner for ' + nGuests + ' People';
+
+    let printMain = document.createElement('main');
+    printElement.push(printMain);
+    printMain.id = 'print=dish-list';
+
+    return printElement;
+}
