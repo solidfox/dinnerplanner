@@ -74,4 +74,88 @@ export class MenuView extends View {
     }
 
 }
- 
+
+export function wholemenu ({document: document}) {
+    let menuElement = [];
+
+    let menuhead = document.createElement('h2');
+    menuElement.push(menuhead);
+    menuhead.textContent= 'My Dinner';
+
+    let guestCounter = document.createElement('section');
+    menuElement.push(guestCounter);
+    guestCounter.classList.value = 'input-group number-of-people-view';
+
+    let counterPrepend = document.createElement('div');
+    guestCounter.appendChild(counterPrepend);
+    counterPrepend.classList.add('input-group-prepend');
+    let peopleLabel = document.createElement('label');
+    counterPrepend.appendChild(peopleLabel);
+    peopleLabel.classList.add('input-group-text');
+    //peopleLabel.for ='numberOfGuests';
+    peopleLabel.textContent = 'People';
+    let buttonMinus = document.createElement(button);
+    counterPrepend.appendChild(buttonMinus);
+    buttonMinus.classList.value = 'btn btn-secondary';
+    buttonMinus.id = 'decreaseNumberOfGuests';
+    buttonMinus.textContent = '-';
+
+    let guestInput = document.createElement('input');
+    guestCounter.appendChild(guestInput);
+    guestInput.classList.value ='form-control';
+    guestInput.id = 'numberOfGuests';
+    guestInput.type = 'number';
+
+    let counterAppend = document.createElement('div');
+    guestCounter.appendChild(counterAppend);
+    counterAppend.classList.add('input-group-append');
+    let buttonPlus = document.createElement(button);
+    counterAppend.appendChild(buttonPlus);
+    buttonPlus.classList.value = 'btn btn-secondary';
+    buttonPlus.id = 'increaseNumberOfGuests';
+    buttonPlus.textContent = '+';
+
+
+    let menuTable = document.createElement('table');
+    menuElement.push(menuTable);
+    menuTable.classList.value = 'countTable center';
+    menuTable.width = '100%';
+
+    let menuTableHead = document.createElement('thead');
+    menuTable.appendChild(menuTableHead);
+    let menuHeadRow =document.createElement('tr');
+    menuTableHead.appendChild(menuHeadRow);
+    let menuHeadDish = document.createElement('th')
+    menuHeadRow.appendChild(menuHeadDish);
+    menuHeadDish.textContent = 'Dish Name';
+    let menuHeadCost = document.createElement('th');
+    menuHeadRow.appendChild(menuHeadCost);
+    menuHeadCost.textContent = 'Cost';
+
+    let menuTableBody = document.createElement('tbody');
+    menuTable.appendChild(menuTableBody);
+    menuTableBody.id = 'menuDishes';
+
+    let menuTableFoot = document.createElement('tfoot');
+    menuTable.appendChild(menuTableFoot);
+    let menuFootRow = document.createElement('tr');
+    menuTableFoot.appendChild(menuFootRow);
+    let menuFootTotal = document.createElement('th');
+    menuFootRow.appendChild(menuFootTotal);
+    menuFootTotal.textContent = 'Total';
+    let menuFootCost = document.createElement('th');
+    menuFootRow.appendChild(menuFootCost);
+    menuFootCost.classList.add('currency');
+    menuFootCost.id = 'menuTotals';
+
+
+    let buttonConfirmDinner = document.createElement('button');
+    menuElement.push(buttonConfirmDinner);
+    buttonConfirmDinner.classList.value= 'btn btn-primary';
+    buttonConfirmDinner.id = 'confirm-dinner';
+    buttonConfirmDinner.textContent= 'Confirm Dinner';
+    buttonConfirmDinner.addEventListener('click', () => {
+        window.location.hash = '#dinner-overview'})
+
+    return menuElement;
+}
