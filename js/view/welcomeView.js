@@ -69,7 +69,7 @@ export class WelcomeView extends View {
 
     update(model) {
         if (model) {
-            this.numberOfGuests = model.getNumberOfGuests();
+            this.numberOfGuests = model.nGuests();
             this.menu = model.getFullMenu();
             this.menuTotals = model.getTotalMenuPrice();
         }

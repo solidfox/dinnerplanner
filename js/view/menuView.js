@@ -67,9 +67,9 @@ export class MenuView extends View {
 
     update(model) {
         if (model) {
-            this.numberOfGuests = model.getNumberOfGuests();
-            this.menu = model.getFullMenu();
-            this.menuTotals = model.getTotalMenuPrice();
+            this.numberOfGuests = model.nGuests;
+            this.menu = model.selectedDishes;
+            this.menuTotals = model.totalMenuCost;
         }
     }
 

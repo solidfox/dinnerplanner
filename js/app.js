@@ -12,6 +12,10 @@ function main() {
 	//We instantiate our model
     let model = new DinnerModel();
 
+    model.selectedDishesObservable.subscribe(function onNext(selectedDishes) {
+		console.log(selectedDishes);
+    });
+
     model.addDishToMenu(1);
     model.addDishToMenu(2);
     model.addDishToMenu(100);
