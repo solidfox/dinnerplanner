@@ -21,7 +21,7 @@ export class DishDetailsView extends View {
     constructor(containerElement, model) {
         super(containerElement);
 
-        let elements = createDishDetail({document:document, dish:model.getDish(1), nGuests:model.getNumberOfGuests()})
+        let elements = createDishDetail({document:document, dish:model.getDish(1), nGuests:model.nGuests})
 
         elements.forEach(function (element) {containerElement.appendChild(element)})
 

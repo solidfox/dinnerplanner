@@ -65,8 +65,8 @@ export class DinnerOverviewView extends View {
     }
 
     update(model) {
-        this.dishList = model.getFullMenu();
-        this.totals = model.getTotalMenuPrice();
+        this.dishList = model.selectedDishes;
+        this.totals = model.totalMenuCost;
     }
 
 }

@@ -36,7 +36,7 @@ export class DinnerPrintView extends View {
     }
 
     update(model) {
-        this.dishList = model.getFullMenu();
+        this.dishList = model.selectedDishes;
     }
 
 }
