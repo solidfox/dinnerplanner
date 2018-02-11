@@ -71,3 +71,32 @@ export class DinnerOverviewView extends View {
 
 }
  
+export function overviewArticle()
+{
+    let overviewElement = [];
+
+    let overviewHeader = document.createElement('header');
+    overviewElement.push(overviewHeader);
+    let buttonBack = document.createElement('button');
+    overviewHeader.appendChild(buttonBack);
+    buttonBack.classList.value ='btn btn-warning selectButton';
+    buttonBack.addEventListener('click', () => {window.location.hash = '#select-dish'})
+    buttonBack.textContent = 'Go Back & Edit Dinner';
+    let overviewHeading = document.createElement('h1');
+    overviewHeader.appendChild(overviewHeading);
+    overviewHeading.textContent = 'Dinner Overview';
+
+    let dishList = document.createElement('ul');
+    overviewElement.push(dishList);
+    dishList.classList.value = 'dish-thumbnail-list';
+    dishList.id = 'overview-dish-list';
+
+    let printButton = document.createElement('button');
+    overviewElement.push(printButton);
+    printButton.classList.value = 'btn btn-warning selectButton';
+    printButton.id = 'print_recipe';
+    printButton.textContent = 'Print Full Recipe';
+    printButton.addEventListener('click', () => {window.location.hash = '#print-dinner'})
+
+    return overviewElement;
+}
