@@ -46,27 +46,39 @@ export class MenuView extends View {
     constructor(containerElement, model) {
         super(containerElement);
 
-        this._nGuestsElement = containerElement.querySelector("#numberOfGuests");
-
-        this._dishesTable = containerElement.querySelector("#menuDishes");
-        this._totalsElement = containerElement.querySelector("#menuTotals");
-
-        let plusButton = containerElement.querySelector("#increaseNumberOfGuests");
-        let minusButton = containerElement.querySelector("#decreaseNumberOfGuests");
-
-        this._nGuestsSubject = new Rx.BehaviorSubject(this._nGuestsElement.value);
+        this._nGuestsSubject = new Rx.BehaviorSubject(model.nGuests);
 
         this._subscriptions = [];
 
-        this._subscriptions.concat(
-            connectIncrementers(this._nGuestsElement, plusButton, minusButton, this._nGuestsSubject));
+        this.render({selectedDishes: model.selectedDishes, nGuests: model.nGuests, totalCost: model.totalCost});
 
-        this._nGuestsObservable =
-            Rx.Observable.fromEvent(this._nGuestsElement, 'input')
-                .map(event => event.srcElement.value);
-        this._subscriptions.push(this._nGuestsObservable.subscribe(this._nGuestsSubject));
+        let interestingChanges =
+            model.nGuestsObservable.combineLatest(
+                model.selectedDishesObservable,
+                (nGuests, selectedDishes) => {
+                    return {nGuests: nGuests, selectedDishes: selectedDishes, totalCost: model.totalCost};
+                }
+            );
 
-        this.update(model);
+        interestingChanges.subscribe(event => this.render(event));
+    }
+
+    render({selectedDishes:selectedDishes, nGuests:nGuests, totalCost:totalCost}) {
+        this.clear();
+        console.log("Rendering");
+        let rendering = createMenu({document:document, nGuests:nGuests, selectedDishes:selectedDishes, totalCost:totalCost});
+        rendering.elements.forEach(element => {
+            console.log(element);
+            this.containerElement.appendChild(element)
+        });
+        // this._nGuestsObservable =
+        //     Rx.Observable.fromEvent(this._nGuestsElement, 'input')
+        //         .map(event => event.srcElement.value);
+        // this._subscriptions.push(this._nGuestsObservable.subscribe(this._nGuestsSubject));
+    }
+
+    clear() {
+        this.containerElement.innerHTML = "";
     }
 
     get nGuestsObservable() {
@@ -104,15 +116,8 @@ export class MenuView extends View {
 
 }
 
-export function wholemenu ({document: document}) {
-    let menuElement = [];
-
-    let menuhead = document.createElement('h2');
-    menuElement.push(menuhead);
-    menuhead.textContent= 'My Dinner';
-
+function createGuestCounter(document, nGuests) {
     let guestCounter = document.createElement('section');
-    menuElement.push(guestCounter);
     guestCounter.classList.value = 'input-group number-of-people-view';
 
     let counterPrepend = document.createElement('div');
@@ -121,34 +126,37 @@ export function wholemenu ({document: document}) {
     let peopleLabel = document.createElement('label');
     counterPrepend.appendChild(peopleLabel);
     peopleLabel.classList.add('input-group-text');
-    //peopleLabel.for ='numberOfGuests';
+    peopleLabel.setAttribute('for', 'numberOfGuests');
     peopleLabel.textContent = 'People';
-    let buttonMinus = document.createElement(button);
+    let buttonMinus = document.createElement('button');
     counterPrepend.appendChild(buttonMinus);
     buttonMinus.classList.value = 'btn btn-secondary';
     buttonMinus.id = 'decreaseNumberOfGuests';
     buttonMinus.textContent = '-';
-    buttonMinus.addEventListener('click', () => {}) // decrease number of guests
+    // TODO Listeners
 
     let guestInput = document.createElement('input');
     guestCounter.appendChild(guestInput);
     guestInput.classList.value ='form-control';
     guestInput.id = 'numberOfGuests';
     guestInput.type = 'number';
+    guestInput.value = nGuests;
 
     let counterAppend = document.createElement('div');
     guestCounter.appendChild(counterAppend);
     counterAppend.classList.add('input-group-append');
-    let buttonPlus = document.createElement(button);
+    let buttonPlus = document.createElement('button');
     counterAppend.appendChild(buttonPlus);
     buttonPlus.classList.value = 'btn btn-secondary';
     buttonPlus.id = 'increaseNumberOfGuests';
     buttonPlus.textContent = '+';
-    buttonPlus.addEventListener('click', () => {}) // increase number of guests
+    // TODO Listeners
 
+    return guestCounter;
+}
 
+function createMenuTable(document, nGuests, selectedDishes, totalCost) {
     let menuTable = document.createElement('table');
-    menuElement.push(menuTable);
     menuTable.classList.value = 'countTable center';
     menuTable.width = '100%';
 
@@ -166,6 +174,7 @@ export function wholemenu ({document: document}) {
     let menuTableBody = document.createElement('tbody');
     menuTable.appendChild(menuTableBody);
     menuTableBody.id = 'menuDishes';
+    selectedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, dish.name, dish.cost, nGuests)));
 
     let menuTableFoot = document.createElement('tfoot');
     menuTable.appendChild(menuTableFoot);
@@ -176,17 +185,35 @@ export function wholemenu ({document: document}) {
     menuFootTotal.textContent = 'Total';
     let menuFootCost = document.createElement('th');
     menuFootRow.appendChild(menuFootCost);
+    menuFootCost.textContent = totalCost;
     menuFootCost.classList.add('currency');
     menuFootCost.id = 'menuTotals';
 
+    return menuTable;
+}
+
+export function createMenu ({document: document,
+                            nGuests: nGuests,
+                            selectedDishes: selectedDishes,
+                            totalCost: totalCost}) {
+    let menuElements = [];
+
+    let menuhead = document.createElement('h2');
+    menuElements.push(menuhead);
+    menuhead.textContent= 'My Dinner';
+
+    menuElements.push(createGuestCounter(document, nGuests));
+
+    menuElements.push(createMenuTable(document, nGuests, selectedDishes, totalCost));
+
 
     let buttonConfirmDinner = document.createElement('button');
-    menuElement.push(buttonConfirmDinner);
+    menuElements.push(buttonConfirmDinner);
     buttonConfirmDinner.classList.value= 'btn btn-primary';
     buttonConfirmDinner.id = 'confirm-dinner';
     buttonConfirmDinner.textContent= 'Confirm Dinner';
     buttonConfirmDinner.addEventListener('click', () => {
         window.location.hash = '#dinner-overview'})
 
-    return menuElement;
+    return {elements:menuElements};
 }

@@ -44,7 +44,6 @@ export class SelectDishView extends View {
 
     update(model) {
         if (model) {
-            console.log(model.dishes);
             this.dishList = model.dishes;
         }
     }
