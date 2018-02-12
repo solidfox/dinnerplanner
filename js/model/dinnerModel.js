@@ -59,9 +59,10 @@ export default class DinnerModel {
             let searchTarget = dish.ingredients
                 .map(x => x.name)
                 .concat([dish.name])
-                .join(" ");
+                .join(" ")
+                .toLocaleLowerCase();
 
-            let found = filter === undefined || searchTarget.indexOf(filter) !== -1;
+            let found = filter === undefined || searchTarget.indexOf(filter.toLowerCase()) !== -1;
 
             let typeMatch = type === 'all' || dish.type === type;
 
