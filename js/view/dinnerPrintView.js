@@ -41,7 +41,7 @@ export class DinnerPrintView extends View {
 
 }
  //dummy function
-export function printView ({document:document, nGuests:nGuests})
+function createPrintView ({document:document, nGuests:nGuests})
 {
     let printElement = [];
 

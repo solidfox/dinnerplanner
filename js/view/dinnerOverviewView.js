@@ -71,7 +71,7 @@ export class DinnerOverviewView extends View {
 
 }
  
-export function overviewArticle()
+export function createOverview()
 {
     let overviewElement = [];
 
