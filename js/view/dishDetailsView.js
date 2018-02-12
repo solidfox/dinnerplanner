@@ -82,6 +82,7 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
 
     let h1Element = document.createElement('h1');
     headerElement.appendChild(h1Element);
+    h1Element.classList.add('capitaliseLabel');
     h1Element.textContent = dish.name;
 
     let buttonElement = document.createElement('button');
@@ -153,6 +154,7 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
         bodyQuantity.textContent = nGuests * ingredient.quantity + ' ' + ingredient.unit;
         let bodyIngredients = document.createElement('td');
         rowBody.appendChild(bodyIngredients);
+        bodyIngredients.classList.add('capitaliseLabel');
         bodyIngredients.textContent = ingredient.name;
         let bodyCost = document.createElement('td');
         rowBody.appendChild(bodyCost);

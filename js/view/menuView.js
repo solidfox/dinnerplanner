@@ -6,6 +6,7 @@ function createDishRow(document, dishName, dishCost, nGuests) {
     console.log(nGuests * dishCost);
     let tableRow = document.createElement("tr");
     let dishNameCell = document.createElement("td");
+    dishNameCell.classList.add('capitaliseLabel')
     dishNameCell.textContent = dishName;
     let dishCostCell = document.createElement("td");
     dishCostCell.textContent = String(dishCost * nGuests);
