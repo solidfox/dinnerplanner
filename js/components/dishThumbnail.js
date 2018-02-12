@@ -4,6 +4,7 @@
 
 export function createDishThumbnail({document: document,
                               title: title,
+                              dishID: dishID,
                               imageURL: imageURL,
                               cost: cost}) {
 
@@ -11,7 +12,9 @@ export function createDishThumbnail({document: document,
     liElement.classList.add('dish');
     liElement.classList.add('thumbnail');
     liElement.addEventListener('click', () => {
-        window.location.hash = '#dish-details'})
+        window.location.hash = '#dish-details'
+        window.location.search = '?id=' + dishID;
+    })
 
     if (imageURL) {
         let dishImageElement = document.createElement("img");
