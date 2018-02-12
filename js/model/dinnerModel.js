@@ -58,7 +58,7 @@ export default class DinnerModel {
         return this._dishes.filter(dish => {
             let searchTarget = dish.ingredients
                 .map(x => x.name)
-                .push(dish).name
+                .concat([dish.name])
                 .join(" ");
 
             let found = filter === undefined || searchTarget.indexOf(filter) !== -1;
