@@ -2,6 +2,9 @@ import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
 import Rx from "rxjs/Rx";
 
+function extractId(searchString) {
+    return Number(searchString.split("=")[1]);
+}
 
 /** MenuView Object constructor
  *
@@ -22,12 +25,16 @@ export class DishDetailsView extends View {
     constructor(containerElement, model) {
         super(containerElement);
 
-        var dishIDObservable = Rx.Observable.fromEvent(window, 'hashchange')
-            .map(x => window.location.search)
+        let dishIDObservable = Rx.Observable.fromEvent(window, 'hashchange')
+            .map(x => extractId(window.location.search));
+
+        let dishIdSubject = new Rx.BehaviorSubject(extractId(window.location.search));
+
+        dishIDObservable.subscribe(dishIdSubject);
 
         let interestingChanges =
             model.nGuestsObservable.combineLatest(
-                dishIDObservable, (nGuests, dishID) => { console.log ('hey');
+                dishIdSubject, (nGuests, dishID) => {
                     return {
                         nGuests: nGuests, selectedDish: model.getDish(dishID)
                     }
