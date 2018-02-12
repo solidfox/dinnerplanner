@@ -1,5 +1,6 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
+import Rx from "rxjs/Rx";
 
 function createDishRow(document, dishName, dishCost, nGuests) {
     let tableRow = document.createElement("tr");
@@ -12,6 +13,18 @@ function createDishRow(document, dishName, dishCost, nGuests) {
     tableRow.appendChild(dishCostCell);
 
     return tableRow;
+}
+
+function connectIncrementers(valueElement, incrementElement, decrementElement, observer) {
+
+    let incrementElemClick = Rx.Observable.fromEvent(incrementElement, 'click');
+    let subscription1 = incrementElemClick.map(() => ++(valueElement.value)).subscribe(observer);
+
+    let decrementElemClick = Rx.Observable.fromEvent(decrementElement, 'click');
+    let subscription2 = decrementElemClick.map(() => --(valueElement.value)).subscribe(observer);
+
+    return [subscription1, subscription2];
+
 }
 
 /** MenuView Object constructor
@@ -33,28 +46,44 @@ export class MenuView extends View {
     constructor(containerElement, model) {
         super(containerElement);
 
-        this._guestsElement = containerElement.querySelector("#numberOfGuests");
+        this._nGuestsElement = containerElement.querySelector("#numberOfGuests");
 
         this._dishesTable = containerElement.querySelector("#menuDishes");
         this._totalsElement = containerElement.querySelector("#menuTotals");
 
-        this._plusButton = containerElement.querySelector("#plusGuest");
-        this._minusButton = containerElement.querySelector("#minusGuest");
+        let plusButton = containerElement.querySelector("#increaseNumberOfGuests");
+        let minusButton = containerElement.querySelector("#decreaseNumberOfGuests");
+
+        this._nGuestsSubject = new Rx.BehaviorSubject(this._nGuestsElement.value);
+
+        this._subscriptions = [];
+
+        this._subscriptions.concat(
+            connectIncrementers(this._nGuestsElement, plusButton, minusButton, this._nGuestsSubject));
+
+        this._nGuestsObservable =
+            Rx.Observable.fromEvent(this._nGuestsElement, 'input')
+                .map(event => event.srcElement.value);
+        this._subscriptions.push(this._nGuestsObservable.subscribe(this._nGuestsSubject));
 
         this.update(model);
     }
 
+    get nGuestsObservable() {
+        return this._nGuestsSubject;
+    }
+
     get numberOfGuests() {
-        return this._guestsElement.value;
+        return this._nGuestsElement.value;
     }
 
     set numberOfGuests(newValue) {
-        this._guestsElement.value = newValue;
+        this._nGuestsElement.value = newValue;
     }
 
     set menu(newMenu) {
         this._dishesTable.innerHTML = "";
-        newMenu.forEach(dish => { this._dishesTable.appendChild(createDishRow(document, dish.name, totalCostOfDish(dish), this.numberOfGuests)) })
+        newMenu.forEach(dish => { this._dishesTable.appendChild(createDishRow(document, dish.name, totalCostOfDish(dish))) })
     }
 
     get menuTotals() {

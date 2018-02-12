@@ -10,9 +10,12 @@ export class View {
         return !this.containerElement.classList.contains("inactive");
     }
     set active(shouldBeActive) {
-        if (shouldBeActive)
+        if (shouldBeActive) {
+            this.connectListeners && this.connectListeners();
             this.containerElement.classList.remove("inactive");
-        else
+        } else {
+            this.disconnectListeners && this.disconnectListeners();
             this.containerElement.classList.add("inactive");
+        }
     }
 }

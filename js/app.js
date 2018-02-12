@@ -7,13 +7,14 @@ import {SelectDishView} from "./view/selectDishView";
 import {DishDetailsView} from "./view/dishDetailsView";
 import {DinnerOverviewView} from "./view/dinnerOverviewView";
 import {DinnerPrintView} from "./view/dinnerPrintView";
+import MenuController from "./controller/menuController";
 
 function main() {
 	//We instantiate our model
     let model = new DinnerModel();
 
     model.selectedDishesObservable.subscribe(function onNext(selectedDishes) {
-		console.log(selectedDishes);
+		console.log("Selected dishes changed.");
     });
 
     model.addDishToMenu(1);
@@ -30,6 +31,7 @@ function main() {
     }
 
     let menuView = new MenuView(getNode('menu-view'), model);
+	let menuController = new MenuController(menuView, model);
 	let welcomeView = new WelcomeView(getNode('welcome-view'), model);
 	let selectDishView = new SelectDishView(getNode('select-dish-view'), model);
     let dishDetailsView = new DishDetailsView(getNode('dish-details-view'), model);
