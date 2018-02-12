@@ -21,44 +21,7 @@
 </header>
 
 <!-- I created a JS function in menuView.js -->
-<article class="menu-view inactive" id="menu-view">
-    <h1>My Dinner</h1>
-
-    <section class="input-group number-of-people-view">
-        <div class="input-group-prepend">
-            <label class="input-group-text" for="numberOfGuests">People</label>
-            <button class="btn btn-secondary" id="decreaseNumberOfGuests">
-                -
-            </button>
-        </div>
-        <input type="number" class="form-control" id="numberOfGuests"/>
-        <div class="input-group-append">
-            <button class="btn btn-secondary" id="increaseNumberOfGuests">
-                +
-            </button>
-        </div>
-    </section>
-
-    <table class="countTable center" width="100%">
-        <thead>
-        <tr>
-            <th>Dish Name</th>
-            <th>Cost</th>
-        </tr>
-        </thead>
-        <tbody id="menuDishes">
-        </tbody>
-        <tfoot>
-        <tr>
-            <td><strong>Total</strong></td>
-            <td class="currency" id="menuTotals"></td>
-        </tr>
-        </tfoot>
-    </table>
-    <button class="btn btn-primary" id="confirm-dinner"
-            onclick="window.location.hash = '#dinner-overview'">Confirm Dinner
-    </button>
-</article>
+<article class="menu-view inactive" id="menu-view"></article>
 
 <article class="no-menu" id="welcome-view">
     <p>Welcome to Dinner Planner of Group 5.</p>

@@ -7,23 +7,17 @@ export function totalCostOfDish(dish) {
 //DinnerModel Object constructor
 export default class DinnerModel {
 
-    get nGuestsObservable() {return this._numberOfGuestsSubject;}
-    get nGuests() {
-        return this._nGuests;
-    }
+    get nGuestsObservable() { return this._numberOfGuestsSubject; }
+    get nGuests() { return this._nGuests; }
     set nGuests(nGuests) {
         this._nGuests = nGuests;
         this._numberOfGuestsSubject.next(this.nGuests);
     }
 
-    get dishes() {
-        return Object.create(this._dishes);
-    }
+    get dishes() { return Object.create(this._dishes); }
 
-    get selectedDishesObservable() {return this._selectedDishesSubject;}
-    get selectedDishes() {
-        return Object.create(this._selectedDishes);
-    }
+    get selectedDishesObservable() { return this._selectedDishesSubject; }
+    get selectedDishes() { return Object.create(this._selectedDishes); }
 
     get allIngredients() {
         let lists_of_ingredients = this.selectedDishes.map(function (dish) {
