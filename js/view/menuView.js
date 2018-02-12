@@ -41,7 +41,6 @@ export class MenuView extends View {
             model.nGuestsObservable.distinctUntilChanged().combineLatest(
                 model.selectedDishesObservable.distinctUntilChanged(),
                 (nGuests, selectedDishes) => {
-                    console.log([nGuests, selectedDishes]);
                     return {nGuests: nGuests, selectedDishes: selectedDishes, totalCost: model.totalMenuCost};
                 }
             );
