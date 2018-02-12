@@ -3,7 +3,6 @@ import {View} from "./view";
 import Rx from "rxjs/Rx";
 
 function createDishRow(document, dishName, dishCost, nGuests) {
-    console.log(nGuests * dishCost);
     let tableRow = document.createElement("tr");
     let dishNameCell = document.createElement("td");
     dishNameCell.textContent = dishName;
@@ -37,16 +36,11 @@ export class MenuView extends View {
 
         this._nGuestsSubject = new Rx.BehaviorSubject(model.nGuests);
 
-        this.render({
-            selectedDishes: model.selectedDishes,
-            nGuests: model.nGuests,
-            totalCost: model.totalCost,
-        });
-
         let interestingChanges =
-            model.nGuestsObservable.combineLatest(
-                model.selectedDishesObservable,
+            model.nGuestsObservable.distinctUntilChanged().combineLatest(
+                model.selectedDishesObservable.distinctUntilChanged(),
                 (nGuests, selectedDishes) => {
+                    console.log([nGuests, selectedDishes]);
                     return {nGuests: nGuests, selectedDishes: selectedDishes, totalCost: model.totalMenuCost};
                 }
             );
