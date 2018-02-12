@@ -1,19 +1,32 @@
 .thumbnail > * {
     display: block;
+    width: 150px;
+    vertical-align: top;
 }
 
 .thumbnail > label {
-    margin: 0;
+    margin: 0px;
+    width: 150px;
 }
 
 .thumbnail.header {
-    align-items: left;
+    align-items: center;
 }
 
 .thumbnail.header > h1 {
     margin: 0;
 }
 
+.thumbnail .dishImage {
+    width: 150px;
+    margin-top: 20px;
+}
+
 .thumbnail .currency {
     color: darkred;
+}
+
+
+.dish-thumbnail-list > li > img {
+    border-radius: 6px;
 }
