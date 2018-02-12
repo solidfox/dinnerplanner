@@ -1,5 +1,6 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
+import Rx from "rxjs/Rx";
 
 
 /** MenuView Object constructor
@@ -21,7 +22,19 @@ export class DishDetailsView extends View {
     constructor(containerElement, model) {
         super(containerElement);
 
-        model.nGuestsObservable.subscribe(nGuests => this.render(model.getDish(1), nGuests));
+        var dishIDObservable = Rx.Observable.fromEvent(window, 'hashchange')
+            .map(x => window.location.search)
+
+        let interestingChanges =
+            model.nGuestsObservable.combineLatest(
+                dishIDObservable, (nGuests, dishID) => { console.log ('hey');
+                    return {
+                        nGuests: nGuests, selectedDish: model.getDish(dishID)
+                    }
+                }
+            );
+
+        interestingChanges.subscribe(changes => this.render(changes.selectedDish, changes.nGuests));
     }
 
     render(dish, nGuests) {
