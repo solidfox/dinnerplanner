@@ -71,11 +71,11 @@ export default class DinnerModel {
 
     constructor() {
         this._selectedDishes = [];
-        this._selectedDishesSubject = new Rx.BehaviorSubject();
-
-        this._numberOfGuestsSubject = new Rx.BehaviorSubject();
+        this._selectedDishesSubject = new Rx.BehaviorSubject(this._selectedDishes);
 
         this._nGuests = 2;
+        this._numberOfGuestsSubject = new Rx.BehaviorSubject(this.nGuests);
+
 
         // the dishes variable contains an array of all the
         // dishes in the database. each dish has id, name, type,
