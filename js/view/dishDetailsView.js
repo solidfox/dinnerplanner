@@ -47,11 +47,18 @@ export class DishDetailsView extends View {
     render(dish, nGuests) {
         this.clear();
 
-        let elements = createDishDetail({document: document, dish: dish, nGuests: nGuests});
+        if (dish) {
+            let dishDetail = createDishDetail({document: document, dish: dish, nGuests: nGuests});
 
-        elements.forEach(element => {
-            this.containerElement.appendChild(element)
-        });
+            dishDetail.elements.forEach(element => {
+                this.containerElement.appendChild(element)
+            });
+
+           //dishDetail.observable.subscribe(model.addDishToMenu(dish.id));
+        }
+
+
+
     }
 
     clear() {
@@ -66,12 +73,12 @@ export class DishDetailsView extends View {
 
 export function createDishDetail({document: document, dish: dish, nGuests: nGuests}) {
 
-    let elements = [];
+    let dishElements = [];
 
     // ----------- Header ------------
 
     let headerElement = document.createElement('header');
-    elements.push(headerElement);
+    dishElements.push(headerElement);
 
     let h1Element = document.createElement('h1');
     headerElement.appendChild(h1Element);
@@ -92,7 +99,7 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
 
     let sectionDescription = document.createElement('section');
     sectionDescription.classList.add('description');
-    elements.push(sectionDescription);
+    dishElements.push(sectionDescription);
 
     let dishImage = document.createElement('img');
     dishImage.src = '/images/' + dish.image;
@@ -111,7 +118,7 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     let sectionIngredients = document.createElement('section');
     sectionIngredients.classList.add('ingredients');
     sectionIngredients.id = 'ingredients-table';
-    elements.push(sectionIngredients);
+    dishElements.push(sectionIngredients);
 
     let ingredientHeading = document.createElement('h5');
     sectionIngredients.appendChild(ingredientHeading);
@@ -175,19 +182,20 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     footCost.classList.add("currency");
     footCost.textContent = totalCostOfDish(dish) * nGuests;
 
-    let confirmButton = document.createElement('button');
-    sectionIngredients.appendChild(confirmButton);
-    confirmButton.classList.value = 'btn btn-warning selectButton';
-    confirmButton.addEventListener('click', () => {
+    let addMenuButton = document.createElement('button');
+    sectionIngredients.appendChild(addMenuButton);
+    addMenuButton.classList.value = 'btn btn-warning selectButton';
+    addMenuButton.addEventListener('click', () => {
         window.location.hash = '#select-dish'
     })
-    confirmButton.textContent = 'Add to Menu';
+    let addMenuButtonObservable = Rx.Observable.fromEvent(addMenuButton, 'click');
+    addMenuButton.textContent = 'Add to Menu';
 
     // ----------- Preparation ------------
 
     let sectionPrepration = document.createElement('section');
     sectionPrepration.classList.add('preparation');
-    elements.push(sectionPrepration);
+    dishElements.push(sectionPrepration);
 
     let preprationHeading = document.createElement('h3');
     sectionPrepration.appendChild(preprationHeading);
@@ -197,5 +205,8 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     sectionPrepration.appendChild(preprationBody);
     preprationBody.textContent = dish.description;
 
-    return elements;
+    return {
+        elements: dishElements,
+        observable: {addMenuClick: addMenuButtonObservable}
+    };
 }
