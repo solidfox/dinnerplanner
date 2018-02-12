@@ -14,18 +14,21 @@ export function createDishPrintView(document, dish) {
 
     let title = document.createElement("h3");
     title.textContent = dish.name;
+    title.classList.add('capitaliseLabel');
     firstColumn.appendChild(title);
 
     let ingredients = document.createElement("table");
     dish.ingredients.forEach((ingredient => {
         let ingredientRow = document.createElement("tr");
-        let name = document.createElement("td");
-        name.textContent = ingredient.name;
-        ingredientRow.appendChild(name);
         let quantity = document.createElement("td");
         quantity.textContent = ingredient.quantity + " " + ingredient.unit;
         ingredientRow.appendChild(quantity);
         ingredients.appendChild(ingredientRow);
+        let name = document.createElement("td");
+        name.textContent = ingredient.name;
+        name.classList.add('capitaliseLabel');
+        ingredientRow.appendChild(name);
+
     }))
     firstColumn.appendChild(ingredients);
 

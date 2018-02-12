@@ -24,6 +24,7 @@ export function createDishThumbnail({document: document,
     }
 
     let dishTitleElement = document.createElement("label");
+    dishTitleElement.classList.add('capitaliseLabel')
     dishTitleElement.textContent = title;
     liElement.appendChild(dishTitleElement);
 
