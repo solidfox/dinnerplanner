@@ -144,12 +144,12 @@ article > header > h2 {
     justify-content: center;
 }
 
-#select-dish-search-form {
+.select-dish-search-form {
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto;
     grid-column-gap: 1em;
 }
 
-#select-dish-search-form > input {
+.select-dish-search-form > input {
     width: auto;
 }
