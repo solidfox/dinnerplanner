@@ -68,7 +68,7 @@ export class MenuView extends View {
         console.log("Rendering");
         let rendering = createMenu({document:document, nGuests:nGuests, selectedDishes:selectedDishes, totalCost:totalCost});
         rendering.elements.forEach(element => {
-            console.log(element);
+
             this.containerElement.appendChild(element)
         });
         // this._nGuestsObservable =
