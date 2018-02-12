@@ -50,7 +50,11 @@ export class MenuView extends View {
 
         this._subscriptions = [];
 
-        this.render({selectedDishes: model.selectedDishes, nGuests: model.nGuests, totalCost: model.totalCost});
+        this.render({
+            selectedDishes: model.selectedDishes,
+            nGuests: model.nGuests,
+            totalCost: model.totalCost,
+        });
 
         let interestingChanges =
             model.nGuestsObservable.combineLatest(
@@ -68,12 +72,17 @@ export class MenuView extends View {
         console.log("Rendering");
         let rendering = createMenu({document:document, nGuests:nGuests, selectedDishes:selectedDishes, totalCost:totalCost});
         rendering.elements.forEach(element => {
-            console.log(element);
             this.containerElement.appendChild(element)
         });
-        // this._nGuestsObservable =
-        //     Rx.Observable.fromEvent(this._nGuestsElement, 'input')
-        //         .map(event => event.srcElement.value);
+        rendering.observables.nGuestsInput.subscribe(this._nGuestsSubject);
+        this._nGuestsSubject.sample(rendering.observables.minusClick)
+            .map(nGuests => nGuests - 1)
+            .subscribe(this._nGuestsSubject);
+
+        this._nGuestsSubject.sample(rendering.observables.plusClick)
+            .map(nGuests => nGuests + 1)
+            .subscribe(this._nGuestsSubject);
+
         // this._subscriptions.push(this._nGuestsObservable.subscribe(this._nGuestsSubject));
     }
 
@@ -106,14 +115,6 @@ export class MenuView extends View {
         this._totalsElement.textContent = newTotals;
     }
 
-    update(model) {
-        if (model) {
-            this.numberOfGuests = model.nGuests;
-            this.menu = model.selectedDishes;
-            this.menuTotals = model.totalMenuCost;
-        }
-    }
-
 }
 
 function createGuestCounter(document, nGuests) {
@@ -133,7 +134,7 @@ function createGuestCounter(document, nGuests) {
     buttonMinus.classList.value = 'btn btn-secondary';
     buttonMinus.id = 'decreaseNumberOfGuests';
     buttonMinus.textContent = '-';
-    // TODO Listeners
+    let minusClickObservable = Rx.Observable.fromEvent(buttonMinus, 'click');
 
     let guestInput = document.createElement('input');
     guestCounter.appendChild(guestInput);
@@ -141,6 +142,10 @@ function createGuestCounter(document, nGuests) {
     guestInput.id = 'numberOfGuests';
     guestInput.type = 'number';
     guestInput.value = nGuests;
+
+    let nGuestsObservable =
+        Rx.Observable.fromEvent(guestInput, 'input')
+            .map(event => event.srcElement.value);
 
     let counterAppend = document.createElement('div');
     guestCounter.appendChild(counterAppend);
@@ -150,9 +155,16 @@ function createGuestCounter(document, nGuests) {
     buttonPlus.classList.value = 'btn btn-secondary';
     buttonPlus.id = 'increaseNumberOfGuests';
     buttonPlus.textContent = '+';
-    // TODO Listeners
+    let plusClickObservable = Rx.Observable.fromEvent(buttonPlus, 'click');
 
-    return guestCounter;
+    return {
+        element:guestCounter,
+        observables: {
+            nGuestsInput: nGuestsObservable,
+            plusClick: plusClickObservable,
+            minusClick: minusClickObservable
+        }
+    };
 }
 
 function createMenuTable(document, nGuests, selectedDishes, totalCost) {
@@ -202,7 +214,8 @@ export function createMenu ({document: document,
     menuElements.push(menuhead);
     menuhead.textContent= 'My Dinner';
 
-    menuElements.push(createGuestCounter(document, nGuests));
+    let guestCounterRendering = createGuestCounter(document, nGuests);
+    menuElements.push(guestCounterRendering.element);
 
     menuElements.push(createMenuTable(document, nGuests, selectedDishes, totalCost));
 
@@ -215,5 +228,8 @@ export function createMenu ({document: document,
     buttonConfirmDinner.addEventListener('click', () => {
         window.location.hash = '#dinner-overview'})
 
-    return {elements:menuElements};
+    return {
+        elements: menuElements,
+        observables: guestCounterRendering.observables
+    };
 }
