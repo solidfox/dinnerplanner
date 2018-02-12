@@ -1,6 +1,7 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
 import {createDishThumbnail} from "../components/dishThumbnail";
+import * as Rx from "rxjs";
 
 /** MenuView Object constructor
  *
@@ -20,19 +21,41 @@ export class SelectDishView extends View {
 
     constructor(containerElement, model) {
         super(containerElement);
-        this._dishList = containerElement.querySelector("#select-dish-list");
+        this._dishList = containerElement.querySelector("ul.dish-thumbnail-list");
+        this._searchForm = containerElement.querySelector(".select-dish-search-form input[type=text]");
+        this._typeSelect = containerElement.querySelector(".select-dish-search-form select");
 
-        this._dishesTable = containerElement.querySelector("#menuDishes");
-        this._totalsElement = containerElement.querySelector("#menuTotals");
+        this._searchTextObservable = Rx.Observable.fromEvent(this._searchForm, 'input')
+        this._typeObservable = Rx.Observable.fromEvent(this._typeSelect, 'change')
+            .map(event => event.srcElement.value);
 
-        this._plusButton = containerElement.querySelector("#plusGuest");
-        this._minusButton = containerElement.querySelector("#minusGuest");
+        let interestingChanges =
+            this._searchTextObservable
+                .startWith("")
+                .combineLatest(
+            this._typeObservable
+                .startWith("all"),
+            (search, type) => ({search:search, type: type})
+        );
 
-        this.update(model);
+        interestingChanges.subscribe(localState => this.render(localState, model));
+    }
+
+    render(localState, model) {
+        let dishes = model.filteredDishes(localState.type, localState.search);
+        this.dishList = dishes;
     }
 
     get locationHash() {
         return "#select-dish";
+    }
+
+    get searchTextObservable() {
+        return this._searchTextObservable;
+    }
+
+    get typeSelectObservable() {
+        return this._typeObservable
     }
 
     set dishList(newList) {
@@ -42,11 +65,4 @@ export class SelectDishView extends View {
         });
     }
 
-    update(model) {
-        if (model) {
-            this.dishList = model.dishes;
-        }
-    }
-
 }
- 
