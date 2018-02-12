@@ -5,7 +5,7 @@
 }
 
 .thumbnail > label {
-    margin: 10px;
+    margin: 0px;
     width: 150px;
 }
 
@@ -24,4 +24,9 @@
 
 .thumbnail .currency {
     color: darkred;
+}
+
+
+.dish-thumbnail-list > li > img {
+    border-radius: 6px;
 }
