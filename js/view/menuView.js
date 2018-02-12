@@ -3,28 +3,17 @@ import {View} from "./view";
 import Rx from "rxjs/Rx";
 
 function createDishRow(document, dishName, dishCost, nGuests) {
+    console.log(nGuests * dishCost);
     let tableRow = document.createElement("tr");
     let dishNameCell = document.createElement("td");
     dishNameCell.textContent = dishName;
     let dishCostCell = document.createElement("td");
-    dishCostCell.textContent = dishCost*nGuests;
+    dishCostCell.textContent = String(dishCost * nGuests);
     dishCostCell.classList.add("currency");
     tableRow.appendChild(dishNameCell);
     tableRow.appendChild(dishCostCell);
 
     return tableRow;
-}
-
-function connectIncrementers(valueElement, incrementElement, decrementElement, observer) {
-
-    let incrementElemClick = Rx.Observable.fromEvent(incrementElement, 'click');
-    let subscription1 = incrementElemClick.map(() => ++(valueElement.value)).subscribe(observer);
-
-    let decrementElemClick = Rx.Observable.fromEvent(decrementElement, 'click');
-    let subscription2 = decrementElemClick.map(() => --(valueElement.value)).subscribe(observer);
-
-    return [subscription1, subscription2];
-
 }
 
 /** MenuView Object constructor
@@ -48,8 +37,6 @@ export class MenuView extends View {
 
         this._nGuestsSubject = new Rx.BehaviorSubject(model.nGuests);
 
-        this._subscriptions = [];
-
         this.render({
             selectedDishes: model.selectedDishes,
             nGuests: model.nGuests,
@@ -60,7 +47,7 @@ export class MenuView extends View {
             model.nGuestsObservable.combineLatest(
                 model.selectedDishesObservable,
                 (nGuests, selectedDishes) => {
-                    return {nGuests: nGuests, selectedDishes: selectedDishes, totalCost: model.totalCost};
+                    return {nGuests: nGuests, selectedDishes: selectedDishes, totalCost: model.totalMenuCost};
                 }
             );
 
@@ -82,8 +69,6 @@ export class MenuView extends View {
         this._nGuestsSubject.sample(rendering.observables.plusClick)
             .map(nGuests => nGuests + 1)
             .subscribe(this._nGuestsSubject);
-
-        // this._subscriptions.push(this._nGuestsObservable.subscribe(this._nGuestsSubject));
     }
 
     clear() {
@@ -186,7 +171,7 @@ function createMenuTable(document, nGuests, selectedDishes, totalCost) {
     let menuTableBody = document.createElement('tbody');
     menuTable.appendChild(menuTableBody);
     menuTableBody.id = 'menuDishes';
-    selectedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, dish.name, dish.cost, nGuests)));
+    selectedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, dish.name, totalCostOfDish(dish), nGuests)));
 
     let menuTableFoot = document.createElement('tfoot');
     menuTable.appendChild(menuTableFoot);
