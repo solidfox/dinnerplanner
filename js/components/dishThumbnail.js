@@ -16,6 +16,7 @@ export function createDishThumbnail({document: document,
     if (imageURL) {
         let dishImageElement = document.createElement("img");
         dishImageElement.src = imageURL;
+        dishImageElement.classList.add('dishImage')
         liElement.appendChild(dishImageElement);
     }
 
