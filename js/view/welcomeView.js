@@ -32,7 +32,7 @@ export class WelcomeView extends View {
 
     constructor(containerElement, model) {
         super(containerElement);
-        this._guestsElement = containerElement.querySelector("#numberOfGuests");
+        this._nGuestsElement = containerElement.querySelector("#numberOfGuests");
 
         this._dishesTable = containerElement.querySelector("#menuDishes");
         this._totalsElement = containerElement.querySelector("#menuTotals");
@@ -47,11 +47,11 @@ export class WelcomeView extends View {
     }
 
     get numberOfGuests() {
-        return this._guestsElement.value;
+        return this._nGuestsElement.value;
     }
 
     set numberOfGuests(newValue) {
-        this._guestsElement.value = newValue;
+        this._nGuestsElement.value = newValue;
     }
 
     set menu(newMenu) {
