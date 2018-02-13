@@ -226,12 +226,7 @@ export function createMenu ({document: document,
     accordianHead.setAttribute('data-target', '#accBody');
     accordianHead.setAttribute('aria-expanded', 'true');
     accordianHead.setAttribute('aria-controls', 'accBody');
-    accordianHead.addEventListener('click', () => {
-        //This eventlistener is used to determine whether menu is showing or not
-        if(accordianBody.classList.value == 'collapse show')
-        accordianBody.classList.remove('show');
-        else accordianBody.classList.add('show');
-        })
+
     let menuHeading = document.createElement('h3');
     accordianHead.appendChild(menuHeading);
     menuHeading.textContent = 'My Dinner (click me)';
