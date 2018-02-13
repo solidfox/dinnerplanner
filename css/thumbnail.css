@@ -1,7 +1,6 @@
 .thumbnail > * {
     display: block;
     width: 150px;
-    vertical-align: top;
 }
 
 .thumbnail > label {
@@ -19,7 +18,7 @@
 
 .thumbnail .dishImage {
     width: 150px;
-    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .thumbnail .currency {
@@ -28,5 +27,6 @@
 
 
 .dish-thumbnail-list > li > img {
-    border-radius: 6px;
+    border-radius: 10px;
+    align-self: baseline;
 }
