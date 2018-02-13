@@ -57,14 +57,10 @@ export class MenuView extends View {
         });
         rendering.observables.nGuestsInput.subscribe(this._nGuestsSubject);
 
+        this._nGuestsSubject.sample(rendering.observables.minusClick)
+            .map(nGuests => Math.max(nGuests - 1, 1))
+            .subscribe(this._nGuestsSubject) ;
 
-        if (nGuests > 1)
-        {
-            this._nGuestsSubject.sample(rendering.observables.minusClick)
-                .map(nGuests => nGuests - 1)
-                .subscribe(this._nGuestsSubject) ;
-
-        }
         this._nGuestsSubject.sample(rendering.observables.plusClick)
             .map(nGuests => nGuests + 1)
             .subscribe(this._nGuestsSubject);
@@ -219,21 +215,12 @@ export function createMenu ({document: document,
         // above code is normal menu. Code below is collapsing menu.
         // This should only work is mobile-width is detected
 
-    let accordianHead = document.createElement('a');
-    menuElements.push(accordianHead);
-    accordianHead.classList.value = 'btn btn-link text-left';
-    accordianHead.setAttribute('data-toggle', 'collapse');
-    accordianHead.setAttribute('data-target', '#accBody');
-    accordianHead.setAttribute('aria-expanded', 'true');
-    accordianHead.setAttribute('aria-controls', 'accBody');
-    accordianHead.addEventListener('click', () => {
-        //This eventlistener is used to determine whether menu is showing or not
-        if(accordianBody.classList.value == 'collapse show')
-        accordianBody.classList.remove('show');
-        else accordianBody.classList.add('show');
-        })
     let menuHeading = document.createElement('h3');
-    accordianHead.appendChild(menuHeading);
+    menuElements.push(menuHeading);
+    menuHeading.setAttribute('data-toggle', 'collapse');
+    menuHeading.setAttribute('data-target', '#accBody');
+    menuHeading.setAttribute('aria-expanded', 'true');
+    menuHeading.setAttribute('aria-controls', 'accBody');
     menuHeading.textContent = 'My Dinner (click me)';
 
     let accordianBody = document.createElement('div');
