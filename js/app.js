@@ -8,6 +8,7 @@ import {DishDetailsView} from "./view/dishDetailsView";
 import {DinnerOverviewView} from "./view/dinnerOverviewView";
 import {DinnerPrintView} from "./view/dinnerPrintView";
 import MenuController from "./controller/menuController";
+import 'bootstrap';
 
 function main() {
 	//We instantiate our model
