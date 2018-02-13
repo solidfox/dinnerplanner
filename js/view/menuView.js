@@ -1,6 +1,7 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
 import Rx from "rxjs/Rx";
+import ResponsiveDesign from "../ResponsiveDesign";
 
 function createDishRow(document, dishName, dishCost, nGuests) {
     let tableRow = document.createElement("tr");
@@ -196,45 +197,49 @@ export function createMenu ({document: document,
     menuElements.push(menuhead);
     menuhead.textContent= 'My Dinner';
 
-    let guestCounterRendering = createGuestCounter(document, nGuests);
-    menuElements.push(guestCounterRendering.element);
 
-    menuElements.push(createMenuTable(document, nGuests, selectedDishes, totalCost));
-
-
-    let buttonConfirmDinner = document.createElement('button');
-    menuElements.push(buttonConfirmDinner);
-    buttonConfirmDinner.classList.value= 'btn btn-primary';
-    buttonConfirmDinner.id = 'confirm-dinner';
-    buttonConfirmDinner.textContent= 'Confirm Dinner';
-    buttonConfirmDinner.addEventListener('click', () => {
-        window.location.hash = '#dinner-overview'})
 
   */
 
         // above code is normal menu. Code below is collapsing menu.
         // This should only work is mobile-width is detected
+    let menuHeader = document.createElement('header');
+    menuElements.push(menuHeader);
+    menuHeader.setAttribute('data-toggle', 'collapse');
+    menuHeader.setAttribute('data-target', '.menu-body');
+    menuHeader.setAttribute('aria-expanded', 'true');
+    menuHeader.setAttribute('aria-controls', 'menu-body');
 
-    let menuHeading = document.createElement('h3');
-    menuElements.push(menuHeading);
-    menuHeading.setAttribute('data-toggle', 'collapse');
-    menuHeading.setAttribute('data-target', '#accBody');
-    menuHeading.setAttribute('aria-expanded', 'true');
-    menuHeading.setAttribute('aria-controls', 'accBody');
-    menuHeading.textContent = 'My Dinner (click me)';
+    let menuHeading = document.createElement('h1');
+    menuHeader.appendChild(menuHeading);
+    menuHeading.textContent = 'My Dinner';
+    let menuHamburger = document.createElement('h1');
+    menuHeader.appendChild(menuHamburger);
+    menuHamburger.textContent = '≣';
 
-    let accordianBody = document.createElement('div');
-    menuElements.push(accordianBody);
-    accordianBody.classList.value = 'collapse show';
-    accordianBody.id = 'accBody';
+    let menuBody = document.createElement('section');
+    menuElements.push(menuBody);
+    menuBody.classList.value = 'collapse show menu-body';
+    Rx.Observable.fromEvent(document.defaultView, 'resize')
+        .map(event => event.srcElement.innerWidth)
+        .map(width => ResponsiveDesign.sizeClass(width))
+        .distinctUntilChanged()
+        .subscribe(sizeClass => {
+            console.log(sizeClass);
+            if (sizeClass === ResponsiveDesign.sizeClasses.compact) {
+                menuBody.classList.remove('show');
+            } else {
+                menuBody.classList.add('show');
+            }
+        });
 
     let guestCounterRendering = createGuestCounter(document, nGuests);
-    accordianBody.appendChild(guestCounterRendering.element);
+    menuBody.appendChild(guestCounterRendering.element);
 
-    accordianBody.appendChild(createMenuTable(document, nGuests, selectedDishes, totalCost));
+    menuBody.appendChild(createMenuTable(document, nGuests, selectedDishes, totalCost));
 
     let buttonConfirmDinner = document.createElement('button');
-    accordianBody.appendChild(buttonConfirmDinner);
+    menuBody.appendChild(buttonConfirmDinner);
     buttonConfirmDinner.classList.value= 'btn btn-primary btn-lg btn-block';
     buttonConfirmDinner.id = 'confirm-dinner';
     buttonConfirmDinner.textContent= 'Confirm Dinner';

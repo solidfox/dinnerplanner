@@ -10,10 +10,14 @@
     text-align: center;
 }
 
-.menu-view > * {
-    margin-bottom: 1em;
+.menu-body > * {
+    margin-top: 1em;
 }
 
-.menu-view > h1 {
-    margin-bottom: .4em;
+.menu-view h1 {
+    margin-bottom: 0;
+}
+
+.menu-view header {
+    margin: 0;
 }
