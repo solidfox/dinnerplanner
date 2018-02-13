@@ -86,15 +86,30 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     h1Element.textContent = dish.name;
 
     let buttonElement = document.createElement('button');
-    buttonElement.classList.value = 'btn-lg btn-warning';
+    buttonElement.classList.value = 'btn btn-warning';
     buttonElement.addEventListener('click', () => {
         window.location.hash = '#select-dish'
     });
-    buttonElement.textContent = 'Back to Search';
+    buttonElement.textContent = '< Back to Search';
     headerElement.appendChild(buttonElement);
 
-    let hrHeader = document.createElement('hr');
-    headerElement.appendChild(hrHeader);
+    // ----------- Image -----------
+
+    let sectionImage = document.createElement('section');
+    dishElements.push(sectionImage);
+    sectionImage.classList.add('picture')
+
+
+  /*  let hrHeader = document.createElement('hr');
+    sectionDescription.appendChild(hrHeader);
+    hrHeader.style = "margin:10px";
+    hrHeader.width = '100%';
+*/
+    let dishImage = document.createElement('img');
+    dishImage.classList.value = 'imageDish';
+    dishImage.src = '/images/' + dish.image;
+    sectionImage.appendChild(dishImage);
+
 
     // ----------- Description ------------
 
@@ -102,17 +117,31 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     sectionDescription.classList.add('description');
     dishElements.push(sectionDescription);
 
-    let dishImage = document.createElement('img');
-    dishImage.src = '/images/' + dish.image;
-    sectionDescription.appendChild(dishImage);
-
-    let descriptionHeading = document.createElement('h3');
+    let descriptionHeading = document.createElement('h4');
     sectionDescription.appendChild(descriptionHeading);
+    descriptionHeading.classList.add('softHeading');
     descriptionHeading.textContent = 'Description';
 
     let descriptionBody = document.createElement('p');
     sectionDescription.appendChild(descriptionBody);
     descriptionBody.textContent = dish.description;
+
+
+    // ----------- Preparation ------------
+
+    let sectionPrepration = document.createElement('section');
+    sectionPrepration.classList.add('preparation');
+    dishElements.push(sectionPrepration);
+
+    let preprationHeading = document.createElement('h4');
+    sectionPrepration.appendChild(preprationHeading);
+    preprationHeading.classList.add('softHeading');
+    preprationHeading.textContent = 'Prepration';
+
+    let preprationBody = document.createElement('p');
+    sectionPrepration.appendChild(preprationBody);
+    preprationBody.textContent = dish.description;
+
 
     // ----------- Ingredients ------------
 
@@ -121,7 +150,7 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     sectionIngredients.id = 'ingredients-table';
     dishElements.push(sectionIngredients);
 
-    let ingredientHeading = document.createElement('h5');
+    let ingredientHeading = document.createElement('h4');
     sectionIngredients.appendChild(ingredientHeading);
     ingredientHeading.textContent = 'Ingredients for ' + nGuests + ' People';
 
@@ -151,7 +180,7 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
 
         let bodyQuantity = document.createElement('td');
         rowBody.appendChild(bodyQuantity);
-        bodyQuantity.textContent = nGuests * ingredient.quantity + ' ' + ingredient.unit;
+        bodyQuantity.textContent = nGuests * Math.round(ingredient.quantity*100)/100 + ' ' + ingredient.unit;
         let bodyIngredients = document.createElement('td');
         rowBody.appendChild(bodyIngredients);
         bodyIngredients.classList.add('capitaliseLabel');
@@ -193,19 +222,6 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     let addMenuButtonObservable = Rx.Observable.fromEvent(addMenuButton, 'click');
     addMenuButton.textContent = 'Add to Menu';
 
-    // ----------- Preparation ------------
-
-    let sectionPrepration = document.createElement('section');
-    sectionPrepration.classList.add('preparation');
-    dishElements.push(sectionPrepration);
-
-    let preprationHeading = document.createElement('h3');
-    sectionPrepration.appendChild(preprationHeading);
-    preprationHeading.textContent = 'Prepration';
-
-    let preprationBody = document.createElement('p');
-    sectionPrepration.appendChild(preprationBody);
-    preprationBody.textContent = dish.description;
 
     return {
         elements: dishElements,

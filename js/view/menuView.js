@@ -57,13 +57,19 @@ export class MenuView extends View {
             this.containerElement.appendChild(element)
         });
         rendering.observables.nGuestsInput.subscribe(this._nGuestsSubject);
-        this._nGuestsSubject.sample(rendering.observables.minusClick)
-            .map(nGuests => nGuests - 1)
-            .subscribe(this._nGuestsSubject);
 
+
+        if (nGuests > 1)
+        {
+            this._nGuestsSubject.sample(rendering.observables.minusClick)
+                .map(nGuests => nGuests - 1)
+                .subscribe(this._nGuestsSubject) ;
+
+        }
         this._nGuestsSubject.sample(rendering.observables.plusClick)
             .map(nGuests => nGuests + 1)
             .subscribe(this._nGuestsSubject);
+
     }
 
     clear() {
@@ -190,7 +196,8 @@ export function createMenu ({document: document,
                             totalCost: totalCost}) {
     let menuElements = [];
 
-    let menuhead = document.createElement('h2');
+    /**
+     let menuhead = document.createElement('h2');
     menuElements.push(menuhead);
     menuhead.textContent= 'My Dinner';
 
@@ -207,6 +214,47 @@ export function createMenu ({document: document,
     buttonConfirmDinner.textContent= 'Confirm Dinner';
     buttonConfirmDinner.addEventListener('click', () => {
         window.location.hash = '#dinner-overview'})
+
+  */
+
+        // above code is normal menu. Code below is collapsing menu.
+        // This should only work is mobile-width is detected
+
+    let accordianHead = document.createElement('a');
+    menuElements.push(accordianHead);
+    accordianHead.classList.value = 'btn btn-link text-left';
+    accordianHead.setAttribute('data-toggle', 'collapse');
+    accordianHead.setAttribute('data-target', '#accBody');
+    accordianHead.setAttribute('aria-expanded', 'true');
+    accordianHead.setAttribute('aria-controls', 'accBody');
+    accordianHead.addEventListener('click', () => {
+        //This eventlistener is used to determine whether menu is showing or not
+        if(accordianBody.classList.value == 'collapse show')
+        accordianBody.classList.remove('show');
+        else accordianBody.classList.add('show');
+        })
+    let menuHeading = document.createElement('h3');
+    accordianHead.appendChild(menuHeading);
+    menuHeading.textContent = 'My Dinner (click me)';
+
+    let accordianBody = document.createElement('div');
+    menuElements.push(accordianBody);
+    accordianBody.classList.value = 'collapse show';
+    accordianBody.id = 'accBody';
+
+    let guestCounterRendering = createGuestCounter(document, nGuests);
+    accordianBody.appendChild(guestCounterRendering.element);
+
+    accordianBody.appendChild(createMenuTable(document, nGuests, selectedDishes, totalCost));
+
+    let buttonConfirmDinner = document.createElement('button');
+    accordianBody.appendChild(buttonConfirmDinner);
+    buttonConfirmDinner.classList.value= 'btn btn-primary btn-lg btn-block';
+    buttonConfirmDinner.id = 'confirm-dinner';
+    buttonConfirmDinner.textContent= 'Confirm Dinner';
+    buttonConfirmDinner.addEventListener('click', () => {
+        window.location.hash = '#dinner-overview'})
+
 
     return {
         elements: menuElements,
