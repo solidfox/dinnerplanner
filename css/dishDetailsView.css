@@ -7,6 +7,11 @@
     grid-area: description;
 }
 
+#dish-details-view > .picture{
+    grid-area: picture;
+}
+
+
 #dish-details-view > .ingredients {
     padding: 1em;
     background-color: #ffe8a1;
@@ -14,8 +19,20 @@
     grid-area: ingredients;
 }
 
+.softHeading {
+    padding-top: 10px;
+}
+
 table.ingredients {
     width: 100%;
+}
+
+.imageDish {
+    max-width: 100%;
+    border-radius: 10px;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 table.ingredients > tfoot,
@@ -34,18 +51,18 @@ table.ingredients > thead {
     flex-direction: column;
     align-items: stretch;
     justify-content: space-between;
-    align-self: center;
+    align-self: top;
 }
 
 @media (min-width: 512px) {
     #dish-details-view {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: auto auto auto; /*1fr*/
         grid-template-rows: auto auto 1fr;
         grid-column-gap: 1em;
         grid-template-areas:
-                "title title"
-                "description ingredients"
-                "preparation preparation";
+                "title title title"
+                "picture description ingredients"
+                "picture preparation ingredients";
     }
 }
