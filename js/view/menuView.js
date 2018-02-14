@@ -106,7 +106,7 @@ function createGuestCounter(document, nGuests) {
 
     let nGuestsObservable =
         Rx.Observable.fromEvent(guestInput, 'input')
-            .map(event => event.srcElement.value);
+            .map(event => Number(event.srcElement.value));
 
     let counterAppend = document.createElement('div');
     guestCounter.appendChild(counterAppend);
