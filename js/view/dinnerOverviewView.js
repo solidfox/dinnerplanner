@@ -37,7 +37,7 @@ export default class DinnerOverviewView extends View {
 
         interestingChanges
             .subscribe(({nGuests: nGuests, selectedDishes: selectedDishes}) => {
-                this.dishList = selectedDishes;
+                this.setDishList(selectedDishes, nGuests);
                 this.setTotals(model.totalMenuCost, nGuests);
             })
     }
@@ -46,7 +46,7 @@ export default class DinnerOverviewView extends View {
         return '#dinner-overview';
     }
 
-    set dishList(newList) {
+    setDishList(newList, nGuests) {
         this._dishList.innerHTML = "";
         newList.forEach(dish => {
             this._dishList.appendChild(createDishThumbnail({
@@ -54,7 +54,7 @@ export default class DinnerOverviewView extends View {
                 title: dish.name,
                 dishID: dish.id,
                 imageURL: 'images/' + dish.image,
-                cost: totalCostOfDish(dish)
+                cost: totalCostOfDish(dish) * nGuests
             }))
         });
         if (this._totals) {
