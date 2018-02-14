@@ -1,14 +1,15 @@
 // import Rx from '/node_modules/rxjs/Rx.js';
 // import $ from 'jquery'
 import DinnerModel from './model/dinnerModel.js'
-import { MenuView } from './view/menuView.js'
+import MenuView from './view/menuView.js'
 import {WelcomeView} from "./view/welcomeView";
 import {SelectDishView} from "./view/selectDishView";
-import {DishDetailsView} from "./view/dishDetailsView";
-import {DinnerOverviewView} from "./view/dinnerOverviewView";
+import DishDetailsView from "./view/dishDetailsView";
+import DinnerOverviewView from "./view/dinnerOverviewView";
 import {DinnerPrintView} from "./view/dinnerPrintView";
 import MenuController from "./controller/menuController";
 import 'bootstrap';
+import DishDetailsController from "./controller/dishDetailsController";
 
 function main() {
 	//We instantiate our model
@@ -17,13 +18,7 @@ function main() {
     model.selectedDishesObservable.subscribe(function onNext(selectedDishes) {
 		console.log("Selected dishes changed.");
     });
-
-    model.addDishToMenu(1);
-    model.addDishToMenu(2);
-    model.addDishToMenu(100);
-    model.addDishToMenu(101);
-    model.addDishToMenu(200);
-    model.addDishToMenu(201);
+    
     // And create the instance of ExampleView
     // let exampleView = new ExampleView($("#exampleView"));
 
@@ -36,6 +31,7 @@ function main() {
 	let welcomeView = new WelcomeView(getNode('welcome-view'), model);
 	let selectDishView = new SelectDishView(getNode('select-dish-view'), model);
     let dishDetailsView = new DishDetailsView(getNode('dish-details-view'), model);
+    let dishDetailsViewController = new DishDetailsController(dishDetailsView, model);
     let dinnerOverviewView = new DinnerOverviewView(getNode('dinner-overview-view'), model);
     let dinnerPrintView = new DinnerPrintView(getNode('dinner-print-view'), model);
 
@@ -45,7 +41,7 @@ function main() {
 		function deactivateAllBut(viewsToActivate) {
 			allViews.forEach(view => {view.active = viewsToActivate.includes(view);})
         }
-		switch (location.hash) {
+		switch (location.hash.split('@')[0]) {
 			case selectDishView.locationHash:
 				deactivateAllBut([menuView, selectDishView]);
 				break;

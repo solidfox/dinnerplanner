@@ -1,6 +1,6 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
-import {createDishPrintView} from "./dishPrintView";
+import createDishPrintView from "../components/dishPrintView";
 
 /** MenuView Object constructor
  *
@@ -21,7 +21,7 @@ export class DinnerPrintView extends View {
     constructor(containerElement, model) {
         super(containerElement);
         this._dishList = containerElement.querySelector("#print-dish-list");
-        this.update(model);
+        model.selectedDishesObservable.subscribe(selectedDishes => this.dishList = selectedDishes);
     }
 
     get locationHash() {
@@ -31,12 +31,9 @@ export class DinnerPrintView extends View {
     set dishList(newList) {
         this._dishList.innerHTML = "";
         newList.forEach(dish => {
-            this._dishList.appendChild(createDishPrintView(document, dish));
+            let elements = createDishPrintView(document, dish);
+            elements.forEach(element => this._dishList.appendChild(element));
         });
-    }
-
-    update(model) {
-        this.dishList = model.selectedDishes;
     }
 
 }

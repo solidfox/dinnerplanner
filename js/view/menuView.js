@@ -31,7 +31,7 @@ function createDishRow(document, dishName, dishCost, nGuests) {
  * @param {jQuery object} container - references the HTML parent element that contains the view.
  * @param {Object} model - the reference to the Dinner Model
  */
-export class MenuView extends View {
+export default class MenuView extends View {
 
     constructor(containerElement, model) {
         super(containerElement);
@@ -74,27 +74,6 @@ export class MenuView extends View {
 
     get nGuestsObservable() {
         return this._nGuestsSubject;
-    }
-
-    get numberOfGuests() {
-        return this._nGuestsElement.value;
-    }
-
-    set numberOfGuests(newValue) {
-        this._nGuestsElement.value = newValue;
-    }
-
-    set menu(newMenu) {
-        this._dishesTable.innerHTML = "";
-        newMenu.forEach(dish => { this._dishesTable.appendChild(createDishRow(document, dish.name, totalCostOfDish(dish))) })
-    }
-
-    get menuTotals() {
-        return this._totalsElement.textContent;
-    }
-
-    set menuTotals(newTotals) {
-        this._totalsElement.textContent = newTotals;
     }
 
 }
@@ -168,7 +147,12 @@ function createMenuTable(document, nGuests, selectedDishes, totalCost) {
     let menuTableBody = document.createElement('tbody');
     menuTable.appendChild(menuTableBody);
     menuTableBody.id = 'menuDishes';
-    selectedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, dish.name, totalCostOfDish(dish), nGuests)));
+    let sortedDishes = ['starter', 'main dish', 'dessert']
+        .map(type => {
+            let matches = selectedDishes.filter(dish => dish.type === type);
+            return matches.length === 1 ? matches[0] : null; })
+        .filter(elem => elem !== null);
+    sortedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, dish.name, totalCostOfDish(dish), nGuests)));
 
     let menuTableFoot = document.createElement('tfoot');
     menuTable.appendChild(menuTableFoot);

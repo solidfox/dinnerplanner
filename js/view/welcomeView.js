@@ -32,47 +32,10 @@ export class WelcomeView extends View {
 
     constructor(containerElement, model) {
         super(containerElement);
-        this._nGuestsElement = containerElement.querySelector("#numberOfGuests");
-
-        this._dishesTable = containerElement.querySelector("#menuDishes");
-        this._totalsElement = containerElement.querySelector("#menuTotals");
-
-        this._plusButton = containerElement.querySelector("#plusGuest");
-        this._minusButton = containerElement.querySelector("#minusGuest");
-
     }
 
     get locationHash() {
         return "";
-    }
-
-    get numberOfGuests() {
-        return this._nGuestsElement.value;
-    }
-
-    set numberOfGuests(newValue) {
-        this._nGuestsElement.value = newValue;
-    }
-
-    set menu(newMenu) {
-        this._dishesTable.innerHTML = "";
-        newMenu.forEach(dish => { this._dishesTable.appendChild(createDishRow(document, dish.name, totalCostOfDish(dish))) })
-    }
-
-    get menuTotals() {
-        return this._totalsElement.textContent;
-    }
-
-    set menuTotals(newTotals) {
-        this._totalsElement.textContent = newTotals;
-    }
-
-    update(model) {
-        if (model) {
-            this.numberOfGuests = model.nGuests();
-            this.menu = model.getFullMenu();
-            this.menuTotals = model.getTotalMenuPrice();
-        }
     }
 
 }
