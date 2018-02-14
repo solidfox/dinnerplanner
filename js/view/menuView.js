@@ -197,15 +197,10 @@ export function createMenu ({document: document,
     let menuHeading = document.createElement('h1');
     menuHeader.appendChild(menuHeading);
     menuHeading.textContent = 'My Dinner';
-    let totalCostLabel = document.createElement('label');
-    menuHeader.appendChild(totalCostLabel);
-    totalCostLabel.textContent = totalCost;
-    totalCostLabel.classList.value = 'only-when-collapsed currency';
     let menuHamburger = document.createElement('h1');
     menuHeader.appendChild(menuHamburger);
-    menuHamburger.textContent = '≣';
-    menuHamburger.classList.value = 'only-when-collapsed';
-
+    menuHamburger.classList.add('only-while-collapsed')
+    menuHamburger.textContent = totalCost + '≣';
 
     let menuBody = document.createElement('section');
     menuElements.push(menuBody);
