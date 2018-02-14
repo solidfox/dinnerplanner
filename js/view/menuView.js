@@ -2,7 +2,6 @@ import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
 import Rx from "rxjs/Rx";
 import ResponsiveDesign from "../ResponsiveDesign";
-import jQuery from "jquery";
 
 function createDishRow(document, dishName, dishCost, nGuests) {
     let tableRow = document.createElement("tr");
@@ -192,7 +191,7 @@ export function createMenu ({document: document,
     menuElements.push(menuHeader);
     menuHeader.setAttribute('data-toggle', 'collapse');
     menuHeader.setAttribute('data-target', '.menu-body');
-    menuHeader.setAttribute('aria-expanded', 'true');
+    menuHeader.setAttribute('aria-expanded', 'false');
 
     let menuHeading = document.createElement('h1');
     menuHeader.appendChild(menuHeading);
@@ -211,17 +210,20 @@ export function createMenu ({document: document,
     let menuBody = document.createElement('section');
     menuElements.push(menuBody);
     menuBody.classList.value = 'collapse show menu-body';
-    Rx.Observable.fromEvent(document.defaultView, 'resize')
+    Rx.Observable.merge(Rx.Observable.fromEvent(document.defaultView, 'resize'),
+        Rx.Observable.fromEvent(window, 'load'))
         .map(event => event.srcElement.innerWidth)
-        .startWith(document.defaultView)
         .map(width => ResponsiveDesign.sizeClass(width))
         .distinctUntilChanged()
         .subscribe(sizeClass => {
             console.log(sizeClass);
             if (sizeClass === ResponsiveDesign.sizeClasses.compact) {
-                jQuery(menuBody).collapse('hide');
+                console.log("hidin g");
+                menuBody.classList.remove('show');
+                menuHeader.setAttribute('aria-expanded', 'false');
             } else {
-                jQuery(menuBody).collapse('show');
+                menuBody.classList.add('show');
+                menuHeader.setAttribute('aria-expanded', 'true');
             }
         });
 
