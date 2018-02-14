@@ -20,24 +20,29 @@ export class DinnerPrintView extends View {
 
     constructor(containerElement, model) {
         super(containerElement);
-        model.selectedDishesObservable.subscribe(selectedDishes => this.render({document:document, selectedDishes:selectedDishes, nGuests:model.nGuests}));
+
+        const interestingChanges = model.nGuestsObservable
+            .combineLatest(
+                model.selectedDishesObservable,
+                (nGuests, selectedDishes) => ({nGuests: nGuests, selectedDishes: selectedDishes})
+            );
+
+        interestingChanges.subscribe(({nGuests: nGuests, selectedDishes: selectedDishes}) =>
+            this.render({document: document, selectedDishes: selectedDishes, nGuests: model.nGuests}));
     }
 
-    render ({document:document, selectedDishes:selectedDishes, nGuests:nGuests})
-    {
+    render({document: document, selectedDishes: selectedDishes, nGuests: nGuests}) {
         this.clear();
 
-        let elements = createPrintView({document:document, selectedDishes:selectedDishes, nGuests:nGuests});
-        for (var i=0; i<elements.length; i++)
-        {
+        let elements = createPrintView({document: document, selectedDishes: selectedDishes, nGuests: nGuests});
+        for (var i = 0; i < elements.length; i++) {
             this.containerElement.appendChild(elements[i])
         }
 
     }
 
-    clear ()
-    {
-        this.containerElement.innerHTML="";
+    clear() {
+        this.containerElement.innerHTML = "";
     }
 
     get locationHash() {
@@ -47,16 +52,17 @@ export class DinnerPrintView extends View {
 
 }
 
-function createPrintView ({document:document, selectedDishes:selectedDishes, nGuests:nGuests})
-{
+function createPrintView({document: document, selectedDishes: selectedDishes, nGuests: nGuests}) {
     let printElement = [];
 
     let printHeader = document.createElement('header');
     printElement.push(printHeader);
     let buttonBack = document.createElement('button');
     printHeader.appendChild(buttonBack);
-    buttonBack.classList.value ='btn btn-warning selectButton';
-    buttonBack.addEventListener('click', () => {window.location.hash = '#select-dish'})
+    buttonBack.classList.value = 'btn btn-warning selectButton';
+    buttonBack.addEventListener('click', () => {
+        window.location.hash = '#select-dish'
+    })
     buttonBack.textContent = 'Go Back & Edit Dinner';
     let viewHeading = document.createElement('h1');
     printHeader.appendChild(viewHeading);
