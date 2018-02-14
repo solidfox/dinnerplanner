@@ -199,7 +199,8 @@ export function createMenu ({document: document,
     menuHeading.textContent = 'My Dinner';
     let menuHamburger = document.createElement('h1');
     menuHeader.appendChild(menuHamburger);
-    menuHamburger.textContent = '≣';
+    menuHamburger.classList.add('only-while-collapsed')
+    menuHamburger.textContent = totalCost + '≣';
 
     let menuBody = document.createElement('section');
     menuElements.push(menuBody);
