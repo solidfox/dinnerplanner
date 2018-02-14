@@ -2,6 +2,7 @@ import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
 import Rx from "rxjs/Rx";
 import ResponsiveDesign from "../ResponsiveDesign";
+import jQuery from "jquery";
 
 function createDishRow(document, dishName, dishCost, nGuests) {
     let tableRow = document.createElement("tr");
@@ -196,23 +197,30 @@ export function createMenu ({document: document,
     let menuHeading = document.createElement('h1');
     menuHeader.appendChild(menuHeading);
     menuHeading.textContent = 'My Dinner';
+    let totalCostLabel = document.createElement('label');
+    menuHeader.appendChild(totalCostLabel);
+    totalCostLabel.textContent = totalCost;
+    totalCostLabel.classList.value = 'only-when-collapsed currency';
     let menuHamburger = document.createElement('h1');
     menuHeader.appendChild(menuHamburger);
     menuHamburger.textContent = '≣';
+    menuHamburger.classList.value = 'only-when-collapsed';
+
 
     let menuBody = document.createElement('section');
     menuElements.push(menuBody);
     menuBody.classList.value = 'collapse show menu-body';
     Rx.Observable.fromEvent(document.defaultView, 'resize')
         .map(event => event.srcElement.innerWidth)
+        .startWith(document.defaultView)
         .map(width => ResponsiveDesign.sizeClass(width))
         .distinctUntilChanged()
         .subscribe(sizeClass => {
             console.log(sizeClass);
             if (sizeClass === ResponsiveDesign.sizeClasses.compact) {
-                menuBody.classList.remove('show');
+                jQuery(menuBody).collapse('hide');
             } else {
-                menuBody.classList.add('show');
+                jQuery(menuBody).collapse('show');
             }
         });
 
