@@ -96,13 +96,16 @@ article > header {
     align-self: stretch;
 }
 
+article > header > * {
+    margin: 0;
+}
+
 article > header > button {
     order: 2;
 }
 
 article > header > h2 {
     order: 1;
-    margin: 0;
 }
 
 #overview-dish-list {

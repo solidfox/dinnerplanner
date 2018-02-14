@@ -22,6 +22,6 @@
     margin: 0;
 }
 
-*[aria-expanded="true"] > .only-while-collapsed {
+*[aria-expanded="true"] > .only-when-collapsed {
     display: none;
 }
