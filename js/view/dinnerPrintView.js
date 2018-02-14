@@ -20,25 +20,34 @@ export class DinnerPrintView extends View {
 
     constructor(containerElement, model) {
         super(containerElement);
-        this._dishList = containerElement.querySelector("#print-dish-list");
-        model.selectedDishesObservable.subscribe(selectedDishes => this.dishList = selectedDishes);
+        model.selectedDishesObservable.subscribe(selectedDishes => this.render({document:document, selectedDishes:selectedDishes, nGuests:model.nGuests}));
+    }
+
+    render ({document:document, selectedDishes:selectedDishes, nGuests:nGuests})
+    {
+        this.clear();
+
+        let elements = createPrintView({document:document, selectedDishes:selectedDishes, nGuests:nGuests});
+        for (var i=0; i<elements.length; i++)
+        {
+            this.containerElement.appendChild(elements[i])
+        }
+
+    }
+
+    clear ()
+    {
+        this.containerElement.innerHTML="";
     }
 
     get locationHash() {
         return "#print-dinner";
     }
 
-    set dishList(newList) {
-        this._dishList.innerHTML = "";
-        newList.forEach(dish => {
-            let elements = createDishPrintView(document, dish);
-            elements.forEach(element => this._dishList.appendChild(element));
-        });
-    }
 
 }
- //dummy function
-function createPrintView ({document:document, nGuests:nGuests})
+
+function createPrintView ({document:document, selectedDishes:selectedDishes, nGuests:nGuests})
 {
     let printElement = [];
 
@@ -55,7 +64,11 @@ function createPrintView ({document:document, nGuests:nGuests})
 
     let printMain = document.createElement('main');
     printElement.push(printMain);
-    printMain.id = 'print=dish-list';
+    printMain.id = 'print-dish-list';
+    selectedDishes.forEach(dish => {
+        let elements = createDishPrintView(document, dish);
+        elements.forEach(element => printMain.appendChild(element));
+    });
 
     return printElement;
 }
