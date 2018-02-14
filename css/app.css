@@ -118,3 +118,7 @@ article > header > h2 {
 .select-dish-search-form > input {
     width: auto;
 }
+
+select {
+    -webkit-appearance: none;
+}
