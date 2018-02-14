@@ -29,30 +29,9 @@ body > header > *:last-child {
     margin-bottom: 0;
 }
 
-@media all and (min-width: 768px) {
-    #print-dish-list > * {
-        display: flex;
-        margin: 20px -20px;
-        align-items: flex-start;
-    }
-    #print-dish-list > * > * {
-        margin: 0 1em;
-    }
-    #print-dish-list > * > *:nth-child(1) {
-        width: 140px;
-    }
-    #print-dish-list > * > *:nth-child(2) {
-        width: 30%;
-    }
-    #print-dish-list > * > *:nth-child(3) {
-        flex-grow: 1;
-    }
-}
-
 body > article h1 {
     font-size: 2em;
 }
-
 
 .capitaliseLabel {
     text-transform: capitalize;
@@ -67,31 +46,11 @@ body > article h1 {
     width: 100%;
 }
 
-.dish-thumbnail-list {
-    list-style-type: none;
-
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-end;
-    justify-content: center;
-
-    margin: 0 -10px;
-    padding: 0;
+img.dish {
+    border-radius: 10px;
 }
 
-.dish-thumbnail-list > li {
-    text-align: center;
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    /*justify-items: center;*/
-    align-items: center;
-}
-
-
-.dish-thumbnail-list > li.vertical-divider {
+li.vertical-divider {
     width: 1px;
     background: #e5e5e5;
     align-self: stretch;

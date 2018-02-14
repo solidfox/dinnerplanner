@@ -2,20 +2,18 @@
  * Created by Daniel Schlaug on 2018-01-29.
  */
 
-export function createDishPrintView(document, dish) {
-    let wrapper = document.createElement("article");
+export default function createDishPrintView(document, dish) {
+    let elements = [];
 
     let image = document.createElement("img");
+    image.classList.add("dish");
     image.src = "/images/" + dish.image;
-    wrapper.appendChild(image);
+    elements.push(image);
 
-    let firstColumn = document.createElement("div");
-    wrapper.appendChild(firstColumn);
-
-    let title = document.createElement("h3");
+    let title = document.createElement("h2");
     title.textContent = dish.name;
     title.classList.add('capitaliseLabel');
-    firstColumn.appendChild(title);
+    elements.push(title);
 
     let ingredients = document.createElement("table");
     dish.ingredients.forEach((ingredient => {
@@ -30,10 +28,10 @@ export function createDishPrintView(document, dish) {
         ingredientRow.appendChild(name);
 
     }))
-    firstColumn.appendChild(ingredients);
+    elements.push(ingredients);
 
-    let secondColumn = document.createElement("div");
-    wrapper.appendChild(secondColumn);
+    let secondColumn = document.createElement("section");
+    elements.push(secondColumn);
 
     let preparationTitle = document.createElement("h4");
     preparationTitle.textContent = "Preparation";
@@ -43,5 +41,8 @@ export function createDishPrintView(document, dish) {
     preparationText.textContent = dish.description;
     secondColumn.appendChild(preparationText);
 
-    return wrapper
+    let spacer = document.createElement("div");
+    elements.push(spacer);
+
+    return elements;
 }

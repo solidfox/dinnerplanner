@@ -3,7 +3,7 @@ import {View} from "./view";
 import Rx from "rxjs/Rx";
 
 function extractId(searchString) {
-    return Number(searchString.split("=")[1]);
+    return Number(searchString.split("@")[1]);
 }
 
 /** MenuView Object constructor
@@ -20,21 +20,20 @@ function extractId(searchString) {
  * @param {jQuery object} container - references the HTML parent element that contains the view.
  * @param {Object} model - the reference to the Dinner Model
  */
-export class DishDetailsView extends View {
+export default class DishDetailsView extends View {
 
     constructor(containerElement, model) {
         super(containerElement);
 
+        this._addToMenuSubject = new Rx.Subject();
+
         let dishIDObservable = Rx.Observable.fromEvent(window, 'hashchange')
-            .map(x => extractId(window.location.search));
-
-        let dishIdSubject = new Rx.BehaviorSubject(extractId(window.location.search));
-
-        dishIDObservable.subscribe(dishIdSubject);
+            .startWith(null)
+            .map(_ => extractId(window.location.hash));
 
         let interestingChanges =
             model.nGuestsObservable.combineLatest(
-                dishIdSubject, (nGuests, dishID) => {
+                dishIDObservable, (nGuests, dishID) => {
                     return {
                         nGuests: nGuests, selectedDish: model.getDish(dishID)
                     }
@@ -42,6 +41,10 @@ export class DishDetailsView extends View {
             );
 
         interestingChanges.subscribe(changes => this.render(changes.selectedDish, changes.nGuests));
+    }
+
+    get addToMenuObservable() {
+        return this._addToMenuSubject;
     }
 
     render(dish, nGuests) {
@@ -54,10 +57,8 @@ export class DishDetailsView extends View {
                 this.containerElement.appendChild(element)
             });
 
-           //dishDetail.observable.subscribe(model.addDishToMenu(dish.id));
+           dishDetail.observable.addToMenuClick.subscribe(this._addToMenuSubject);
         }
-
-
 
     }
 
@@ -213,18 +214,21 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     footCost.classList.add("currency");
     footCost.textContent = totalCostOfDish(dish) * nGuests;
 
-    let addMenuButton = document.createElement('button');
-    sectionIngredients.appendChild(addMenuButton);
-    addMenuButton.classList.value = 'btn btn-warning selectButton';
-    addMenuButton.addEventListener('click', () => {
+    let addToMenuButton = document.createElement('button');
+    sectionIngredients.appendChild(addToMenuButton);
+    addToMenuButton.classList.value = 'btn btn-warning selectButton';
+    addToMenuButton.addEventListener('click', () => {
         window.location.hash = '#select-dish'
     })
-    let addMenuButtonObservable = Rx.Observable.fromEvent(addMenuButton, 'click');
-    addMenuButton.textContent = 'Add to Menu';
+    addToMenuButton.textContent = 'Add to Menu';
+
+    let addToMenuButtonObservable = Rx.Observable
+        .fromEvent(addToMenuButton, 'click')
+        .map(event => dish);
 
 
     return {
         elements: dishElements,
-        observable: {addMenuClick: addMenuButtonObservable}
+        observable: {addToMenuClick: addToMenuButtonObservable}
     };
 }

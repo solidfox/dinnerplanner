@@ -1,0 +1,23 @@
+
+
+@media all and (min-width: 768px) {
+    #print-dish-list {
+        display: grid;
+        grid-template-columns: 140px auto auto;
+        grid-auto-rows: auto auto 1em;
+        grid-gap: .5em;
+    }
+
+    #print-dish-list > img {
+        width: 100%;
+        grid-row-end: span 2;
+        grid-column-start: 1;
+        align-self: center;
+    }
+
+    #print-dish-list > h2 {
+        grid-column: span 2;
+        margin: 0;
+        padding: 0;
+    }
+}

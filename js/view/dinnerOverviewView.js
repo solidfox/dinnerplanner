@@ -17,7 +17,7 @@ import {createThumbnailHeading} from "../components/thumbnailHeading";
  * @param {jQuery object} container - references the HTML parent element that contains the view.
  * @param {Object} model - the reference to the Dinner Model
  */
-export class DinnerOverviewView extends View {
+export default class DinnerOverviewView extends View {
 
     constructor(containerElement, model) {
         super(containerElement);
@@ -28,7 +28,10 @@ export class DinnerOverviewView extends View {
         this._divider.classList.add("vertical-divider");
         this._totals = undefined;
 
-        this.update(model);
+        model.selectedDishesObservable.subscribe(selectedDishes => {
+            this.dishList = selectedDishes;
+            this.totals = model.totalMenuCost;
+        });
     }
 
     get locationHash() {
@@ -41,6 +44,7 @@ export class DinnerOverviewView extends View {
             this._dishList.appendChild(createDishThumbnail({
                 document: document,
                 title:dish.name,
+                dishID:dish.id,
                 imageURL:'images/' + dish.image,
                 cost:totalCostOfDish(dish)}))
         });
@@ -62,11 +66,6 @@ export class DinnerOverviewView extends View {
             subCaption: newTotals});
         this._dishList.appendChild(this._divider);
         this._dishList.appendChild(this._totals);
-    }
-
-    update(model) {
-        this.dishList = model.selectedDishes;
-        this.totals = model.totalMenuCost;
     }
 
 }
