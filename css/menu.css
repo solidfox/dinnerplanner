@@ -21,3 +21,7 @@
 .menu-view header {
     margin: 0;
 }
+
+*[aria-expanded="true"] > .only-while-collapsed {
+    display: none;
+}

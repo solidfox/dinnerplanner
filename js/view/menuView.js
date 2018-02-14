@@ -192,7 +192,6 @@ export function createMenu ({document: document,
     menuHeader.setAttribute('data-toggle', 'collapse');
     menuHeader.setAttribute('data-target', '.menu-body');
     menuHeader.setAttribute('aria-expanded', 'true');
-    menuHeader.setAttribute('aria-controls', 'menu-body');
 
     let menuHeading = document.createElement('h1');
     menuHeader.appendChild(menuHeading);
