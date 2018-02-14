@@ -18,7 +18,7 @@ function main() {
     model.selectedDishesObservable.subscribe(function onNext(selectedDishes) {
 		console.log("Selected dishes changed.");
     });
-    
+
     // And create the instance of ExampleView
     // let exampleView = new ExampleView($("#exampleView"));
 
