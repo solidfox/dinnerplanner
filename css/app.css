@@ -11,8 +11,8 @@ body > * {
 }
 
 body > header {
-    background: black;
-    color:white;
+    background: linear-gradient(45deg, rgb(178, 35, 125), rgb(178, 80, 34));
+    color:rgba(255,255,255,0.9);
 }
 
 body > footer {

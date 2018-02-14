@@ -28,10 +28,18 @@ export default class DinnerOverviewView extends View {
         this._divider.classList.add("vertical-divider");
         this._totals = undefined;
 
-        model.selectedDishesObservable.subscribe(selectedDishes => {
-            this.dishList = selectedDishes;
-            this.totals = model.totalMenuCost;
-        });
+        let interestingChanges = model
+            .nGuestsObservable
+            .combineLatest(
+                model.selectedDishesObservable,
+                (nGuests, selectedDishes) => ({nGuests: nGuests, selectedDishes: selectedDishes})
+            )
+
+        interestingChanges
+            .subscribe(({nGuests: nGuests, selectedDishes: selectedDishes}) => {
+                this.dishList = selectedDishes;
+                this.setTotals(model.totalMenuCost, nGuests);
+            })
     }
 
     get locationHash() {
@@ -43,10 +51,11 @@ export default class DinnerOverviewView extends View {
         newList.forEach(dish => {
             this._dishList.appendChild(createDishThumbnail({
                 document: document,
-                title:dish.name,
-                dishID:dish.id,
-                imageURL:'images/' + dish.image,
-                cost:totalCostOfDish(dish)}))
+                title: dish.name,
+                dishID: dish.id,
+                imageURL: 'images/' + dish.image,
+                cost: totalCostOfDish(dish)
+            }))
         });
         if (this._totals) {
             this._dishList.appendChild(this._divider);
@@ -54,32 +63,34 @@ export default class DinnerOverviewView extends View {
         }
     }
 
-    set totals(newTotals) {
+    setTotals(totalCost, nGuests) {
         if (this._totals) {
             this._divider.remove();
             this._totals.remove();
         }
         this._totals = createThumbnailHeading({
             document: document,
-            header:3 + " People",
+            header: nGuests + " People",
             caption: "Total cost",
-            subCaption: newTotals});
+            subCaption: totalCost
+        });
         this._dishList.appendChild(this._divider);
         this._dishList.appendChild(this._totals);
     }
 
 }
- 
-export function createOverview()
-{
+
+export function createOverview() {
     let overviewElement = [];
 
     let overviewHeader = document.createElement('header');
     overviewElement.push(overviewHeader);
     let buttonBack = document.createElement('button');
     overviewHeader.appendChild(buttonBack);
-    buttonBack.classList.value ='btn btn-warning selectButton';
-    buttonBack.addEventListener('click', () => {window.location.hash = '#select-dish'})
+    buttonBack.classList.value = 'btn btn-warning selectButton';
+    buttonBack.addEventListener('click', () => {
+        window.location.hash = '#select-dish'
+    })
     buttonBack.textContent = 'Go Back & Edit Dinner';
     let overviewHeading = document.createElement('h1');
     overviewHeader.appendChild(overviewHeading);
@@ -95,7 +106,9 @@ export function createOverview()
     printButton.classList.value = 'btn btn-warning selectButton';
     printButton.id = 'print_recipe';
     printButton.textContent = 'Print Full Recipe';
-    printButton.addEventListener('click', () => {window.location.hash = '#print-dinner'})
+    printButton.addEventListener('click', () => {
+        window.location.hash = '#print-dinner'
+    })
 
     return overviewElement;
 }
