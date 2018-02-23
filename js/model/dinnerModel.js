@@ -51,7 +51,7 @@ export default class DinnerModel {
         this._selectedDishes = this._selectedDishes.filter(dish => dish.id !== id);
         this._selectedDishesSubject.next(this.selectedDishes);
     }
-
+/*
     getDish(id) {
         for (let key in this._dishes) {
             let dish = this._dishes[key];
@@ -59,8 +59,36 @@ export default class DinnerModel {
                 return dish;
             }
         }
-    }
+    }*/
+    getDish(id) {
+        return fetch(this._apiEndpoint(
+            "dishDetails",
+            {
+                dishID: id
+            }),
+            {
+                headers: new Headers({
+                    "X-Mashape-Key": Keys.spoonacular
+                })
+            })
+            .then((response) => response.json())
+            .then((json) => ({
+                id: json.id,
+                name: json.title,
+                type: json.dishTypes,
+                image: json.image,
+                price: json.pricePerServing /100,
+                description: json.instructions,
+                ingredients: json.extendedIngredients.map( (ingredient) => ({
+                    name: ingredient.name,
+                    quantity: ingredient.amount,
+                    unit: ingredient.unit,
+                    price: "0.00"
+                }))
 
+                }))
+
+    }
     //function that returns all dishes of specific type (i.e. "starter", "main dish" or "dessert")
     //you can use the filter argument to filter out the dish by name or ingredient (use for search)
     //if you don't pass any filter all the dishes will be returned

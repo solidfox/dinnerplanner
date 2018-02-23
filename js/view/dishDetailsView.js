@@ -35,12 +35,14 @@ export default class DishDetailsView extends View {
             model.nGuestsObservable.combineLatest(
                 dishIDObservable, (nGuests, dishID) => {
                     return {
-                        nGuests: nGuests, selectedDish: model.getDish(dishID)
+                        nGuests: nGuests, selectedDishPromise: model.getDish(dishID)
                     }
                 }
             );
 
-        interestingChanges.subscribe(changes => this.render(changes.selectedDish, changes.nGuests));
+        interestingChanges.subscribe(changes =>
+            changes.selectedDishPromise
+                .then((dish) => this.render(dish, changes.nGuests)));
     }
 
     get addToMenuObservable() {
@@ -108,11 +110,11 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
 */
     let dishImage = document.createElement('img');
     dishImage.classList.value = 'imageDish';
-    dishImage.src = '/images/' + dish.image;
+    dishImage.src = dish.image;
     sectionImage.appendChild(dishImage);
 
 
-    // ----------- Description ------------
+  /*  // ----------- Description ------------
 
     let sectionDescription = document.createElement('section');
     sectionDescription.classList.add('description');
@@ -126,7 +128,7 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     let descriptionBody = document.createElement('p');
     sectionDescription.appendChild(descriptionBody);
     descriptionBody.textContent = dish.description;
-
+*/
 
     // ----------- Preparation ------------
 
@@ -169,9 +171,9 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     let headIngredients = document.createElement('th');
     rowHead.appendChild(headIngredients);
     headIngredients.textContent = 'Ingredients';
-    let headCost = document.createElement('th');
-    rowHead.appendChild(headCost);
-    headCost.textContent = 'Cost';
+    //let headCost = document.createElement('th');
+    //rowHead.appendChild(headCost);
+    //headCost.textContent = 'Cost';
 
     let tBody = document.createElement('tBody');
     ingredientsTable.appendChild(tBody);
@@ -186,10 +188,10 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
         rowBody.appendChild(bodyIngredients);
         bodyIngredients.classList.add('capitaliseLabel');
         bodyIngredients.textContent = ingredient.name;
-        let bodyCost = document.createElement('td');
-        rowBody.appendChild(bodyCost);
-        bodyCost.classList.add("currency");
-        bodyCost.textContent = nGuests * ingredient.price;
+        //let bodyCost = document.createElement('td');
+        //rowBody.appendChild(bodyCost);
+        //bodyCost.classList.add("currency");
+        //bodyCost.textContent = nGuests * ingredient.price;
 
         return rowBody;
     }
@@ -198,7 +200,7 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
         tBody.appendChild(createIngredientsRow(ingredient));
     });
 
-
+/*
     let tfoot = document.createElement('tfoot');
     ingredientsTable.appendChild(tfoot);
 
@@ -206,13 +208,19 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     tfoot.appendChild(rowFoot);
     let footQuantity = document.createElement('th');
     rowFoot.appendChild(footQuantity);
-    footQuantity.textContent = 'Total: ';
+    footQuantity.textContent = 'Total Cost: ';
     let footTotal = document.createElement('th');
+    footTotal.textContent = dish.price * nGuests;
+    footTotal.classList.add('currency')
     rowFoot.appendChild(footTotal);
     let footCost = document.createElement('th');
-    rowFoot.appendChild(footCost);
-    footCost.classList.add("currency");
-    footCost.textContent = totalCostOfDish(dish) * nGuests;
+    //rowFoot.appendChild(footCost);
+    //footCost.classList.add("currency");
+    //footCost.textContent = totalCostOfDish(dish) * nGuests;
+*/
+    let footTotal = document.createElement('th');
+    sectionIngredients.appendChild(footTotal);
+    footTotal.textContent = 'Total Cost: $' + dish.price;
 
     let addToMenuButton = document.createElement('button');
     sectionIngredients.appendChild(addToMenuButton);
@@ -220,7 +228,7 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     addToMenuButton.addEventListener('click', () => {
         window.location.hash = '#select-dish'
     })
-    addToMenuButton.textContent = 'Add to Menu';
+    addToMenuButton.textContent = 'Cost: $' + dish.price +' - Add to Menu';
 
     let addToMenuButtonObservable = Rx.Observable
         .fromEvent(addToMenuButton, 'click')

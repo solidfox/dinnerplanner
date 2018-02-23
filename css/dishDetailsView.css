@@ -57,12 +57,12 @@ table.ingredients > thead {
 @media (min-width: 512px) {
     #dish-details-view {
         display: grid;
-        grid-template-columns: auto auto auto; /*1fr*/
+        grid-template-columns: 1fr 1fr 1fr; /*1fr*/
         grid-template-rows: auto auto 1fr;
         grid-column-gap: 1em;
         grid-template-areas:
                 "title title title"
-                "picture description ingredients"
-                "picture preparation ingredients";
+                "picture picture ingredients"
+                "preparation preparation ingredients";
     }
 }
