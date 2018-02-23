@@ -43,8 +43,18 @@ export class SelectDishView extends View {
     }
 
     render(localState, model) {
-        let dishes = model.filteredDishes(localState.type, localState.search);
-        this.dishList = dishes;
+        let dishesPromise = model.filteredDishes(localState.type, localState.search);
+        dishesPromise
+            .then((response) => response.json())
+            .then((json) => {
+                const baseUri = json.baseUri;
+                const dishes = json.results.map((result) => ({
+                    id: result.id,
+                    name: result.title,
+                    image: baseUri + result.image
+                }));
+                this.dishList = dishes;
+            });
     }
 
     get locationHash() {
@@ -62,7 +72,7 @@ export class SelectDishView extends View {
     set dishList(newList) {
         this._dishList.innerHTML = "";
         newList.forEach(dish => {
-            this._dishList.appendChild(createDishThumbnail({document: document, title:dish.name, dishID:dish.id, imageURL:'images/' + dish.image}))
+            this._dishList.appendChild(createDishThumbnail({document: document, title:dish.name, dishID:dish.id, imageURL:dish.image}))
         });
     }
 
