@@ -45,16 +45,7 @@ export class SelectDishView extends View {
     render(localState, model) {
         let dishesPromise = model.filteredDishes(localState.type, localState.search);
         dishesPromise
-            .then((response) => response.json())
-            .then((json) => {
-                const baseUri = json.baseUri;
-                const dishes = json.results.map((result) => ({
-                    id: result.id,
-                    name: result.title,
-                    image: baseUri + result.image
-                }));
-                this.dishList = dishes;
-            });
+            .then((dishes) => this.dishList = dishes);
     }
 
     get locationHash() {

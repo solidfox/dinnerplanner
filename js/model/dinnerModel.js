@@ -78,15 +78,12 @@ export default class DinnerModel {
                 })
             })
             .then((response) => response.json())
-            .then((json) => {
-                const baseUri = json.baseUri;
-                const dishes = json.results.map((result) => ({
+            .then((json) => json.results.map((result) => ({
                     id: result.id,
                     name: result.title,
-                    image: baseUri + result.image
-                }));
-                this.dishList = dishes;
-            });
+                    image: json.baseUri + result.image
+                }))
+            );
     }
 
     _apiEndpoint(dataType, params) {
@@ -95,7 +92,7 @@ export default class DinnerModel {
             case "dishDetails":
                 endpoint.pathname = "/recipes/" + params.dishID + "/information";
                 endpoint.searchParams.append("includeNutrition", 'false');
-                return endpoint.toString();
+                break;
             case "search":
                 endpoint.pathname = "/recipes/search";
                 if (params.type) {
@@ -104,7 +101,9 @@ export default class DinnerModel {
                 if (params.filter) {
                     endpoint.searchParams.append("query", params.filter)
                 }
+                break;
         }
+        return endpoint.toString();
     }
 
     constructor() {
@@ -113,8 +112,6 @@ export default class DinnerModel {
 
         this._nGuests = 2;
         this._numberOfGuestsSubject = new Rx.BehaviorSubject(this.nGuests);
-
-        this._apiEndpoint = new URL("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search");
 
         this._dishTypes = ["main course", "side dish", "dessert", "appetizer", "salad", "bread", "breakfast", "soup", "beverage", "sauce", "drink"];
 
