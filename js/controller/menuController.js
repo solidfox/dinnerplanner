@@ -5,5 +5,6 @@
 export default class MenuController {
     constructor(menuView, model) {
         menuView.nGuestsObservable.subscribe((newNGuests) => model.nGuests = newNGuests);
+        menuView.removeDishObservable.subscribe((dishID) => model.removeDishFromMenu(dishID));
     }
 }

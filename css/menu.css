@@ -25,3 +25,7 @@
 *[aria-expanded="true"] > .only-when-collapsed {
     display: none;
 }
+
+.crossEmoji {
+    font-size: small;
+}
