@@ -26,7 +26,8 @@ export class SelectDishView extends View {
         this._typeSelect = containerElement.querySelector(".select-dish-search-form select");
 
         this._searchTextObservable = Rx.Observable.fromEvent(this._searchForm, 'input')
-            .map(event => event.srcElement.value);
+            .map(event => event.srcElement.value)
+            .throttleTime(500);
         this._typeObservable = Rx.Observable.fromEvent(this._typeSelect, 'change')
             .map(event => event.srcElement.value);
 

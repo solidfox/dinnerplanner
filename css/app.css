@@ -84,8 +84,8 @@ table .currency {
     white-space: nowrap;
 }
 
-.currency::after {
-    content: " kr";
+.currency::before {
+    content: "$";
 }
 
 article > header {
