@@ -21,10 +21,6 @@ export default class DinnerModel {
         this._numberOfGuestsSubject.next(this.nGuests);
     }
 
-    get dishes() {
-        return Object.create(this._dishes);
-    }
-
     get selectedDishesObservable() {
         return this._selectedDishesSubject;
     }
@@ -68,10 +64,47 @@ export default class DinnerModel {
     //function that returns all dishes of specific type (i.e. "starter", "main dish" or "dessert")
     //you can use the filter argument to filter out the dish by name or ingredient (use for search)
     //if you don't pass any filter all the dishes will be returned
-    filteredDishes(type = 'all', filter) {
-        return fetch(this._apiEndpoint.toString(), {
-            headers: new Headers({
-                "X-Mashape-Key": Keys.spoonacular})});
+    filteredDishes(type = undefined, filter) {
+        type = type === 'all' ? undefined : type;
+        return fetch(this._apiEndpoint(
+            "search",
+            {
+                type: type,
+                filter: filter
+            }),
+            {
+                headers: new Headers({
+                    "X-Mashape-Key": Keys.spoonacular
+                })
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                const baseUri = json.baseUri;
+                const dishes = json.results.map((result) => ({
+                    id: result.id,
+                    name: result.title,
+                    image: baseUri + result.image
+                }));
+                this.dishList = dishes;
+            });
+    }
+
+    _apiEndpoint(dataType, params) {
+        let endpoint = new URL("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/");
+        switch (dataType) {
+            case "dishDetails":
+                endpoint.pathname = "/recipes/" + params.dishID + "/information";
+                endpoint.searchParams.append("includeNutrition", 'false');
+                return endpoint.toString();
+            case "search":
+                endpoint.pathname = "/recipes/search";
+                if (params.type) {
+                    endpoint.searchParams.append("type", params.type)
+                }
+                if (params.filter) {
+                    endpoint.searchParams.append("query", params.filter)
+                }
+        }
     }
 
     constructor() {
