@@ -79,6 +79,13 @@ export default class DinnerModel {
                 image: json.image,
                 price: json.pricePerServing /100,
                 description: json.instructions,
+                sourceURL: json.spoonacularSourceUrl,
+                score: json.healthScore,
+                cookTime: json.cookingMinutes,
+                prepTime: json.preparationMinutes,
+                readyTime: json.readyInMinutes,
+                credit: json.creditText,
+                veg: json.vegetarian,
                 ingredients: json.extendedIngredients.map( (ingredient) => ({
                     name: ingredient.name,
                     quantity: ingredient.amount,

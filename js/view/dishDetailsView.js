@@ -78,17 +78,13 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
 
     let dishElements = [];
 
-    // ----------- Header ------------
+    // -----------  Button ------------
 
     let headerElement = document.createElement('header');
     dishElements.push(headerElement);
 
-    let h1Element = document.createElement('h1');
-    headerElement.appendChild(h1Element);
-    h1Element.classList.add('capitaliseLabel');
-    h1Element.textContent = dish.name;
-
     let buttonElement = document.createElement('button');
+    buttonElement.classList.add('backToSearch')
     buttonElement.classList.value = 'btn btn-warning';
     buttonElement.addEventListener('click', () => {
         window.location.hash = '#select-dish'
@@ -96,21 +92,27 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     buttonElement.textContent = '< Back to Search';
     headerElement.appendChild(buttonElement);
 
+    // ----------- Title ------------
+
+    let sectionTitle = document.createElement('section');
+    dishElements.push(sectionTitle);
+    sectionTitle.classList.add('dishName')
+
+    let h1Element = document.createElement('h1');
+    sectionTitle.appendChild(h1Element);
+    h1Element.classList.add('capitaliseLabel');
+    h1Element.textContent = dish.name;
+
     // ----------- Image -----------
 
     let sectionImage = document.createElement('section');
     dishElements.push(sectionImage);
     sectionImage.classList.add('picture')
 
-
-  /*  let hrHeader = document.createElement('hr');
-    sectionDescription.appendChild(hrHeader);
-    hrHeader.style = "margin:10px";
-    hrHeader.width = '100%';
-*/
     let dishImage = document.createElement('img');
     dishImage.classList.value = 'imageDish';
     dishImage.src = dish.image;
+    dishImage.title = dish.name + ' - ' + dish.credit;
     sectionImage.appendChild(dishImage);
 
 
@@ -132,18 +134,31 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
 
     // ----------- Preparation ------------
 
-    let sectionPrepration = document.createElement('section');
-    sectionPrepration.classList.add('preparation');
-    dishElements.push(sectionPrepration);
+    let sectionPreparation = document.createElement('section');
+    sectionPreparation.classList.add('preparation');
+    dishElements.push(sectionPreparation);
 
-    let preprationHeading = document.createElement('h4');
-    sectionPrepration.appendChild(preprationHeading);
-    preprationHeading.classList.add('softHeading');
-    preprationHeading.textContent = 'Prepration';
+    let preparationHeading = document.createElement('h4');
+    sectionPreparation.appendChild(preparationHeading);
+    preparationHeading.classList.add('softHeading');
+    preparationHeading.textContent = 'Description';
 
-    let preprationBody = document.createElement('p');
-    sectionPrepration.appendChild(preprationBody);
-    preprationBody.textContent = dish.description;
+    let preparationSubHeading = document.createElement('h6');
+    sectionPreparation.appendChild(preparationSubHeading);
+    preparationSubHeading.classList.add('capitaliseLabel')
+    preparationSubHeading.textContent =
+        'Ready in ' + dish.readyTime + ' mins • Health Score: '
+        + dish.score + '/100 • ' + dish.type;
+
+    let preparationBody = document.createElement('p');
+    sectionPreparation.appendChild(preparationBody);
+    preparationBody.textContent = dish.description + ' ';
+
+    let sourceLink = document.createElement('a');
+    preparationBody.appendChild(sourceLink);
+    sourceLink.href = dish.sourceURL;
+    sourceLink.target = 'blank';
+    sourceLink.textContent = 'View Source.'
 
 
     // ----------- Ingredients ------------
@@ -217,18 +232,21 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     //rowFoot.appendChild(footCost);
     //footCost.classList.add("currency");
     //footCost.textContent = totalCostOfDish(dish) * nGuests;
+
+    //let footTotal = document.createElement('th');
+    //sectionIngredients.appendChild(footTotal);
+    //footTotal.textContent = 'Total Cost: $' + dish.price;
 */
-    let footTotal = document.createElement('th');
-    sectionIngredients.appendChild(footTotal);
-    footTotal.textContent = 'Total Cost: $' + dish.price;
+
 
     let addToMenuButton = document.createElement('button');
     sectionIngredients.appendChild(addToMenuButton);
-    addToMenuButton.classList.value = 'btn btn-warning selectButton';
+    addToMenuButton.classList.value = 'btn btn-warning btn-lg btn-block selectButton';
     addToMenuButton.addEventListener('click', () => {
         window.location.hash = '#select-dish'
-    })
-    addToMenuButton.textContent = 'Cost: $' + dish.price +' - Add to Menu';
+    });
+    let totalCost = Math.round(nGuests*dish.price*100)/100;
+    addToMenuButton.textContent =  'Add to Menu - $' + totalCost + ' for ' + nGuests + ' people';
 
     let addToMenuButtonObservable = Rx.Observable
         .fromEvent(addToMenuButton, 'click')

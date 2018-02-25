@@ -46,9 +46,6 @@ body > article h1 {
     width: 100%;
 }
 
-img.dish {
-    border-radius: 10px;
-}
 
 li.vertical-divider {
     width: 1px;
@@ -56,9 +53,6 @@ li.vertical-divider {
     align-self: stretch;
 }
 
-.dish > div {
-    width: 100%;
-}
 
 tfoot {
     border-top: 1px solid rgb(183, 196, 198);
@@ -88,25 +82,6 @@ table .currency {
     content: "$";
 }
 
-article > header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1em;
-    align-self: stretch;
-}
-
-article > header > * {
-    margin: 0;
-}
-
-article > header > button {
-    order: 2;
-}
-
-article > header > h2 {
-    order: 1;
-}
 
 #overview-dish-list {
     justify-content: center;
