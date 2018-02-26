@@ -27,22 +27,25 @@ export default class DishDetailsView extends View {
 
         this._addToMenuSubject = new Rx.Subject();
 
-        let dishIDObservable = Rx.Observable.fromEvent(window, 'hashchange')
+        let dishObservable = Rx.Observable.fromEvent(window, 'hashchange')
             .startWith(null)
-            .map(_ => extractId(window.location.hash));
+            .map(_ => extractId(window.location.hash))
+            .filter(maybeId => maybeId > 0)
+            .do(console.log)
+            .flatMap(id => Rx.Observable.fromPromise(model.getDish(id)));
 
         let interestingChanges =
             model.nGuestsObservable.combineLatest(
-                dishIDObservable, (nGuests, dishID) => {
+                dishObservable, (nGuests, dish) => {
                     return {
-                        nGuests: nGuests, selectedDishPromise: model.getDish(dishID)
+                        nGuests: nGuests, selectedDish: dish
                     }
                 }
             );
 
-        interestingChanges.subscribe(changes =>
-            changes.selectedDishPromise
-                .then((dish) => this.render(dish, changes.nGuests)));
+        interestingChanges.subscribe(
+            ({nGuests: nGuests, selectedDish: dish}) =>
+                this.render(dish, nGuests));
     }
 
     get addToMenuObservable() {
