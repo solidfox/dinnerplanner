@@ -170,7 +170,7 @@ function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, t
                 return matches.length === 1 ? matches[0] : null; })
             .filter(elem => elem !== null);
         //const dishRows = sortedDishes.map((dish) => createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests));
-        sortedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests)));
+        sortedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, removeDishSubject, dish.id, dish.name, dish.price, nGuests)));
 
         let menuTableFoot = document.createElement('tfoot');
         menuTable.appendChild(menuTableFoot);
