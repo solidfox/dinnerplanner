@@ -53,7 +53,7 @@ export default class DinnerOverviewView extends View {
                 document: document,
                 title: dish.name,
                 dishID: dish.id,
-                imageURL: 'images/' + dish.image,
+                imageURL: dish.image,
                 cost: totalCostOfDish(dish) * nGuests
             }))
         });

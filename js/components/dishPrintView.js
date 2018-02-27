@@ -7,7 +7,7 @@ export default function createDishPrintView(document, dish) {
 
     let image = document.createElement("img");
     image.classList.add("dish");
-    image.src = "/images/" + dish.image;
+    image.src = dish.image;
     elements.push(image);
 
     let title = document.createElement("h2");

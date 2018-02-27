@@ -46,8 +46,9 @@ export default class DinnerModel {
 
     addDishToMenu(dish) {
         let newDish = dish;
-        this._selectedDishes = this.selectedDishes.filter(dish => dish.type !== newDish.type);
+        this._selectedDishes = this._selectedDishes.filter(dish => dish.type !== newDish.type);
         this._selectedDishes.push(newDish);
+        console.log(this._selectedDishes);
         this._selectedDishesSubject.next(this.selectedDishes);
     }
 
@@ -154,6 +155,8 @@ export default class DinnerModel {
     constructor() {
         this._selectedDishes = [];
         this._selectedDishesSubject = new Rx.BehaviorSubject(this._selectedDishes);
+
+        this.selectedDishesObservable.subscribe(console.log);
 
         this._nGuests = 2;
         this._numberOfGuestsSubject = new Rx.BehaviorSubject(this.nGuests);

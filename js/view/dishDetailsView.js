@@ -203,9 +203,6 @@ export function createDishDetail({document, dish, nGuests, addToMenuSubject}) {
     let addToMenuButton = document.createElement('button');
     sectionIngredients.appendChild(addToMenuButton);
     addToMenuButton.classList.value = 'btn btn-warning btn-lg btn-block selectButton';
-    addToMenuButton.addEventListener('click', () => {
-        window.location.hash = '#select-dish'
-    });
     let totalCost = Math.round(nGuests * dish.price * 100) / 100;
     addToMenuButton.textContent = 'Add to Menu - $' + totalCost + ' for ' + nGuests + ' people';
 

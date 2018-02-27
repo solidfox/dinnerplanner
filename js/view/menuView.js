@@ -53,17 +53,24 @@ export default class MenuView extends View {
             model.nGuestsObservable.distinctUntilChanged().combineLatest(
                 model.selectedDishesObservable.distinctUntilChanged(),
                 (nGuests, selectedDishes) => {
-                    return {nGuests: nGuests, selectedDishes: selectedDishes, totalCost: model.totalMenuCost};
+                    return {nGuests: nGuests, selectedDishes: selectedDishes, totalCost: model.totalMenuCost, dishTypes:model.dishTypes};
                 }
             );
 
         interestingChanges.subscribe(event => this.render(event));
     }
 
-    render({selectedDishes, nGuests, totalCost}) {
+    render({selectedDishes, nGuests, totalCost, dishTypes}) {
         this.clear();
         console.log("Rendering");
-        let rendering = createMenu({document:document, removeDishSubject:this._removeDishSubject, nGuests:nGuests, selectedDishes:selectedDishes, totalCost:totalCost});
+        let rendering = createMenu({
+            document: document,
+            removeDishSubject: this._removeDishSubject,
+            nGuests: nGuests,
+            selectedDishes: selectedDishes,
+            totalCost: totalCost,
+            dishTypes: dishTypes
+        });
         rendering.elements.forEach(element => {
             this.containerElement.appendChild(element)
         });
@@ -71,7 +78,7 @@ export default class MenuView extends View {
 
         this._nGuestsSubject.sample(rendering.observables.minusClick)
             .map(nGuests => Math.max(nGuests - 1, 1))
-            .subscribe(this._nGuestsSubject) ;
+            .subscribe(this._nGuestsSubject);
 
         this._nGuestsSubject.sample(rendering.observables.plusClick)
             .map(nGuests => nGuests + 1)
@@ -114,7 +121,7 @@ function createGuestCounter(document, nGuests) {
 
     let guestInput = document.createElement('input');
     guestCounter.appendChild(guestInput);
-    guestInput.classList.value ='form-control';
+    guestInput.classList.value = 'form-control';
     guestInput.id = 'numberOfGuests';
     guestInput.type = 'number';
     guestInput.value = nGuests;
@@ -134,7 +141,7 @@ function createGuestCounter(document, nGuests) {
     let plusClickObservable = Rx.Observable.fromEvent(buttonPlus, 'click');
 
     return {
-        element:guestCounter,
+        element: guestCounter,
         observables: {
             nGuestsInput: nGuestsObservable,
             plusClick: plusClickObservable,
@@ -143,69 +150,73 @@ function createGuestCounter(document, nGuests) {
     };
 }
 
-function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, totalCost) {
-
+function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, totalCost, dishTypes) {
+    console.log(selectedDishes);
 
     let menuTable = document.createElement('table');
     menuTable.classList.value = 'countTable center';
     menuTable.width = '100%';
-        let menuTableHead = document.createElement('thead');
-        menuTable.appendChild(menuTableHead);
-        let menuHeadRow =document.createElement('tr');
-        menuTableHead.appendChild(menuHeadRow);
+    let menuTableHead = document.createElement('thead');
+    menuTable.appendChild(menuTableHead);
+    let menuHeadRow = document.createElement('tr');
+    menuTableHead.appendChild(menuHeadRow);
 
-        let menuHeadDish = document.createElement('th')
-        menuHeadRow.appendChild(menuHeadDish);
-        menuHeadDish.textContent = 'Dish Name';
-        let menuHeadCost = document.createElement('th');
-        menuHeadRow.appendChild(menuHeadCost);
-        menuHeadCost.textContent = 'Cost';
+    let menuHeadDish = document.createElement('th')
+    menuHeadRow.appendChild(menuHeadDish);
+    menuHeadDish.textContent = 'Dish Name';
+    let menuHeadCost = document.createElement('th');
+    menuHeadRow.appendChild(menuHeadCost);
+    menuHeadCost.textContent = 'Cost';
 
-        let menuTableBody = document.createElement('tbody');
-        menuTable.appendChild(menuTableBody);
-        menuTableBody.id = 'menuDishes';
-        let sortedDishes = ['starter', 'main dish', 'dessert']
-            .map(type => {
-                let matches = selectedDishes.filter(dish => dish.type === type);
-                return matches.length === 1 ? matches[0] : null; })
-            .filter(elem => elem !== null);
-        //const dishRows = sortedDishes.map((dish) => createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests));
-        sortedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests)));
+    let menuTableBody = document.createElement('tbody');
+    menuTable.appendChild(menuTableBody);
+    menuTableBody.id = 'menuDishes';
+    let sortedDishes = selectedDishes;//dishTypes
+        // .map(type => {
+        //     let matches = selectedDishes.filter(dish => dish.type === type);
+        //     return matches.length === 1 ? matches[0] : null;
+        // })
+        // .filter(elem => elem !== null);
+    //const dishRows = sortedDishes.map((dish) => createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests));
+    sortedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests)));
 
-        let menuTableFoot = document.createElement('tfoot');
-        menuTable.appendChild(menuTableFoot);
-        let menuFootRow = document.createElement('tr');
-        menuTableFoot.appendChild(menuFootRow);
+    let menuTableFoot = document.createElement('tfoot');
+    menuTable.appendChild(menuTableFoot);
+    let menuFootRow = document.createElement('tr');
+    menuTableFoot.appendChild(menuFootRow);
 
-        let menuFootTotal = document.createElement('th');
-        menuFootRow.appendChild(menuFootTotal);
-        menuFootTotal.textContent = 'Total';
-        let menuFootCost = document.createElement('th');
-        menuFootRow.appendChild(menuFootCost);
-        menuFootCost.textContent = totalCost;
-        menuFootCost.classList.add('currency');
-        menuFootCost.id = 'menuTotals';
+    let menuFootTotal = document.createElement('th');
+    menuFootRow.appendChild(menuFootTotal);
+    menuFootTotal.textContent = 'Total';
+    let menuFootCost = document.createElement('th');
+    menuFootRow.appendChild(menuFootCost);
+    menuFootCost.textContent = totalCost;
+    menuFootCost.classList.add('currency');
+    menuFootCost.id = 'menuTotals';
 
-        return menuTable;
+    return menuTable;
 
 
 }
 
-export function createMenu ({document: document,
-                            removeDishSubject: removeDishSubject,
-                            nGuests: nGuests,
-                            selectedDishes: selectedDishes,
-                            totalCost: totalCost}) {
+export function createMenu({
+                               document: document,
+                               removeDishSubject: removeDishSubject,
+                               nGuests: nGuests,
+                               selectedDishes: selectedDishes,
+                               totalCost: totalCost,
+                               dishTypes
+                           }) {
     let menuElements = [];
 
     /**
      let menuhead = document.createElement('h2');
-    menuElements.push(menuhead);
-    menuhead.textContent= 'My Dinner';
+     menuElements.push(menuhead);
+     menuhead.textContent= 'My Dinner';
 
 
 
-  */
+     */
 
         // above code is normal menu. Code below is collapsing menu.
         // This should only work is mobile-width is detected
@@ -218,12 +229,12 @@ export function createMenu ({document: document,
     let menuHeading = document.createElement('h1');
     menuHeader.appendChild(menuHeading);
     menuHeading.textContent = 'My Dinner';
-/*
-    let menuHeadCost = document.createElement('h3');
-    menuHeader.appendChild(menuHeadCost);
-    menuHeadCost.classList.add('only-while-collapsed');
-    menuHeadCost.textContent = totalCost + " kr "
-*/
+    /*
+        let menuHeadCost = document.createElement('h3');
+        menuHeader.appendChild(menuHeadCost);
+        menuHeadCost.classList.add('only-while-collapsed');
+        menuHeadCost.textContent = totalCost + " kr "
+    */
     let menuHamburger = document.createElement('h1');
     menuHeader.appendChild(menuHamburger);
     menuHamburger.classList.add('only-when-collapsed');
@@ -252,8 +263,8 @@ export function createMenu ({document: document,
     let guestCounterRendering = createGuestCounter(document, nGuests);
     menuBody.appendChild(guestCounterRendering.element);
 
-    if(selectedDishes.length != 0) {
-        let menuTableRendering = createMenuTable(document, removeDishSubject, nGuests, selectedDishes, totalCost);
+    if (selectedDishes.length != 0) {
+        let menuTableRendering = createMenuTable(document, removeDishSubject, nGuests, selectedDishes, totalCost, dishTypes);
         menuBody.appendChild(menuTableRendering);
 
         let buttonConfirmDinner = document.createElement('button');
@@ -268,7 +279,7 @@ export function createMenu ({document: document,
         let buttonConfirmDinner = document.createElement('button');
         menuBody.appendChild(buttonConfirmDinner);
         buttonConfirmDinner.classList.value = 'btn btn-secondary btn-lg btn-block';
-        buttonConfirmDinner.setAttribute('disabled','');
+        buttonConfirmDinner.setAttribute('disabled', '');
         buttonConfirmDinner.id = 'confirm-dinner';
         buttonConfirmDinner.textContent = 'No Dishes in Menu';
     }
