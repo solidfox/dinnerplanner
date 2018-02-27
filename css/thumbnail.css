@@ -45,7 +45,6 @@
     display: inline;
     flex-direction: column;
     align-items: center;
-    min-height: 250px;
 }
 
 .dishImg {

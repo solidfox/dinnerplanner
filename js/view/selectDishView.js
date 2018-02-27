@@ -26,13 +26,13 @@ export class SelectDishView extends View {
         this._typeSelect = containerElement.querySelector(".select-dish-search-form select");
 
         this._searchTextObservable = Rx.Observable.fromEvent(this._searchForm, 'input')
-            .map(event => event.srcElement.value)
-            .throttleTime(500);
+            .map(event => event.srcElement.value);
         this._typeObservable = Rx.Observable.fromEvent(this._typeSelect, 'change')
             .map(event => event.srcElement.value);
 
-        let interestingChanges =
+        let initiateSearch =
             this._searchTextObservable
+                .throttleTime(500)
                 .startWith("")
                 .combineLatest(
             this._typeObservable
@@ -40,13 +40,14 @@ export class SelectDishView extends View {
             (search, type) => ({search:search, type: type})
         );
 
-        interestingChanges.subscribe(localState => this.render(localState, model));
+        let dishesObservable = initiateSearch.flatMap(({search, type}) =>
+            Rx.Observable.fromPromise(model.filteredDishes(type, search)));
+
+        dishesObservable.subscribe(dishes => this.render(dishes));
     }
 
-    render(localState, model) {
-        let dishesPromise = model.filteredDishes(localState.type, localState.search);
-        dishesPromise
-            .then((dishes) => this.dishList = dishes);
+    render(dishes) {
+        this.dishList = dishes;
     }
 
     get locationHash() {
