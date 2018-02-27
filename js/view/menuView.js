@@ -19,7 +19,7 @@ function createDishRow(document, removeDishSubject, dishID, dishName, dishCost, 
     dishRemoveObservable.subscribe(removeDishSubject);
     dishNameSpan.textContent = dishName;
     let dishCostCell = document.createElement("td");
-    dishCostCell.textContent = String(dishCost * nGuests);
+    dishCostCell.textContent = String(Math.round(dishCost * 100) / 100 * nGuests);
     dishCostCell.classList.add("currency");
     tableRow.appendChild(dishNameCell);
     tableRow.appendChild(dishCostCell);
@@ -182,7 +182,7 @@ function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, t
         menuFootTotal.textContent = 'Total';
         let menuFootCost = document.createElement('th');
         menuFootRow.appendChild(menuFootCost);
-        menuFootCost.textContent = totalCost;
+        menuFootCost.textContent = Math.round(totalCost * 100) / 100;
         menuFootCost.classList.add('currency');
         menuFootCost.id = 'menuTotals';
 
@@ -218,16 +218,12 @@ export function createMenu ({document: document,
     let menuHeading = document.createElement('h1');
     menuHeader.appendChild(menuHeading);
     menuHeading.textContent = 'My Dinner';
-/*
-    let menuHeadCost = document.createElement('h3');
-    menuHeader.appendChild(menuHeadCost);
-    menuHeadCost.classList.add('only-while-collapsed');
-    menuHeadCost.textContent = totalCost + " kr "
-*/
+
     let menuHamburger = document.createElement('h1');
     menuHeader.appendChild(menuHamburger);
     menuHamburger.classList.add('only-when-collapsed');
-    menuHamburger.textContent = totalCost + ' kr ≣';
+    menuHamburger.classList.add('currency');
+    menuHamburger.textContent = Math.round(totalCost * 100) / 100 + ' ≣';
 
     let menuBody = document.createElement('section');
     menuElements.push(menuBody);
