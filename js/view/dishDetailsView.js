@@ -1,6 +1,6 @@
-import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
 import Rx from "rxjs/Rx";
+import {catchError} from 'rxjs/operators';
 
 function extractId(searchString) {
     return Number(searchString.split("@")[1]);
@@ -32,7 +32,10 @@ export default class DishDetailsView extends View {
             .map(_ => extractId(window.location.hash))
             .filter(maybeId => maybeId > 0)
             .do(console.log)
-            .flatMap(id => Rx.Observable.fromPromise(model.getDish(id)));
+            .flatMap(id => Rx.Observable
+                .fromPromise(model.getDish(id))
+                .pipe(catchError(error => Rx.Observable.of(`Error fetching dish: ${error}`)))
+            );
 
         let interestingChanges =
             model.nGuestsObservable.combineLatest(
@@ -56,13 +59,16 @@ export default class DishDetailsView extends View {
         this.clear();
 
         if (dish) {
-            let dishDetail = createDishDetail({document: document, dish: dish, nGuests: nGuests});
+            let dishDetail = createDishDetail({
+                document: document,
+                dish: dish,
+                nGuests: nGuests,
+                addToMenuSubject:this._addToMenuSubject
+            });
 
             dishDetail.elements.forEach(element => {
                 this.containerElement.appendChild(element)
             });
-
-           dishDetail.observable.addToMenuClick.subscribe(this._addToMenuSubject);
         }
 
     }
@@ -77,7 +83,7 @@ export default class DishDetailsView extends View {
 
 }
 
-export function createDishDetail({document: document, dish: dish, nGuests: nGuests}) {
+export function createDishDetail({document, dish, nGuests, addToMenuSubject}) {
 
     let dishElements = [];
 
@@ -117,23 +123,6 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     dishImage.src = dish.image;
     dishImage.title = dish.name + ' - ' + dish.credit;
     sectionImage.appendChild(dishImage);
-
-
-  /*  // ----------- Description ------------
-
-    let sectionDescription = document.createElement('section');
-    sectionDescription.classList.add('description');
-    dishElements.push(sectionDescription);
-
-    let descriptionHeading = document.createElement('h4');
-    sectionDescription.appendChild(descriptionHeading);
-    descriptionHeading.classList.add('softHeading');
-    descriptionHeading.textContent = 'Description';
-
-    let descriptionBody = document.createElement('p');
-    sectionDescription.appendChild(descriptionBody);
-    descriptionBody.textContent = dish.description;
-*/
 
     // ----------- Preparation ------------
 
@@ -189,9 +178,6 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
     let headIngredients = document.createElement('th');
     rowHead.appendChild(headIngredients);
     headIngredients.textContent = 'Ingredients';
-    //let headCost = document.createElement('th');
-    //rowHead.appendChild(headCost);
-    //headCost.textContent = 'Cost';
 
     let tBody = document.createElement('tBody');
     ingredientsTable.appendChild(tBody);
@@ -201,15 +187,11 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
 
         let bodyQuantity = document.createElement('td');
         rowBody.appendChild(bodyQuantity);
-        bodyQuantity.textContent = nGuests * Math.round(ingredient.quantity*100)/100 + ' ' + ingredient.unit;
+        bodyQuantity.textContent = nGuests * Math.round(ingredient.quantity * 100) / 100 + ' ' + ingredient.unit;
         let bodyIngredients = document.createElement('td');
         rowBody.appendChild(bodyIngredients);
         bodyIngredients.classList.add('capitaliseLabel');
         bodyIngredients.textContent = ingredient.name;
-        //let bodyCost = document.createElement('td');
-        //rowBody.appendChild(bodyCost);
-        //bodyCost.classList.add("currency");
-        //bodyCost.textContent = nGuests * ingredient.price;
 
         return rowBody;
     }
@@ -218,46 +200,22 @@ export function createDishDetail({document: document, dish: dish, nGuests: nGues
         tBody.appendChild(createIngredientsRow(ingredient));
     });
 
-/*
-    let tfoot = document.createElement('tfoot');
-    ingredientsTable.appendChild(tfoot);
-
-    let rowFoot = document.createElement('tr');
-    tfoot.appendChild(rowFoot);
-    let footQuantity = document.createElement('th');
-    rowFoot.appendChild(footQuantity);
-    footQuantity.textContent = 'Total Cost: ';
-    let footTotal = document.createElement('th');
-    footTotal.textContent = dish.price * nGuests;
-    footTotal.classList.add('currency')
-    rowFoot.appendChild(footTotal);
-    let footCost = document.createElement('th');
-    //rowFoot.appendChild(footCost);
-    //footCost.classList.add("currency");
-    //footCost.textContent = totalCostOfDish(dish) * nGuests;
-
-    //let footTotal = document.createElement('th');
-    //sectionIngredients.appendChild(footTotal);
-    //footTotal.textContent = 'Total Cost: $' + dish.price;
-*/
-
-
     let addToMenuButton = document.createElement('button');
     sectionIngredients.appendChild(addToMenuButton);
     addToMenuButton.classList.value = 'btn btn-warning btn-lg btn-block selectButton';
     addToMenuButton.addEventListener('click', () => {
         window.location.hash = '#select-dish'
     });
-    let totalCost = Math.round(nGuests*dish.price*100)/100;
-    addToMenuButton.textContent =  'Add to Menu - $' + totalCost + ' for ' + nGuests + ' people';
+    let totalCost = Math.round(nGuests * dish.price * 100) / 100;
+    addToMenuButton.textContent = 'Add to Menu - $' + totalCost + ' for ' + nGuests + ' people';
 
-    let addToMenuButtonObservable = Rx.Observable
+    Rx.Observable
         .fromEvent(addToMenuButton, 'click')
-        .map(event => dish);
+        .map(event => dish)
+        .subscribe(addToMenuSubject);
 
 
     return {
-        elements: dishElements,
-        observable: {addToMenuClick: addToMenuButtonObservable}
+        elements: dishElements
     };
 }

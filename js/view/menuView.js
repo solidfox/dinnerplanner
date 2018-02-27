@@ -60,7 +60,7 @@ export default class MenuView extends View {
         interestingChanges.subscribe(event => this.render(event));
     }
 
-    render({selectedDishes:selectedDishes, nGuests:nGuests, totalCost:totalCost}) {
+    render({selectedDishes, nGuests, totalCost}) {
         this.clear();
         console.log("Rendering");
         let rendering = createMenu({document:document, removeDishSubject:this._removeDishSubject, nGuests:nGuests, selectedDishes:selectedDishes, totalCost:totalCost});
@@ -237,7 +237,7 @@ export function createMenu ({document: document,
         .subscribe(sizeClass => {
             console.log(sizeClass);
             if (sizeClass === ResponsiveDesign.sizeClasses.compact) {
-                console.log("hidin g");
+                console.log("hiding");
                 menuBody.classList.remove('show');
                 menuHeader.setAttribute('aria-expanded', 'false');
             } else {

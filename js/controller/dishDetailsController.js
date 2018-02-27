@@ -4,6 +4,7 @@
 
 export default class DishDetailsController {
     constructor(view, model) {
-        view.addToMenuObservable.subscribe(dish => model.addDishToMenu(dish.id))
+        view.addToMenuObservable
+            .subscribe(dish => model.addDishToMenu(dish))
     }
 }

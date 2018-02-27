@@ -37,11 +37,11 @@ export default class DinnerModel {
     }
 
     get totalMenuCost() {
-        return this.nGuests * this._selectedDishes.reduce((acc, dish) => acc + totalCostOfDish(dish), 0);
+        return this.nGuests * this._selectedDishes.reduce((acc, dish) => acc + dish.price, 0);
     }
 
-    addDishToMenu(id) {
-        let newDish = this.getDish(id);
+    addDishToMenu(dish) {
+        let newDish = dish;
         this._selectedDishes = this.selectedDishes.filter(dish => dish.type !== newDish.type);
         this._selectedDishes.push(newDish);
         this._selectedDishesSubject.next(this.selectedDishes);
