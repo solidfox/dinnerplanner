@@ -70,8 +70,8 @@ table.ingredients > thead {
     border-color: #f9c219;
 }
 .ingredients > button {
-    margin-top: 10px;
-    font-weight: bold;
+    margin-bottom: 10px;
+    font-weight: normal;
 }
 
 #dish-details-view > .preparation {

@@ -5,24 +5,29 @@ import ResponsiveDesign from "../ResponsiveDesign";
 
 function createDishRow(document, removeDishSubject, dishID, dishName, dishCost, nGuests) {
     let tableRow = document.createElement("tr");
+
     let dishNameCell = document.createElement("td");
+    tableRow.appendChild(dishNameCell);
     dishNameCell.classList.add('capitaliseLabel')
-    let dishRemoveSpan = document.createElement('span');
-    let dishNameSpan = document.createElement('span');
-    dishNameCell.appendChild(dishRemoveSpan);
-    dishNameCell.appendChild(dishNameSpan);
-    dishRemoveSpan.classList.add("crossEmoji");
-    dishRemoveSpan.textContent = '❌ ';
+    dishNameCell.textContent = dishName;
+    dishNameCell.addEventListener('click', () => {
+        window.location.hash = '#dish-details@' + dishID;
+    });
+
+    let dishRemoveCell = document.createElement("td");
+    tableRow.appendChild(dishRemoveCell);
+    dishRemoveCell.classList.add("crossEmoji");
+    dishRemoveCell.textContent = '❌ ';
     let dishRemoveObservable = Rx.Observable
-        .fromEvent(dishRemoveSpan, 'click')
+        .fromEvent(dishRemoveCell, 'click')
         .map(() => dishID);
     dishRemoveObservable.subscribe(removeDishSubject);
-    dishNameSpan.textContent = dishName;
+
     let dishCostCell = document.createElement("td");
     dishCostCell.textContent = String(Math.round(dishCost * 100) / 100 * nGuests);
     dishCostCell.classList.add("currency");
-    tableRow.appendChild(dishNameCell);
     tableRow.appendChild(dishCostCell);
+
 
     return tableRow;
 }
@@ -151,7 +156,6 @@ function createGuestCounter(document, nGuests) {
 }
 
 function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, totalCost, dishTypes) {
-    console.log(selectedDishes);
 
     let menuTable = document.createElement('table');
     menuTable.classList.value = 'countTable center';
@@ -164,6 +168,9 @@ function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, t
     let menuHeadDish = document.createElement('th')
     menuHeadRow.appendChild(menuHeadDish);
     menuHeadDish.textContent = 'Dish Name';
+    let menuHeadRemove = document.createElement('th')
+    menuHeadRow.appendChild(menuHeadRemove);
+    menuHeadRemove.textContent = '';
     let menuHeadCost = document.createElement('th');
     menuHeadRow.appendChild(menuHeadCost);
     menuHeadCost.textContent = 'Cost';
@@ -187,7 +194,10 @@ function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, t
 
         let menuFootTotal = document.createElement('th');
         menuFootRow.appendChild(menuFootTotal);
-        menuFootTotal.textContent = 'Total';
+        menuFootTotal.textContent = 'Total for ' + nGuests + ' people:';
+    let menuFootRemove = document.createElement('th');
+    menuFootRow.appendChild(menuFootRemove);
+    menuFootRemove.textContent = '';
         let menuFootCost = document.createElement('th');
         menuFootRow.appendChild(menuFootCost);
         menuFootCost.textContent = Math.round(totalCost * 100) / 100;
@@ -278,6 +288,11 @@ export function createMenu({
         buttonConfirmDinner.setAttribute('disabled', '');
         buttonConfirmDinner.id = 'confirm-dinner';
         buttonConfirmDinner.textContent = 'No Dishes in Menu';
+
+        let helpText = document.createElement('p');
+        menuBody.appendChild(helpText);
+        helpText.classList.add('helpText');
+        helpText.textContent = 'You can search & select dishes. Once you find a dish you like, you can add it to the menu.'
     }
 
     return {

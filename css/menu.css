@@ -29,3 +29,8 @@
 .crossEmoji {
     font-size: small;
 }
+
+.helpText {
+    font-style: italic;
+    font-size: small;
+}

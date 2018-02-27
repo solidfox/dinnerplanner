@@ -156,11 +156,14 @@ export function createDishDetail({document, dish, nGuests, addToMenuSubject}) {
     sectionPreparation.appendChild(preparationBody);
     preparationBody.textContent = dish.description + ' ';
 
+    let lineBreak = document.createElement('br');
+    preparationBody.appendChild(lineBreak);
+
     let sourceLink = document.createElement('a');
     preparationBody.appendChild(sourceLink);
     sourceLink.href = dish.sourceURL;
     sourceLink.target = 'blank';
-    sourceLink.textContent = 'View Source.'
+    sourceLink.textContent = 'View More Details >'
 
 
     // ----------- Ingredients ------------
@@ -170,9 +173,20 @@ export function createDishDetail({document, dish, nGuests, addToMenuSubject}) {
     sectionIngredients.id = 'ingredients-table';
     dishElements.push(sectionIngredients);
 
-    let ingredientHeading = document.createElement('h4');
-    sectionIngredients.appendChild(ingredientHeading);
-    ingredientHeading.textContent = 'Ingredients for ' + nGuests + ' People';
+    let addToMenuButton = document.createElement('button');
+    sectionIngredients.appendChild(addToMenuButton);
+    addToMenuButton.classList.value = 'btn btn-danger btn-lg btn-block selectButton';
+    let totalCost = Math.round(nGuests * dish.price * 100) / 100;
+    addToMenuButton.textContent = 'Add to Menu - $' + totalCost + ' for ' + nGuests + ' people';
+
+    Rx.Observable
+        .fromEvent(addToMenuButton, 'click')
+        .map(event => dish)
+        .subscribe(addToMenuSubject);
+
+    //let ingredientHeading = document.createElement('h4');
+    //sectionIngredients.appendChild(ingredientHeading);
+    //ingredientHeading.textContent = 'Ingredients for ' + nGuests + ' People';
 
     let ingredientsTable = document.createElement('table');
     ingredientsTable.classList.value = 'ingredients countTable center';
@@ -210,16 +224,6 @@ export function createDishDetail({document, dish, nGuests, addToMenuSubject}) {
         tBody.appendChild(createIngredientsRow(ingredient));
     });
 
-    let addToMenuButton = document.createElement('button');
-    sectionIngredients.appendChild(addToMenuButton);
-    addToMenuButton.classList.value = 'btn btn-warning btn-lg btn-block selectButton';
-    let totalCost = Math.round(nGuests * dish.price * 100) / 100;
-    addToMenuButton.textContent = 'Add to Menu - $' + totalCost + ' for ' + nGuests + ' people';
-
-    Rx.Observable
-        .fromEvent(addToMenuButton, 'click')
-        .map(event => dish)
-        .subscribe(addToMenuSubject);
 
 
     return {
