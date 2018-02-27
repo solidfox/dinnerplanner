@@ -37,6 +37,9 @@ body > article h1 {
     text-transform: capitalize;
 }
 
+.spacious {
+    padding: 30px;
+}
 
 .inactive {
     display: none !important;
