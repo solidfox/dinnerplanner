@@ -19,7 +19,7 @@ function createDishRow(document, removeDishSubject, dishID, dishName, dishCost, 
     dishRemoveObservable.subscribe(removeDishSubject);
     dishNameSpan.textContent = dishName;
     let dishCostCell = document.createElement("td");
-    dishCostCell.textContent = String(dishCost * nGuests);
+    dishCostCell.textContent = String(Math.round(dishCost * 100) / 100 * nGuests);
     dishCostCell.classList.add("currency");
     tableRow.appendChild(dishNameCell);
     tableRow.appendChild(dishCostCell);
@@ -176,23 +176,23 @@ function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, t
         //     let matches = selectedDishes.filter(dish => dish.type === type);
         //     return matches.length === 1 ? matches[0] : null;
         // })
-        // .filter(elem => elem !== null);
-    //const dishRows = sortedDishes.map((dish) => createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests));
-    sortedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests)));
+        //  .filter(elem => elem !== null);
+        //const dishRows = sortedDishes.map((dish) => createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests));
+        sortedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, removeDishSubject, dish.id, dish.name, dish.price, nGuests)));
 
     let menuTableFoot = document.createElement('tfoot');
     menuTable.appendChild(menuTableFoot);
     let menuFootRow = document.createElement('tr');
     menuTableFoot.appendChild(menuFootRow);
 
-    let menuFootTotal = document.createElement('th');
-    menuFootRow.appendChild(menuFootTotal);
-    menuFootTotal.textContent = 'Total';
-    let menuFootCost = document.createElement('th');
-    menuFootRow.appendChild(menuFootCost);
-    menuFootCost.textContent = totalCost;
-    menuFootCost.classList.add('currency');
-    menuFootCost.id = 'menuTotals';
+        let menuFootTotal = document.createElement('th');
+        menuFootRow.appendChild(menuFootTotal);
+        menuFootTotal.textContent = 'Total';
+        let menuFootCost = document.createElement('th');
+        menuFootRow.appendChild(menuFootCost);
+        menuFootCost.textContent = Math.round(totalCost * 100) / 100;
+        menuFootCost.classList.add('currency');
+        menuFootCost.id = 'menuTotals';
 
     return menuTable;
 
@@ -229,16 +229,12 @@ export function createMenu({
     let menuHeading = document.createElement('h1');
     menuHeader.appendChild(menuHeading);
     menuHeading.textContent = 'My Dinner';
-    /*
-        let menuHeadCost = document.createElement('h3');
-        menuHeader.appendChild(menuHeadCost);
-        menuHeadCost.classList.add('only-while-collapsed');
-        menuHeadCost.textContent = totalCost + " kr "
-    */
+
     let menuHamburger = document.createElement('h1');
     menuHeader.appendChild(menuHamburger);
     menuHamburger.classList.add('only-when-collapsed');
-    menuHamburger.textContent = totalCost + ' kr ≣';
+    menuHamburger.classList.add('currency');
+    menuHamburger.textContent = Math.round(totalCost * 100) / 100 + ' ≣';
 
     let menuBody = document.createElement('section');
     menuElements.push(menuBody);
