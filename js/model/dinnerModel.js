@@ -46,7 +46,7 @@ export default class DinnerModel {
 
     addDishToMenu(dish) {
         let newDish = dish;
-        this._selectedDishes = this._selectedDishes.filter(dish => dish.type !== newDish.type);
+        this._selectedDishes = this._selectedDishes.filter(dish => dish.id !== newDish.id);
         this._selectedDishes.push(newDish);
         console.log(this._selectedDishes);
         this._selectedDishesSubject.next(this.selectedDishes);
