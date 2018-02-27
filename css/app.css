@@ -94,14 +94,17 @@ table .currency {
     display: grid;
     grid-template-columns: 1fr auto auto;
     grid-column-gap: 1em;
+    align-items: center;
 }
 
 .select-dish-search-form > input {
     width: auto;
+    align-self: stretch;
 }
 .select-dish-search-form > label {
     font-weight: bold;
-    line-height: 40px;
+    /*line-height: 40px;*/
+    margin: 0;
 }
 
 select {

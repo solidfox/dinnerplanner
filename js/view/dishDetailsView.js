@@ -27,14 +27,16 @@ export default class DishDetailsView extends View {
 
         this._addToMenuSubject = new Rx.Subject();
 
-        let dishObservable = Rx.Observable.fromEvent(window, 'hashchange')
+        let idObservable = Rx.Observable.fromEvent(window, 'hashchange')
             .startWith(null)
-            .map(_ => extractId(window.location.hash))
+            .map(_ => extractId(window.location.hash));
+
+        let dishObservable = idObservable
             .filter(maybeId => maybeId > 0)
             .do(console.log)
             .flatMap(id => Rx.Observable
                 .fromPromise(model.getDish(id))
-                .pipe(catchError(error => Rx.Observable.of(`Error fetching dish: ${error}`)))
+                .pipe(catchError(error => window.alert(`Error fetching dish: ${error}`)))
             );
 
         let interestingChanges =
@@ -46,6 +48,10 @@ export default class DishDetailsView extends View {
                 }
             );
 
+        idObservable.subscribe(() => {
+            this.render(null, null, true);
+        });
+
         interestingChanges.subscribe(
             ({nGuests: nGuests, selectedDish: dish}) =>
                 this.render(dish, nGuests));
@@ -55,8 +61,12 @@ export default class DishDetailsView extends View {
         return this._addToMenuSubject;
     }
 
-    render(dish, nGuests) {
+    render(dish, nGuests, waiting) {
         this.clear();
+
+        if (waiting) {
+            this.containerElement.innerHTML = "<img src='https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif' />";
+        }
 
         if (dish) {
             let dishDetail = createDishDetail({
