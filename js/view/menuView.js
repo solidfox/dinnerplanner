@@ -144,48 +144,51 @@ function createGuestCounter(document, nGuests) {
 }
 
 function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, totalCost) {
+
+
     let menuTable = document.createElement('table');
     menuTable.classList.value = 'countTable center';
     menuTable.width = '100%';
+        let menuTableHead = document.createElement('thead');
+        menuTable.appendChild(menuTableHead);
+        let menuHeadRow =document.createElement('tr');
+        menuTableHead.appendChild(menuHeadRow);
 
-    let menuTableHead = document.createElement('thead');
-    menuTable.appendChild(menuTableHead);
-    let menuHeadRow =document.createElement('tr');
-    menuTableHead.appendChild(menuHeadRow);
+        let menuHeadDish = document.createElement('th')
+        menuHeadRow.appendChild(menuHeadDish);
+        menuHeadDish.textContent = 'Dish Name';
+        let menuHeadCost = document.createElement('th');
+        menuHeadRow.appendChild(menuHeadCost);
+        menuHeadCost.textContent = 'Cost';
 
-    let menuHeadDish = document.createElement('th')
-    menuHeadRow.appendChild(menuHeadDish);
-    menuHeadDish.textContent = 'Dish Name';
-    let menuHeadCost = document.createElement('th');
-    menuHeadRow.appendChild(menuHeadCost);
-    menuHeadCost.textContent = 'Cost';
+        let menuTableBody = document.createElement('tbody');
+        menuTable.appendChild(menuTableBody);
+        menuTableBody.id = 'menuDishes';
+        let sortedDishes = ['starter', 'main dish', 'dessert']
+            .map(type => {
+                let matches = selectedDishes.filter(dish => dish.type === type);
+                return matches.length === 1 ? matches[0] : null; })
+            .filter(elem => elem !== null);
+        //const dishRows = sortedDishes.map((dish) => createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests));
+        sortedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests)));
 
-    let menuTableBody = document.createElement('tbody');
-    menuTable.appendChild(menuTableBody);
-    menuTableBody.id = 'menuDishes';
-    let sortedDishes = ['starter', 'main dish', 'dessert']
-        .map(type => {
-            let matches = selectedDishes.filter(dish => dish.type === type);
-            return matches.length === 1 ? matches[0] : null; })
-        .filter(elem => elem !== null);
-    //const dishRows = sortedDishes.map((dish) => createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests));
-    sortedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests)));
+        let menuTableFoot = document.createElement('tfoot');
+        menuTable.appendChild(menuTableFoot);
+        let menuFootRow = document.createElement('tr');
+        menuTableFoot.appendChild(menuFootRow);
 
-    let menuTableFoot = document.createElement('tfoot');
-    menuTable.appendChild(menuTableFoot);
-    let menuFootRow = document.createElement('tr');
-    menuTableFoot.appendChild(menuFootRow);
+        let menuFootTotal = document.createElement('th');
+        menuFootRow.appendChild(menuFootTotal);
+        menuFootTotal.textContent = 'Total';
+        let menuFootCost = document.createElement('th');
+        menuFootRow.appendChild(menuFootCost);
+        menuFootCost.textContent = totalCost;
+        menuFootCost.classList.add('currency');
+        menuFootCost.id = 'menuTotals';
 
-    let menuFootTotal = document.createElement('th');
-    menuFootRow.appendChild(menuFootTotal);
-    menuFootTotal.textContent = 'Total';
-    let menuFootCost = document.createElement('th');
-    menuFootRow.appendChild(menuFootCost);
-    menuFootCost.textContent = totalCost;
-    menuFootCost.classList.add('currency');
-    menuFootCost.id = 'menuTotals';
+        return menuTable;
 
-    return menuTable;
+
 }
 
 export function createMenu ({document: document,
@@ -249,17 +252,26 @@ export function createMenu ({document: document,
     let guestCounterRendering = createGuestCounter(document, nGuests);
     menuBody.appendChild(guestCounterRendering.element);
 
-    let menuTableRendering = createMenuTable(document, removeDishSubject, nGuests, selectedDishes, totalCost);
-    menuBody.appendChild(menuTableRendering);
+    if(selectedDishes.length != 0) {
+        let menuTableRendering = createMenuTable(document, removeDishSubject, nGuests, selectedDishes, totalCost);
+        menuBody.appendChild(menuTableRendering);
 
-    let buttonConfirmDinner = document.createElement('button');
-    menuBody.appendChild(buttonConfirmDinner);
-    buttonConfirmDinner.classList.value= 'btn btn-primary btn-lg btn-block';
-    buttonConfirmDinner.id = 'confirm-dinner';
-    buttonConfirmDinner.textContent= 'Confirm Dinner';
-    buttonConfirmDinner.addEventListener('click', () => {
-        window.location.hash = '#dinner-overview'})
-
+        let buttonConfirmDinner = document.createElement('button');
+        menuBody.appendChild(buttonConfirmDinner);
+        buttonConfirmDinner.classList.value = 'btn btn-primary btn-lg btn-block';
+        buttonConfirmDinner.id = 'confirm-dinner';
+        buttonConfirmDinner.textContent = 'Confirm Dinner';
+        buttonConfirmDinner.addEventListener('click', () => {
+            window.location.hash = '#dinner-overview'
+        })
+    } else {
+        let buttonConfirmDinner = document.createElement('button');
+        menuBody.appendChild(buttonConfirmDinner);
+        buttonConfirmDinner.classList.value = 'btn btn-secondary btn-lg btn-block';
+        buttonConfirmDinner.setAttribute('disabled','');
+        buttonConfirmDinner.id = 'confirm-dinner';
+        buttonConfirmDinner.textContent = 'No Dishes in Menu';
+    }
 
     return {
         elements: menuElements,

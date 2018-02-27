@@ -37,6 +37,9 @@ body > article h1 {
     text-transform: capitalize;
 }
 
+.spacious {
+    padding: 30px;
+}
 
 .inactive {
     display: none !important;
@@ -89,12 +92,16 @@ table .currency {
 
 .select-dish-search-form {
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
     grid-column-gap: 1em;
 }
 
 .select-dish-search-form > input {
     width: auto;
+}
+.select-dish-search-form > label {
+    font-weight: bold;
+    line-height: 40px;
 }
 
 select {

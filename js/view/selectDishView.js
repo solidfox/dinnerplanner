@@ -24,6 +24,8 @@ export class SelectDishView extends View {
         this._dishList = containerElement.querySelector("ul.dish-thumbnail-list");
         this._searchForm = containerElement.querySelector(".select-dish-search-form input[type=text]");
         this._typeSelect = containerElement.querySelector(".select-dish-search-form select");
+        this._typeSelect.innerHTML = "";
+        dishFilterBar(model.dishTypes, this._typeSelect)
 
         this._searchTextObservable = Rx.Observable.fromEvent(this._searchForm, 'input')
             .map(event => event.srcElement.value);
@@ -65,8 +67,23 @@ export class SelectDishView extends View {
     set dishList(newList) {
         this._dishList.innerHTML = "";
         newList.forEach(dish => {
+
             this._dishList.appendChild(createDishThumbnail({document: document, title:dish.name, dishID:dish.id, imageURL:dish.image, cost: dish.price}))
         });
     }
+
+}
+
+function dishFilterBar (dishTypes, filterSelect){
+
+
+        dishTypes.forEach( type => {
+        let filterOption = document.createElement('option');
+        filterSelect.appendChild(filterOption);
+        filterSelect.classList.add('capitaliseLabel');
+        filterOption.value = type;
+        filterOption.textContent = type;
+    });
+
 
 }
