@@ -5,7 +5,7 @@
 // var webpack = require('webpack');
 
 var config = {
-    context: __dirname + '/js', // `__dirname` is root of project and `src` is source
+    context: __dirname + '/src', // `__dirname` is root of project and `src` is source
     entry: {
         app: './app.js',
     },
