@@ -1,6 +1,6 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
-import {createDishThumbnail} from "../components/dishThumbnail.jsx";
+import {createDishThumbnail} from "../components/DishThumbnail.jsx";
 import {createThumbnailHeading} from "../components/thumbnailHeading";
 
 /** MenuView Object constructor

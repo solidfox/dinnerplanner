@@ -1,7 +1,10 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
-import {createDishThumbnail} from "../components/dishThumbnail.jsx";
+import {createDishThumbnail} from "../components/DishThumbnail.jsx";
 import * as Rx from "rxjs";
+import React from "react";
+import ReactDOM from 'react-dom'
+import DishThumbnail from "../components/DishThumbnail.jsx";
 
 /** MenuView Object constructor
  *
@@ -67,8 +70,7 @@ export class SelectDishView extends View {
     set dishList(newList) {
         this._dishList.innerHTML = "";
         newList.forEach(dish => {
-
-            this._dishList.appendChild(createDishThumbnail({document: document, title:dish.name, dishID:dish.id, imageURL:dish.image, cost: dish.price}))
+            ReactDOM.render((<DishThumbnail title={dish.name} dishID={dish.id} imageURL={dish.image} cost={dish.price} />), this._dishList);
         });
     }
 
