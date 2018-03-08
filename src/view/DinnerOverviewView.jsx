@@ -1,7 +1,9 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
-import {createDishThumbnail} from "../components/DishThumbnail.jsx";
-import {createThumbnailHeading} from "../components/thumbnailHeading";
+import {DishThumbnail} from "../components/DishThumbnail.jsx";
+import {ThumbnailHeading} from "../components/ThumbnailHeading.jsx";
+import ReactDOM from "react-dom";
+import React from "react";
 
 /** MenuView Object constructor
  *
@@ -49,14 +51,8 @@ export default class DinnerOverviewView extends View {
     setDishList(newList, nGuests) {
         this._dishList.innerHTML = "";
         newList.forEach(dish => {
-            this._dishList.appendChild(createDishThumbnail({
-                document: document,
-                title: dish.name,
-                dishID: dish.id,
-                imageURL: dish.image,
-                cost: totalCostOfDish(dish) * nGuests
-            }))
-        });
+            ReactDOM.render((<DishThumbnail title={dish.name} dishID={dish.id} imageURL={dish.image} cost={dish.price * nGuests} />), this._dishList);
+            });
         if (this._totals) {
             this._dishList.appendChild(this._divider);
             this._dishList.appendChild(this._totals);
@@ -68,12 +64,7 @@ export default class DinnerOverviewView extends View {
             this._divider.remove();
             this._totals.remove();
         }
-        this._totals = createThumbnailHeading({
-            document: document,
-            header: nGuests + " People",
-            caption: "Total cost",
-            subCaption: totalCost
-        });
+        this._totals = <ThumbnailHeading header={nGuests + "People"} caption="Total cost" subCaption={totalCost} />;
         this._dishList.appendChild(this._divider);
         this._dishList.appendChild(this._totals);
     }

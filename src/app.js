@@ -5,8 +5,8 @@ import MenuView from './view/menuView.js'
 import {WelcomeView} from "./view/welcomeView";
 import {SelectDishView} from "./view/SelectDishView.jsx";
 import DishDetailsView from "./view/dishDetailsView";
-import DinnerOverviewView from "./view/dinnerOverviewView";
-import {DinnerPrintView} from "./view/dinnerPrintView";
+import DinnerOverviewView from "./view/DinnerOverviewView.jsx";
+import {DinnerPrintView} from "./view/DinnerPrintView.jsx";
 import MenuController from "./controller/menuController";
 import 'bootstrap';
 import DishDetailsController from "./controller/dishDetailsController";

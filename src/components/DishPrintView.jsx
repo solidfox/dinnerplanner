@@ -1,7 +1,32 @@
 /**
  * Created by Daniel Schlaug on 2018-01-29.
  */
+import React from "react";
+export class CreateDishPrintView extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
+    render () {
+        return [
+                <img className="dish"> {this.props.dish.image} </img>,
+                <h2 className="capitaliseLabel"> {this.props.dish.name} </h2>,
+                <table>
+                    {this.props.dish.ingredients.map( ingredient => <tr>
+                    <td>{ingredient.quantity + " " + ingredient.unit}</td>
+                    <td className="capitaliseLabel">{ingredient.name}</td>
+                    </tr>)}
+                </table>,
+                <section>
+                    <h4>Preparation</h4>
+                    <p>{this.props.dish.description}</p>
+                </section>,
+                <div></div>,
+            ]
+    }
+}
+
+/*
 export default function createDishPrintView(document, dish) {
     let elements = [];
 
@@ -46,3 +71,4 @@ export default function createDishPrintView(document, dish) {
 
     return elements;
 }
+*/
