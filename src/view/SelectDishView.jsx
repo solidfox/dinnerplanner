@@ -20,15 +20,13 @@ import DishThumbnail from "../components/DishThumbnail.jsx";
  * @param {jQuery object} container - references the HTML parent element that contains the view.
  * @param {Object} model - the reference to the Dinner Model
  */
-export class SelectDishView extends View {
+export default class SelectDishView extends React.Component {
+    constructor(props) {
+        super(props);
 
-    constructor(containerElement, model) {
-        super(containerElement);
-        this._dishList = containerElement.querySelector("ul.dish-thumbnail-list");
-        this._searchForm = containerElement.querySelector(".select-dish-search-form input[type=text]");
-        this._typeSelect = containerElement.querySelector(".select-dish-search-form select");
-        this._typeSelect.innerHTML = "";
-        dishFilterBar(model.dishTypes, this._typeSelect)
+        this.state = {
+            dishList: []
+        }
 
         this._searchTextObservable = Rx.Observable.fromEvent(this._searchForm, 'input')
             .map(event => event.srcElement.value);
@@ -40,10 +38,10 @@ export class SelectDishView extends View {
                 .throttleTime(500)
                 .startWith("")
                 .combineLatest(
-            this._typeObservable
-                .startWith("all"),
-            (search, type) => ({search:search, type: type})
-        );
+                    this._typeObservable
+                        .startWith("all"),
+                    (search, type) => ({search:search, type: type})
+                );
 
         let dishesObservable = initiateSearch.flatMap(({search, type}) =>
             Rx.Observable.fromPromise(model.filteredDishes(type, search)));
@@ -51,41 +49,22 @@ export class SelectDishView extends View {
         dishesObservable.subscribe(dishes => this.render(dishes));
     }
 
-    render(dishes) {
-        this.dishList = dishes;
+    render() {
+        return (
+            <article className="inactive" id="select-dish-view">
+                <h1>Find a dish</h1>
+                <section className="select-dish-search-form">
+                    <input className type="text" placeholder="Filter on titles and ingredients"/>
+                    <label>Filter by: </label>
+                    <select className="btn btn-danger">
+                        {this.props.dishTypes.map(dishType => <option className="capitaliseLabel" value={dishType}>{dishType}</option>)}
+                    </select>
+                </section>
+                <hr/>
+                <ul className="dish-thumbnail-list">
+                    {this.state.dishList.map(dish => <DishThumbnail dish={dish} title={dish.name} dishID={dish.id} imageURL={dish.image} cost={dish.price} />)}
+                </ul>
+            </article>
+        )
     }
-
-    get locationHash() {
-        return "#select-dish";
-    }
-
-    get searchTextObservable() {
-        return this._searchTextObservable;
-    }
-
-    get typeSelectObservable() {
-        return this._typeObservable
-    }
-
-    set dishList(newList) {
-        this._dishList.innerHTML = "";
-        newList.forEach(dish => {
-            ReactDOM.render((<DishThumbnail title={dish.name} dishID={dish.id} imageURL={dish.image} cost={dish.price} />), this._dishList);
-        });
-    }
-
-}
-
-function dishFilterBar (dishTypes, filterSelect){
-
-
-        dishTypes.forEach( type => {
-        let filterOption = document.createElement('option');
-        filterSelect.appendChild(filterOption);
-        filterSelect.classList.add('capitaliseLabel');
-        filterOption.value = type;
-        filterOption.textContent = type;
-    });
-
-
 }
