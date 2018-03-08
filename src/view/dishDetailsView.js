@@ -143,7 +143,7 @@ export function createDishDetail({document, dish, nGuests, addToMenuSubject}) {
     let preparationHeading = document.createElement('h4');
     sectionPreparation.appendChild(preparationHeading);
     preparationHeading.classList.add('softHeading');
-    preparationHeading.textContent = 'Description';
+    preparationHeading.textContent = 'Description & Preparation';
 
     let preparationSubHeading = document.createElement('h6');
     sectionPreparation.appendChild(preparationSubHeading);

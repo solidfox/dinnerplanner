@@ -1,6 +1,6 @@
 import {totalCostOfDish} from "../model/dinnerModel";
 import {View} from "./view";
-import createDishPrintView from "../components/dishPrintView";
+import createDishPrintView from "../components/DishPrintView.jsx";
 
 /** MenuView Object constructor
  *
@@ -72,7 +72,7 @@ function createPrintView({document: document, selectedDishes: selectedDishes, nG
     printElement.push(printMain);
     printMain.id = 'print-dish-list';
     selectedDishes.forEach(dish => {
-        let elements = createDishPrintView(document, dish);
+        let elements = createDishPrintView(dish);
         elements.forEach(element => printMain.appendChild(element));
     });
 
