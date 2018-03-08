@@ -1,7 +1,7 @@
 // import Rx from '/node_modules/rxjs/Rx.js';
 // import $ from 'jquery'
 import DinnerModel from './model/dinnerModel.js'
-import MenuView from './view/menuView.js'
+import MenuView from './view/MenuView.jsx'
 import {WelcomeView} from "./view/welcomeView";
 import {SelectDishView} from "./view/SelectDishView.jsx";
 import DishDetailsView from "./view/DishDetailsView.jsx";

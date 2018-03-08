@@ -3,35 +3,6 @@ import {View} from "./view";
 import Rx from "rxjs/Rx";
 import ResponsiveDesign from "../ResponsiveDesign";
 
-function createDishRow(document, removeDishSubject, dishID, dishName, dishCost, nGuests) {
-    let tableRow = document.createElement("tr");
-
-    let dishNameCell = document.createElement("td");
-    tableRow.appendChild(dishNameCell);
-    dishNameCell.classList.add('capitaliseLabel')
-    dishNameCell.textContent = dishName;
-    dishNameCell.addEventListener('click', () => {
-        window.location.hash = '#dish-details@' + dishID;
-    });
-
-    let dishRemoveCell = document.createElement("td");
-    tableRow.appendChild(dishRemoveCell);
-    dishRemoveCell.classList.add("crossEmoji");
-    dishRemoveCell.textContent = '❌ ';
-    let dishRemoveObservable = Rx.Observable
-        .fromEvent(dishRemoveCell, 'click')
-        .map(() => dishID);
-    dishRemoveObservable.subscribe(removeDishSubject);
-
-    let dishCostCell = document.createElement("td");
-    dishCostCell.textContent = String(Math.round(dishCost * 100) / 100 * nGuests);
-    dishCostCell.classList.add("currency");
-    tableRow.appendChild(dishCostCell);
-
-
-    return tableRow;
-}
-
 /** MenuView Object constructor
  *
  * This object represents the code for one specific view (in this case the Example view).
@@ -58,7 +29,12 @@ export default class MenuView extends View {
             model.nGuestsObservable.distinctUntilChanged().combineLatest(
                 model.selectedDishesObservable.distinctUntilChanged(),
                 (nGuests, selectedDishes) => {
-                    return {nGuests: nGuests, selectedDishes: selectedDishes, totalCost: model.totalMenuCost, dishTypes:model.dishTypes};
+                    return {
+                        nGuests: nGuests,
+                        selectedDishes: selectedDishes,
+                        totalCost: model.totalMenuCost,
+                        dishTypes: model.dishTypes
+                    };
                 }
             );
 
@@ -155,6 +131,92 @@ function createGuestCounter(document, nGuests) {
     };
 }
 
+function DishRow(props) {
+    return (
+        <tr>
+            <td className="capitaliseLabel" onClick={window.location.hash = '#dish-details@' + props.dishID}>
+                {props.dishName}</td>
+            <td className="crossEmoji" onClick={props.removeDish.next(props.dishID)}> // Remove Dish Here
+                ❌
+            </td>
+            <td className="currency">
+                {String(Math.round(props.dishCost * 100) / 100 * props.nGuests)}
+            </td>
+        </tr>
+    );
+}
+
+class MenuTable extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const {
+            removeDishSubject, nGuests, selectedDishes, totalCost,
+        } = this.props;
+
+        return (
+            <table className="countTable center" width="100%">
+                <thead>
+                <tr>
+                    <th>Dish Name</th>
+                    <th></th>
+                    <th align="right">Cost</th>
+                </tr>
+                </thead>
+                <tbody id="menuDishes"> {
+                    selectedDishes.map(dish =>
+                        <DishRow removeDish={removeDishSubject}
+                                       dishID={dish.id}
+                                       dishName={dish.name}
+                                       dishCost={dish.price} nGuests={nGuests}
+                        />)
+                } </tbody>
+                <tfoot>
+                <tr>
+                    <th>{'Total for ' + nGuests + 'people: '}</th>
+                    <th className="currency" id="menuTotals">
+                        {Math.round(totalCost * 100) / 100}
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+        )
+    }
+}
+
+/*
+
+function createDishRow(document, removeDishSubject, dishID, dishName, dishCost, nGuests) {
+    let tableRow = document.createElement("tr");
+
+    let dishNameCell = document.createElement("td");
+    tableRow.appendChild(dishNameCell);
+    dishNameCell.classList.add('capitaliseLabel')
+    dishNameCell.textContent = dishName;
+    dishNameCell.addEventListener('click', () => {
+        window.location.hash = '#dish-details@' + dishID;
+    });
+
+    let dishRemoveCell = document.createElement("td");
+    tableRow.appendChild(dishRemoveCell);
+    dishRemoveCell.classList.add("crossEmoji");
+    dishRemoveCell.textContent = '❌ ';
+    let dishRemoveObservable = Rx.Observable
+        .fromEvent(dishRemoveCell, 'click')
+        .map(() => dishID);
+    dishRemoveObservable.subscribe(removeDishSubject);
+
+    let dishCostCell = document.createElement("td");
+    dishCostCell.textContent = String(Math.round(dishCost * 100) / 100 * nGuests);
+    dishCostCell.classList.add("currency");
+    tableRow.appendChild(dishCostCell);
+
+
+    return tableRow;
+}
+
 function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, totalCost, dishTypes) {
 
     let menuTable = document.createElement('table');
@@ -185,7 +247,8 @@ function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, t
         // })
         //  .filter(elem => elem !== null);
         //const dishRows = sortedDishes.map((dish) => createDishRow(document, removeDishSubject, dish.id, dish.name, totalCostOfDish(dish), nGuests));
-        sortedDishes.forEach(dish => menuTableBody.appendChild(createDishRow(document, removeDishSubject, dish.id, dish.name, dish.price, nGuests)));
+        sortedDishes.forEach(dish =>
+            menuTableBody.appendChild(createDishRow(document, removeDishSubject, dish.id, dish.name, dish.price, nGuests)));
 
     let menuTableFoot = document.createElement('tfoot');
     menuTable.appendChild(menuTableFoot);
@@ -205,9 +268,7 @@ function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, t
         menuFootCost.id = 'menuTotals';
 
     return menuTable;
-
-
-}
+}*/
 
 export function createMenu({
                                document: document,
@@ -269,9 +330,16 @@ export function createMenu({
     let guestCounterRendering = createGuestCounter(document, nGuests);
     menuBody.appendChild(guestCounterRendering.element);
 
-    if (selectedDishes.length != 0) {
-        let menuTableRendering = createMenuTable(document, removeDishSubject, nGuests, selectedDishes, totalCost, dishTypes);
-        menuBody.appendChild(menuTableRendering);
+    selectedDishes.length !== 0 ? [
+        <MenuTable removeDishSubject={removeDishSubject}
+                         nGuests={nGuests}
+                         dish={dish}
+                         selectedDishes={selectedDishes}
+                         totalCost={totalCost}
+        />,
+
+        //  let menuTableRendering = createMenuTable(document, removeDishSubject, nGuests, selectedDishes, totalCost, dishTypes);
+        // menuBody.appendChild(menuTableRendering);
 
         let buttonConfirmDinner = document.createElement('button');
         menuBody.appendChild(buttonConfirmDinner);
@@ -281,7 +349,7 @@ export function createMenu({
         buttonConfirmDinner.addEventListener('click', () => {
             window.location.hash = '#dinner-overview'
         })
-    } else {
+    ] : [
         let buttonConfirmDinner = document.createElement('button');
         menuBody.appendChild(buttonConfirmDinner);
         buttonConfirmDinner.classList.value = 'btn btn-secondary btn-lg btn-block';
@@ -293,7 +361,7 @@ export function createMenu({
         menuBody.appendChild(helpText);
         helpText.classList.add('helpText');
         helpText.textContent = 'You can search & select dishes. Once you find a dish you like, you can add it to the menu.'
-    }
+    ]
 
     return {
         elements: menuElements,
