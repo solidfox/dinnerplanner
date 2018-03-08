@@ -4,7 +4,7 @@ import DinnerModel from './model/dinnerModel.js'
 import MenuView from './view/menuView.js'
 import {WelcomeView} from "./view/welcomeView";
 import {SelectDishView} from "./view/SelectDishView.jsx";
-import DishDetailsView from "./view/dishDetailsView";
+import DishDetailsView from "./view/DishDetailsView.jsx";
 import DinnerOverviewView from "./view/DinnerOverviewView.jsx";
 import {DinnerPrintView} from "./view/DinnerPrintView.jsx";
 import MenuController from "./controller/menuController";
@@ -31,7 +31,7 @@ function main() {
 	let welcomeView = new WelcomeView(getNode('welcome-view'), model);
 	let selectDishView = new SelectDishView(getNode('select-dish-view'), model);
     let dishDetailsView = new DishDetailsView(getNode('dish-details-view'), model);
-    let dishDetailsViewController = new DishDetailsController(dishDetailsView, model);
+    let dishDetailsViewController = new DishDetailsController(DishDetailsView, model);
     let dinnerOverviewView = new DinnerOverviewView(getNode('dinner-overview-view'), model);
     let dinnerPrintView = new DinnerPrintView(getNode('dinner-print-view'), model);
 
