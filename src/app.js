@@ -6,7 +6,7 @@ import {WelcomeView} from "./view/welcomeView";
 import {SelectDishView} from "./view/selectDishView.jsx";
 import DishDetailsView from "./view/dishDetailsView";
 import DinnerOverviewView from "./view/dinnerOverviewView";
-import {DinnerPrintView} from "./view/dinnerPrintView";
+import {DinnerPrintView} from "./view/dinnerPrintView.jsx";
 import MenuController from "./controller/menuController";
 import 'bootstrap';
 import DishDetailsController from "./controller/dishDetailsController";
