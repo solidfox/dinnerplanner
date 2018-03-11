@@ -1,5 +1,5 @@
-#dish-details-view > header {
-    grid-area: button;
+#dish-details-view > .backToSearch {
+    grid-area: backButton;
     width: 100%;
 }
 
@@ -95,7 +95,7 @@ table.ingredients > thead {
         grid-template-rows: auto auto auto 1fr;
         grid-column-gap: 1em;
         grid-template-areas:
-                "button button"
+                "backButton backButton"
                 "title title"
                 "picture ingredients"
                 "preparation ingredients";
