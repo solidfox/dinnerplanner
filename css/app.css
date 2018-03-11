@@ -3,33 +3,37 @@ html {
 }
 
 body {
+    height: 100%;
+}
+
+#app-container {
     min-height: 100%;
 }
 
-body > * {
+#app-container > * {
     padding: 1em;
 }
 
-body > header {
+#app-container > header {
     background: linear-gradient(45deg, rgb(178, 35, 125), rgb(178, 80, 34));
     color:rgba(255,255,255,0.9);
 }
 
-body > footer {
+#app-container > footer {
     background: #aaa;
     color:white;
 }
 
-body > header,
-body > footer {
+#app-container > header,
+#app-container > footer {
     text-align: center;
 }
 
-body > header > *:last-child {
+#app-container > header > *:last-child {
     margin-bottom: 0;
 }
 
-body > article h1 {
+#app-container > article h1 {
     font-size: 2em;
 }
 

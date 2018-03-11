@@ -112,7 +112,7 @@ export default class DinnerModel {
     //if you don't pass any filter all the dishes will be returned
     filteredDishes(type = undefined, filter) {
         type = type === 'all' ? undefined : type;
-        return fetch(this._apiEndpoint(
+        return fetch(apiEndpoint(
             "search",
             {
                 type: type,
@@ -132,26 +132,6 @@ export default class DinnerModel {
             );
     }
 
-    _apiEndpoint(dataType, params) {
-        let endpoint = new URL("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/");
-        switch (dataType) {
-            case "dishDetails":
-                endpoint.pathname = "/recipes/" + params.dishID + "/information";
-                endpoint.searchParams.append("includeNutrition", 'false');
-                break;
-            case "search":
-                endpoint.pathname = "/recipes/search";
-                if (params.type) {
-                    endpoint.searchParams.append("type", params.type)
-                }
-                if (params.filter) {
-                    endpoint.searchParams.append("query", params.filter)
-                }
-                break;
-        }
-        return endpoint.toString();
-    }
-
     constructor() {
         this._selectedDishes = [];
         this._selectedDishesSubject = new Rx.BehaviorSubject(this._selectedDishes);
@@ -164,4 +144,26 @@ export default class DinnerModel {
         this._dishTypes = ["all dishes", "main course", "side dish", "dessert", "appetizer", "salad", "bread", "breakfast", "soup", "beverage", "sauce", "drink"];
 
     }
+}
+
+
+
+function apiEndpoint(dataType, params) {
+    let endpoint = new URL("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/");
+    switch (dataType) {
+        case "dishDetails":
+            endpoint.pathname = "/recipes/" + params.dishID + "/information";
+            endpoint.searchParams.append("includeNutrition", 'false');
+            break;
+        case "search":
+            endpoint.pathname = "/recipes/search";
+            if (params.type) {
+                endpoint.searchParams.append("type", params.type)
+            }
+            if (params.filter) {
+                endpoint.searchParams.append("query", params.filter)
+            }
+            break;
+    }
+    return endpoint.toString();
 }

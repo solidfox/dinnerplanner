@@ -1,4 +1,3 @@
-import {View} from "./view";
 import Rx from "rxjs/Rx";
 import {catchError} from 'rxjs/operators';
 
