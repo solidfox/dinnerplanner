@@ -17,7 +17,7 @@ export default function DishThumbnail({
             className="dish"
             onClick={dishId && (() => {
                 console.log(dispatch);
-                dispatch(clickedDish(dishId));
+                dispatch(clickedDish({dishId:dishId, dishName:title}));
             })}>
             <div className="thumbnail">
                 <img src={imageURL} className="dishImg"></img>

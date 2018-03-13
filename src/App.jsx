@@ -70,12 +70,11 @@ function main() {
     let store = Redux.createStore(reducer);
     store.dispatch({type:"init"});
 
-    console.log(store.getState());
-
     function render() {
-        console.log(store.getState());
+        const state = store.getState();
         ReactDOM.render(<AppComponent dispatch={store.dispatch}
-                                      page={store.getState().get('page')}
+                                      selectedDish={state.get('selectedDish')}
+                                      page={state.get('page')}
                                       filteredDishesFunc={model.filteredDishes}
                                       dishTypes={model.dishTypes}/>, appContainer);
 

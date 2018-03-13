@@ -6,6 +6,7 @@
 import 'bootstrap';
 import SelectDish from "./view/SelectDish.jsx";
 import React from "react";
+import DishDetails from "./view/DishDetails.jsx";
 
 export default function AppComponent({
                                          page,
@@ -24,7 +25,7 @@ export default function AppComponent({
                 return [<SelectDish dishTypes={dishTypes} dispatch={dispatch}
                                     filteredDishesFunc={filteredDishesFunc}/>];
             case "dish-details":
-                return <DishDetails dish={undefined}/>;
+                return <DishDetails dish={selectedDish.toJS()}/>;
             case "dinner-overview":
                 return <DinnerOverview/>;
         }

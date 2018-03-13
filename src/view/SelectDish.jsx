@@ -62,11 +62,12 @@ export default class SelectDish extends React.Component {
             <article>
                 <h1>Find a dish</h1>
                 <section className="select-dish-search-form">
-                    <input className type="text" placeholder="Filter on titles and ingredients" onInput={event => {
-                        console.log(event);
-                        this.state.searchTextSubject.next(event.target.value)}}/>
+                    <input type="text"
+                           placeholder="Filter on titles and ingredients"
+                           onInput={event => this.state.searchTextSubject.next(event.target.value)}/>
                     <label>Filter by: </label>
-                    <select className="btn btn-danger" onChange={event => this.state.typeSubject.next(event.target.value)}>
+                    <select className="btn btn-danger"
+                            onChange={event => this.state.typeSubject.next(event.target.value)}>
                         {this.props.dishTypes
                             .map(dishType => <option className="capitaliseLabel"
                                                      key={dishType}
@@ -81,6 +82,7 @@ export default class SelectDish extends React.Component {
                                                                     imageURL={dish.image}
                                                                     cost={dish.price}
                                                                     dispatch={this.props.dispatch}
+                                                                    key={dish.id}
                     />)}
                 </ul>
             </article>
