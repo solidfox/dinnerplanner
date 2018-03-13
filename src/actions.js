@@ -4,7 +4,7 @@
 
 export const types = {
     clickedDish: "clickedDish"
-}
+};
 
 export function clickedDish(dishId) {
     return {

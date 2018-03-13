@@ -1,11 +1,12 @@
 // import Rx from '/node_modules/rxjs/Rx.js';
 // import $ from 'jquery'
 import DinnerModel from './model/dinnerModel.js'
-import SelectDish from "./view/SelectDish.jsx";
-import 'bootstrap';
 import ReactDOM from 'react-dom';
 import React from "react";
-import {store} from "./model/store";
+import {reducer, initialState} from "./model/store";
+import AppComponent from "./AppComponent.jsx";
+import * as Redux from "redux";
+import {clickedDish} from "./actions";
 
 function main() {
     //We instantiate our model
@@ -66,42 +67,25 @@ function main() {
     //
     // route(window.location);
 
+    let store = Redux.createStore(reducer);
+    store.dispatch({type:"init"});
+
+    console.log(store.getState());
+
+    function render() {
+        console.log(store.getState());
+        ReactDOM.render(<AppComponent dispatch={store.dispatch}
+                                      page={store.getState().get('page')}
+                                      filteredDishesFunc={model.filteredDishes}
+                                      dishTypes={model.dishTypes}/>, appContainer);
+
+    }
 
     const appContainer = getNode("app-container");
 
-    ReactDOM.render(<AppComponent dispatch={store.dispatch}
-                                  page="select-dish"
-                                  filteredDishesFunc={model.filteredDishes}
-                                  dishTypes={model.dishTypes} />, appContainer);
+    store.subscribe(render);
 
-}
-
-function AppComponent({
-                          page,
-                          dish,
-                          dispatch,
-                          dishTypes,
-                          filteredDishesFunc,
-                      }) {
-    function body(page) {
-        switch (page) {
-            case "":
-                return <WelcomeView/>;
-            case "select-dish":
-                return [<SelectDish dishTypes={dishTypes} dispatch={dispatch} filteredDishesFunc={filteredDishesFunc}/>];
-            case "dish-details":
-                return <DishDetails dish={undefined}/>;
-            case "dinner-overview":
-                return <DinnerOverview/>;
-        }
-    }
-    return [
-        <header>
-            <h1>Dinner Planner</h1>
-        </header>,
-        body(page),
-        <footer>Lab Group 5</footer>
-    ];
+    render();
 }
 
 main();

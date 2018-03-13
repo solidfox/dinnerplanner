@@ -14,6 +14,9 @@ var config = {
         publicPath: '/dist/',
         filename: 'bundle.js',
     },
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
     module: {
         rules: [
             {

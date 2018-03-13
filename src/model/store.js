@@ -4,24 +4,23 @@
 
 import * as Immutable from "immutable";
 import * as Actions from "../actions";
-import * as Redux from "redux";
 
-const initialState = Immutable.Map({
-    page: "",
+export const initialState = Immutable.Map({
+    page: "select-dish",
     selectedDish: null,
     searchString: "",
     menu: []
 });
 
-function reducer(state = initialState, action) {
+export function reducer(state = initialState, action) {
     switch (action.type) {
-        case Actions.clickedDish:
+        case Actions.types.clickedDish:
             const newState = state
-                .assoc("page", "dish-details")
-                .assoc("selectedDish", action.dishId);
-            console.log(newState.toJS());
+                .set("page", "dish-details")
+                .set("selectedDish", action.dishId);
+            console.log("Swapped state");
             return newState;
+        default:
+            return state;
     }
 }
-
-export const store = Redux.createStore(reducer);

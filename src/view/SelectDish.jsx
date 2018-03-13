@@ -20,7 +20,7 @@ import PropTypes from 'prop-types';
  */
 export default class SelectDish extends React.Component {
 
-    get propTypes() {
+    static propTypes() {
         return {
             dispatch: PropTypes.func,
             filteredDishesFunc: PropTypes.func,
@@ -67,7 +67,10 @@ export default class SelectDish extends React.Component {
                         this.state.searchTextSubject.next(event.target.value)}}/>
                     <label>Filter by: </label>
                     <select className="btn btn-danger" onChange={event => this.state.typeSubject.next(event.target.value)}>
-                        {this.props.dishTypes.map(dishType => <option className="capitaliseLabel" value={dishType}>{dishType}</option>)}
+                        {this.props.dishTypes
+                            .map(dishType => <option className="capitaliseLabel"
+                                                     key={dishType}
+                                                     value={dishType}>{dishType}</option>)}
                     </select>
                 </section>
                 <hr/>

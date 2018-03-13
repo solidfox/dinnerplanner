@@ -15,7 +15,10 @@ export default function DishThumbnail({
     return (
         <li key={dishId}
             className="dish"
-            onClick={dishId && (() => dispatch(clickedDish(dishId)))}>
+            onClick={dishId && (() => {
+                console.log(dispatch);
+                dispatch(clickedDish(dishId));
+            })}>
             <div className="thumbnail">
                 <img src={imageURL} className="dishImg"></img>
                 <label className="capitaliseLabel dishTitle">{title}</label>
