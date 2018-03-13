@@ -1,5 +1,4 @@
 import {totalCostOfDish} from "../model/dinnerModel";
-import {View} from "./view";
 import {DishThumbnail} from "../components/DishThumbnail.jsx";
 import {ThumbnailHeading} from "../components/ThumbnailHeading.jsx";
 import ReactDOM from "react-dom";

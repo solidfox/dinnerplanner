@@ -7,12 +7,15 @@
 var config = {
     context: __dirname + '/src', // `__dirname` is root of project and `src` is source
     entry: {
-        app: './app.js',
+        app: './App.jsx',
     },
     output: {
         path: __dirname + '/dist', // `dist` is the destination
         publicPath: '/dist/',
         filename: 'bundle.js',
+    },
+    resolve: {
+        extensions: ['.js', '.jsx']
     },
     module: {
         rules: [

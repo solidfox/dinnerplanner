@@ -16,15 +16,13 @@
     <link rel="stylesheet" href="css/overview.css">
     <link rel="stylesheet" href="css/printView.css">
 </head>
-<body class="page-grid">
-<header>
-    <h1>Dinner Planner</h1>
-</header>
+<body>
+<div class="page-grid" id="app-container"></div>
 
 <!-- I created a JS function in menuView.src -->
 <article class="menu-view inactive" id="menu-view"></article>
 
-<article class="no-menu" id="welcome-view" style="text-align: center">
+<article class="no-menu inactive" id="welcome-view" style="text-align: center">
     <h3 class="spacious">Welcome to Dinner Planner of Group 5.</h3>
     <h4 class="spacious">Press the button to Create a New Dinner Plan.</h4>
     <button type="button"
@@ -35,6 +33,10 @@
 </article>
 
 <article class="inactive" id="dish-details-view">
+
+</article>
+
+<article className="inactive" id="select-dish-view">
 
 </article>
 
@@ -65,8 +67,6 @@
     <main id="print-dish-list">
     </main>-->
 </article>
-
-<footer>Lab Group 5</footer>
 
 <!-- The application JavaScript code -->
 <script src="dist/bundle.js"></script>

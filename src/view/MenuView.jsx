@@ -1,5 +1,3 @@
-import {totalCostOfDish} from "../model/dinnerModel";
-import {View} from "./view";
 import Rx from "rxjs/Rx";
 import ResponsiveDesign from "../ResponsiveDesign";
 
