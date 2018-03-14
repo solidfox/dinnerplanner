@@ -17,25 +17,25 @@ export default function AppComponent({
                                          filteredDishesFunc,
                                          dispatch,
                                      }) {
-    function body(page) {
+    function AppBody() {
         switch (page) {
             case "":
                 return <WelcomeView/>;
             case "select-dish":
-                return [<SelectDish dishTypes={dishTypes} dispatch={dispatch}
-                                    filteredDishesFunc={filteredDishesFunc}/>];
+                return <SelectDish dishTypes={dishTypes} dispatch={dispatch}
+                                   filteredDishesFunc={filteredDishesFunc}/>;
             case "dish-details":
-                return <DishDetails dish={selectedDish.toJS()}/>;
+                return <DishDetails dish={selectedDish}/>;
             case "dinner-overview":
                 return <DinnerOverview/>;
         }
     }
 
     return [
-        <header>
+        <header key="header">
             <h1>Dinner Planner</h1>
         </header>,
-        body(page),
-        <footer>Lab Group 5</footer>
+        <AppBody key="body"/>,
+        <footer key="footer">Lab Group 5</footer>
     ];
 }

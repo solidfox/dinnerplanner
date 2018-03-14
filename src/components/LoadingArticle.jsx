@@ -5,7 +5,5 @@
 import React from "react";
 
 export default function LoadingArticle() {
-    return [
-        <div>Loading...</div>
-    ]
+    return <div>Loading...</div>;
 }

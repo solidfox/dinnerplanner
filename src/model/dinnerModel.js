@@ -66,46 +66,6 @@ export default class DinnerModel {
                 }
             }
         }*/
-    getDish(id) {
-        if (!id) {
-            return new Promise((resolve, reject) => {
-                reject("No id passed.");
-            })
-        }
-        return fetch(this._apiEndpoint(
-            "dishDetails",
-            {
-                dishID: id
-            }),
-            {
-                headers: new Headers({
-                    "X-Mashape-Key": Keys.spoonacular
-                })
-            })
-            .then(response => response.json())
-            .then(json => ({
-                id: json.id,
-                name: json.title,
-                type: json.dishTypes,
-                image: json.image,
-                price: json.pricePerServing / 100,
-                description: json.instructions,
-                sourceURL: json.spoonacularSourceUrl,
-                score: json.healthScore,
-                cookTime: json.cookingMinutes,
-                prepTime: json.preparationMinutes,
-                readyTime: json.readyInMinutes,
-                credit: json.creditText,
-                veg: json.vegetarian,
-                ingredients: json.extendedIngredients.map((ingredient) => ({
-                    name: ingredient.name,
-                    quantity: ingredient.amount,
-                    unit: ingredient.unit,
-                    price: "0.00"
-                }))
-            }))
-
-    }
 
     //function that returns all dishes of specific type (i.e. "starter", "main dish" or "dessert")
     //you can use the filter argument to filter out the dish by name or ingredient (use for search)
@@ -147,7 +107,6 @@ export default class DinnerModel {
 }
 
 
-
 function apiEndpoint(dataType, params) {
     let endpoint = new URL("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/");
     switch (dataType) {
@@ -166,4 +125,45 @@ function apiEndpoint(dataType, params) {
             break;
     }
     return endpoint.toString();
+}
+
+export function fetchDish(id) {
+    if (!id) {
+        return new Promise((resolve, reject) => {
+            reject("No id passed.");
+        })
+    }
+    const endpoint = apiEndpoint("dishDetails", {dishID: id});
+
+    return fetch(endpoint,
+        {
+            headers: new Headers({
+                "X-Mashape-Key": Keys.spoonacular
+            })
+        })
+        .then(response => response.json())
+        .then(json => ({
+            id: json.id,
+            name: json.title,
+            body: {
+                type: json.dishTypes,
+                image: json.image,
+                price: json.pricePerServing / 100,
+                description: json.instructions,
+                sourceURL: json.spoonacularSourceUrl,
+                score: json.healthScore,
+                cookTime: json.cookingMinutes,
+                prepTime: json.preparationMinutes,
+                readyTime: json.readyInMinutes,
+                credit: json.creditText,
+                veg: json.vegetarian,
+                ingredients: json.extendedIngredients.map((ingredient) => ({
+                    name: ingredient.name,
+                    quantity: ingredient.amount,
+                    unit: ingredient.unit,
+                    price: "0.00"
+                }))
+            }
+        }))
+
 }

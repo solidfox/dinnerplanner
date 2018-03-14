@@ -2,7 +2,7 @@ import Rx from "rxjs/Rx";
 import {catchError} from 'rxjs/operators';
 import React from "react";
 import LoadingArticle from "../components/LoadingArticle.jsx";
-import {addDishToMenu} from "../actions";
+import {addDishToMenu} from "../Actions";
 
 function extractId(searchString) {
     return Number(searchString.split("@")[1]);
@@ -101,7 +101,9 @@ export default function DishDetail({
                                        dispatch
                                    }) {
 
-    const body = !dish.body ? [<LoadingArticle/>] : [
+    console.log(dish);
+
+    const body = !dish.body ? <LoadingArticle/> : [
         // ----------- Image -----------
         <section className="picture">
             <img className="imageDish" src={dish.body.image}
@@ -131,13 +133,11 @@ export default function DishDetail({
                 </tr>
                 </thead>
                 <tbody>
-                {dish.ingredients.map(ingredient => <CreateIngredientsRow ingredient={ingredient} nGuests={nGuests}/>)}
+                {dish.body.ingredients.map(ingredient => <CreateIngredientsRow ingredient={ingredient} nGuests={nGuests}/>)}
                 </tbody>
             </table>
         </section>,
     ];
-
-    console.log(dish);
 
     return (
         <article>

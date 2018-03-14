@@ -6,7 +6,9 @@ const scope = "se.kth.dinnerplanner.siddaniel.";
 
 export const types = {
     clickedDish: scope + "clickedDish",
-    addDishToMenu: scope + "addDishToMenu"
+    addDishToMenu: scope + "addDishToMenu",
+    fetchedDish: scope + "fetchedDish",
+    failedToFetchDish: scope + "failedToFetchDish"
 };
 
 export function clickedDish({dishId, dishName}) {
@@ -14,6 +16,21 @@ export function clickedDish({dishId, dishName}) {
         type: types.clickedDish,
         name: dishName,
         id: dishId,
+    }
+}
+
+export function fetchedDish(dish) {
+    return {
+        type: types.fetchedDish,
+        dish: dish,
+    }
+}
+
+export function failedToFetchDish({dishId, reason}) {
+    return {
+        type: types.failedToFetchDish,
+        id: dishId,
+        reason: reason
     }
 }
 
