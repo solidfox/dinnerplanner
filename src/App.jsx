@@ -3,10 +3,11 @@
 import DinnerModel from './model/dinnerModel.js'
 import ReactDOM from 'react-dom';
 import React from "react";
-import {reducer, initialState} from "./model/store";
+import {reducer, initialState} from "./model/reducer";
 import AppComponent from "./AppComponent.jsx";
 import * as Redux from "redux";
-import {clickedDish} from "./actions";
+import {renderSideEffects, sideEffectMapper, SideEffector} from "./SideEffects";
+import * as core from "./model/core";
 
 function main() {
     //We instantiate our model
@@ -68,16 +69,29 @@ function main() {
     // route(window.location);
 
     let store = Redux.createStore(reducer);
-    store.dispatch({type:"init"});
 
-    console.log(store.getState());
+    let sideEffector = new SideEffector(sideEffectMapper, store.dispatch);
 
     function render() {
-        console.log(store.getState());
-        ReactDOM.render(<AppComponent dispatch={store.dispatch}
-                                      page={store.getState().get('page')}
-                                      filteredDishesFunc={model.filteredDishes}
-                                      dishTypes={model.dishTypes}/>, appContainer);
+        const state = store.getState();
+
+        console.log("State: ");
+        console.log(state.toJS());
+
+        const sideEffects = renderSideEffects(state);
+
+        console.log("SideEffects: ");
+        console.log(sideEffects.toJS());
+
+        sideEffector.perform(sideEffects);
+
+        ReactDOM.render(
+            <AppComponent dispatch={store.dispatch}
+                          selectedDish={core.getSelectedDish(state) || state.get('selectedDish') && state.get('selectedDish').toJS()}
+                          page={state.get('page')}
+                          filteredDishesFunc={model.filteredDishes}
+                          dishTypes={model.dishTypes}/>,
+            appContainer);
 
     }
 

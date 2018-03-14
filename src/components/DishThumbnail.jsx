@@ -2,7 +2,7 @@
  * Created by Daniel Schlaug on 2018-01-29.
  */
 import React from "react";
-import {clickedDish} from "../actions";
+import {clickedDish} from "../Actions";
 
 
 export default function DishThumbnail({
@@ -17,7 +17,7 @@ export default function DishThumbnail({
             className="dish"
             onClick={dishId && (() => {
                 console.log(dispatch);
-                dispatch(clickedDish(dishId));
+                dispatch(clickedDish({dishId:dishId, dishName:title}));
             })}>
             <div className="thumbnail">
                 <img src={imageURL} className="dishImg"></img>
