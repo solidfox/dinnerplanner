@@ -101,6 +101,7 @@ export default function DishDetail({
                                        dispatch
                                    }) {
 
+    console.log("Rendering dish detail...");
     console.log(dish);
 
     const body = !dish.body ? <LoadingArticle/> : [

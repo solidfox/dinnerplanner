@@ -16,7 +16,7 @@ export const initialState = Map({
 
 export function addDishToCache(state, dish) {
     return state.update('dishCache', dishCache =>
-        dishCache.set(dish.id, dish));
+        dishCache.set(dish.id + "", dish));
 }
 
 export function getDish(state, dishId) {
@@ -34,6 +34,7 @@ export function setPage(state, page, selectedDish) {
 }
 
 export function getBestInformationOnSelectedDish(state) {
+    console.log(getFullDataOnSelectedDish(state));
     return getFullDataOnSelectedDish(state) || state.get('selectedDish');
 }
 

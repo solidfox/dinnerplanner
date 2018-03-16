@@ -13,7 +13,7 @@ export const pages = {
 export function urlRouter(url) {
     const urlObject = new URL(url);
     return {
-        page: pages[urlObject.pathname.split('/')[1]],
+        page: urlObject.pathname.split('/')[1],
         selectedDishId: urlObject.searchParams.get('id')
     }
 }

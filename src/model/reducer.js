@@ -28,7 +28,7 @@ export function reducer(state = core.initialState, action) {
                 core.setPage(state, action.page)
                 : core.setSelectedDishId(
                     core.setPage(state, page.page),
-                    page.dishId);
+                    page.selectedDishId);
 
 
         default:
