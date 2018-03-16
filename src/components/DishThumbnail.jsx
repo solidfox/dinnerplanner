@@ -16,7 +16,6 @@ export default function DishThumbnail({
         <li key={dishId}
             className="dish"
             onClick={dishId && (() => {
-                console.log(dispatch);
                 dispatch(clickedDish({dishId:dishId, dishName:title}));
             })}>
             <div className="thumbnail">

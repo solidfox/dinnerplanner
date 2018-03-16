@@ -17,6 +17,7 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
+    "redux-devtools": "^3.4.1",
     "rxjs": "^5.5.6"
   },
   "devDependencies": {

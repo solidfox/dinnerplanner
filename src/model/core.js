@@ -35,7 +35,6 @@ export function setPage(state, page, selectedDish) {
 }
 
 export function getBestInformationOnSelectedDish(state) {
-    console.log(getFullDataOnSelectedDish(state));
     return getFullDataOnSelectedDish(state) || state.get('selectedDish');
 }
 

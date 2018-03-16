@@ -18,69 +18,6 @@ import {pages} from "../model/Pages";
  * @param {jQuery object} container - references the HTML parent element that contains the view.
  * @param {Object} model - the reference to the Dinner Model
  */
-// export class MenuView extends View {
-//
-//     constructor(containerElement, model) {
-//         super(containerElement);
-//
-//         this._nGuestsSubject = new Rx.BehaviorSubject(model.nGuests);
-//         this._removeDishSubject = new Rx.Subject();
-//
-//         let interestingChanges =
-//             model.nGuestsObservable.distinctUntilChanged().combineLatest(
-//                 model.selectedDishesObservable.distinctUntilChanged(),
-//                 (nGuests, menuDishes) => {
-//                     return {
-//                         nGuests: nGuests,
-//                         menuDishes: menuDishes,
-//                         totalCost: model.totalMenuCost,
-//                         dishTypes: model.dishTypes
-//                     };
-//                 }
-//             );
-//
-//         interestingChanges.subscribe(event => this.render(event));
-//     }
-//
-//     render({menuDishes, nGuests, totalCost, dishTypes}) {
-//         this.clear();
-//         console.log("Rendering");
-//         let rendering = createMenu({
-//             document: document,
-//             removeDishSubject: this._removeDishSubject,
-//             nGuests: nGuests,
-//             menuDishes: menuDishes,
-//             totalCost: totalCost,
-//             dishTypes: dishTypes
-//         });
-//         rendering.elements.forEach(element => {
-//             this.containerElement.appendChild(element)
-//         });
-//         rendering.observables.nGuestsInput.subscribe(this._nGuestsSubject);
-//
-//         this._nGuestsSubject.sample(rendering.observables.minusClick)
-//             .map(nGuests => Math.max(nGuests - 1, 1))
-//             .subscribe(this._nGuestsSubject);
-//
-//         this._nGuestsSubject.sample(rendering.observables.plusClick)
-//             .map(nGuests => nGuests + 1)
-//             .subscribe(this._nGuestsSubject);
-//
-//     }
-//
-//     clear() {
-//         this.containerElement.innerHTML = "";
-//     }
-//
-//     get removeDishObservable() {
-//         return this._removeDishSubject;
-//     }
-//
-//     get nGuestsObservable() {
-//         return this._nGuestsSubject;
-//     }
-//
-// }
 
 function GuestCounter({dispatch, nGuests}) {
     return (
@@ -106,9 +43,6 @@ function GuestCounter({dispatch, nGuests}) {
 }
 
 function DishRow({dishName, dishId, nGuests, dispatch, dishCost}) {
-    console.log("rendering row");
-    console.log(nGuests);
-    console.log(dishCost);
     return (
         <tr>
             <td className="capitaliseLabel" onClick={() => dispatch(navigateToPage({page:pages.dishDetails, selectedDishId:dishId}))}>
@@ -133,7 +67,8 @@ function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost}) {
                 <th align="right">Cost</th>
             </tr>
             </thead>
-            <tbody id="menuDishes"> {
+            <tbody id="menuDishes">
+            {
                 menuDishes.map(dish =>
                     <DishRow removeDish={removeDishSubject}
                              key={dish.id}
@@ -142,7 +77,8 @@ function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost}) {
                              dishCost={dish.body.price}
                              nGuests={nGuests}
                     />)
-            } </tbody>
+            }
+            </tbody>
             <tfoot>
             <tr>
                 <th>{'Total for ' + nGuests + ' people: '}</th>
@@ -185,9 +121,9 @@ export default function Menu({
                                 onClick={() => dispatch(navigateToPage(pages.dinnerOverview))}>
                             Confirm Dinner</button>,
                     ] : [
-                        <button className="btn btn-secondary btn-lg btn-block" disabled id="confirm-dinner">
-                            No Dished in Menu </button>,
-                        <p className="helpText">
+                        <button key="no dishes in menu" className="btn btn-secondary btn-lg btn-block" disabled id="confirm-dinner">
+                            No Dishes in Menu </button>,
+                        <p key="comment" className="helpText">
                             You can search & select dishes. Once you find a dish you like, you can add it to the menu.
                         </p>
                     ]

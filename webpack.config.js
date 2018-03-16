@@ -33,6 +33,7 @@ var config = {
     devServer: {
         contentBase: __dirname, // `__dirname` is root of the project
         historyApiFallback: true,
+        // hot: true,
     },
 };
 

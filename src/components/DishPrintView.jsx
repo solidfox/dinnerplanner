@@ -5,19 +5,22 @@ import React from "react";
 
 export function DishPrintView({dish}) {
     return [
-        <img className="dish"> {dish.image} </img>,
-        <h2 className="capitaliseLabel"> {dish.name} </h2>,
-        <table>
-            {dish.ingredients.map(ingredient => <tr>
-                <td>{ingredient.quantity + " " + ingredient.unit}</td>
-                <td className="capitaliseLabel">{ingredient.name}</td>
-            </tr>)}
+        <img key="img" className="dish" src={dish.body.image}/>,
+        <h2 key="heading" className="capitaliseLabel"> {dish.name} </h2>,
+        <table key="ingredients">
+            <tbody>
+            {dish.body.ingredients.map(ingredient =>
+                <tr key={ingredient.name}>
+                    <td>{ingredient.quantity + " " + ingredient.unit}</td>
+                    <td className="capitaliseLabel">{ingredient.name}</td>
+                </tr>)}
+            </tbody>
         </table>,
-        <section>
+        <section key="preparations">
             <h4>Preparation</h4>
-            <p>{dish.description}</p>
+            <p>{dish.body.description}</p>
         </section>,
-        <div/>,
+        <div key="spacer"/>,
     ]
-    
+
 }

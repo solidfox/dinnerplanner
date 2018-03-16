@@ -15,10 +15,6 @@ function main() {
     //We instantiate our model
     let model = new DinnerModel();
 
-    model.selectedDishesObservable.subscribe(function onNext(selectedDishes) {
-        console.log("Selected dishes changed.");
-    });
-
     // And create the instance of ExampleView
     // let exampleView = new ExampleView($("#exampleView"));
 
@@ -70,7 +66,10 @@ function main() {
     //
     // route(window.location);
 
-    let store = Redux.createStore(reducer);
+    let store = Redux.createStore(
+        reducer,
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
 
     store.dispatch(navigateToPage(urlRouter(window.location)));
 

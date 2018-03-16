@@ -2,7 +2,7 @@
  * Created by Daniel Schlaug on 2018-03-08.
  */
 
-const scope = "se.kth.dinnerplanner.siddaniel.";
+const scope = "";// "se.kth.dinnerplanner.siddaniel.";
 
 export const types = {
     navigateToPage: scope + "navigateToPage",

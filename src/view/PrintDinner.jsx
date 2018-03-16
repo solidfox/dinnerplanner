@@ -16,7 +16,7 @@ export default function PrintDinner({nGuests, menu, dispatch}) {
                 <h1>Dinner for {nGuests} People</h1>
             </header>
             <main id='print-dish-list'>
-                {menu.map(dish => <DishPrintView dish={dish}/>)}
+                {menu.map(dish => <DishPrintView key={dish.id} dish={dish}/>)}
             </main>
         </article>
     )

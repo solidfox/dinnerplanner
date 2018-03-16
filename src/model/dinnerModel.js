@@ -36,7 +36,6 @@ export default class DinnerModel {
         let newDish = dish;
         this._selectedDishes = this._selectedDishes.filter(dish => dish.id !== newDish.id);
         this._selectedDishes.push(newDish);
-        console.log(this._selectedDishes);
         this._selectedDishesSubject.next(this.selectedDishes);
     }
 
@@ -113,6 +112,13 @@ function apiEndpoint(dataType, params) {
     return endpoint.toString();
 }
 
+const shorterUnit = {
+    tablespoons: "tbsp",
+    tablespoon: "tbsp",
+    teaspoons: "tsp",
+    teaspoon: "tsp",
+};
+
 export function fetchDish(id) {
     if (!id) {
         return new Promise((resolve, reject) => {
@@ -146,7 +152,7 @@ export function fetchDish(id) {
                 ingredients: json.extendedIngredients.map((ingredient) => ({
                     name: ingredient.name,
                     quantity: ingredient.amount,
-                    unit: ingredient.unit,
+                    unit: shorterUnit[ingredient.unit] || ingredient.unit,
                     price: "0.00"
                 }))
             }

@@ -10,7 +10,7 @@ import DishDetails from "./view/DishDetails.jsx";
 import WelcomeView from "./view/Welcome.jsx";
 import {getBestInformationOnSelectedDish, getMenuDishes} from "./model/core";
 import Menu from "./view/MenuView.jsx";
-import PrintDinner from "./view/DinnerPrintView";
+import PrintDinner from "./view/PrintDinner";
 import * as core from "./model/core";
 import DinnerOverview from "./view/DinnerOverviewView.jsx";
 

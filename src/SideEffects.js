@@ -45,7 +45,6 @@ function id(sideEffect) {
 export function sideEffectMapper(sideEffects, dispatch) {
     let pendings = {};
     sideEffects.forEach(sideEffect => {
-        console.log(sideEffect);
         switch (sideEffect.type) {
             case types.fetchDish:
                 let promise = Services.fetchDish(sideEffect.key);
