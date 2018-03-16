@@ -32,6 +32,7 @@ var config = {
     devtool: 'source-map',
     devServer: {
         contentBase: __dirname, // `__dirname` is root of the project
+        historyApiFallback: true,
     },
 };
 
