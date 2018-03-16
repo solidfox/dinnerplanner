@@ -8,6 +8,7 @@ export const initialState = Map({
     page: "select-dish",
     selectedDish: null,
     searchString: "",
+    dishTypes: ["all dishes", "main course", "side dish", "dessert", "appetizer", "salad", "bread", "breakfast", "soup", "beverage", "sauce", "drink"],
     menu: Set(),
     dishCache: Map(),
     pendingSideEffects: List()
@@ -32,10 +33,19 @@ export function setPage(state, page, selectedDish) {
         .set("selectedDish", selectedDish);
 }
 
+export function getBestInformationOnSelectedDish(state) {
+    return getFullDataOnSelectedDish(state) || state.get('selectedDish');
+}
+
+export function setSelectedDishId(state, dishId) {
+    return getSelectedDishId(state) ? state.setIn(['selectedDish', 'id'], dishId)
+        : state.set('selectedDish', Map({id: dishId}));
+}
+
 export function getSelectedDishId(state) {
     return state.getIn(['selectedDish', 'id']);
 }
 
-export function getSelectedDish(state) {
+export function getFullDataOnSelectedDish(state) {
     return getDish(state, getSelectedDishId(state));
 }

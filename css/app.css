@@ -49,11 +49,6 @@ body {
     display: none !important;
 }
 
-#select-dish-search-form {
-    width: 100%;
-}
-
-
 li.vertical-divider {
     width: 1px;
     background: #e5e5e5;
@@ -94,18 +89,23 @@ table .currency {
     justify-content: center;
 }
 
-.select-dish-search-form {
+.dish-search-form {
     display: grid;
     grid-template-columns: 1fr auto auto;
     grid-column-gap: 1em;
     align-items: center;
 }
 
-.select-dish-search-form > input {
+.dish-search-form select {
+    text-transform: capitalize;
+}
+
+.dish-search-form > input {
     width: auto;
     align-self: stretch;
 }
-.select-dish-search-form > label {
+
+.dish-search-form > label {
     font-weight: bold;
     /*line-height: 40px;*/
     margin: 0;

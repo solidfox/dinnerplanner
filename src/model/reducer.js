@@ -5,6 +5,8 @@
 import {Map, List, Set} from "immutable"
 import * as Actions from "../Actions"
 import * as core from "./core"
+import {pages} from "./Pages"
+import {types} from "../Actions";
 
 export function reducer(state = core.initialState, action) {
     switch (action.type) {
@@ -19,7 +21,14 @@ export function reducer(state = core.initialState, action) {
             return core.addDishToCache(state, action.dish);
 
         case Actions.types.navigateToPage:
-            return core.setPage(state, action.page);
+            const page = action.page;
+            console.log(page);
+            return typeof page === 'string' ?
+                core.setPage(state, action.page)
+                : core.setSelectedDishId(
+                    core.setPage(state, page.page),
+                    page.dishId);
+
 
         default:
             return state;

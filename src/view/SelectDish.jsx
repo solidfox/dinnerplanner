@@ -61,7 +61,7 @@ export default class SelectDish extends React.Component {
         return (
             <article>
                 <h1>Find a dish</h1>
-                <section className="select-dish-search-form">
+                <section className="dish-search-form">
                     <input type="text"
                            placeholder="Filter on titles and ingredients"
                            onInput={event => this.state.searchTextSubject.next(event.target.value)}/>
@@ -69,8 +69,7 @@ export default class SelectDish extends React.Component {
                     <select className="btn btn-danger"
                             onChange={event => this.state.typeSubject.next(event.target.value)}>
                         {this.props.dishTypes
-                            .map(dishType => <option className="capitaliseLabel"
-                                                     key={dishType}
+                            .map(dishType => <option key={dishType}
                                                      value={dishType}>{dishType}</option>)}
                     </select>
                 </section>

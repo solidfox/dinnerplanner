@@ -2,7 +2,7 @@
  * Created by Daniel Schlaug on 2018-03-14.
  */
 
-export default const pages = {
+const pages = {
     welcome: "welcome",
     selectDish: "select-dish",
     dishDetails: "dish-details",
@@ -10,7 +10,12 @@ export default const pages = {
     printDinner: "print-dinner",
 };
 
+export default pages;
+
 export function urlRouter(url) {
     const urlObject = new URL(url);
-    if () urlObject.pathname
+    return {
+        page: pages[urlObject.pathname.split('/')[1]],
+        selectedDishId: urlObject.searchParams.get('id')
+    }
 }
