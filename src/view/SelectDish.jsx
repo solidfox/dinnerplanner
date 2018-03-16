@@ -74,7 +74,7 @@ export default class SelectDish extends React.Component {
                     </select>
                 </section>
                 <hr/>
-                <ul className="dish-thumbnail-list">
+                <ul className="dish-thumbnail-list" >
                     {this.state.dishList.map(dish => <DishThumbnail dish={dish}
                                                                     title={dish.name}
                                                                     dishId={dish.id}
