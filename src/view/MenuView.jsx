@@ -140,7 +140,7 @@ function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost}) {
             } </tbody>
             <tfoot>
             <tr>
-                <th>{'Total for ' + nGuests + 'people: '}</th>
+                <th>{'Total for ' + nGuests + ' people: '}</th>
                 <th className="currency" id="menuTotals">
                     {Math.round(totalCost * 100) / 100}
                 </th>
@@ -158,16 +158,16 @@ export default function Menu({
                                  dispatch
                              }) {
     return (
-        <article>
+        <article className="menu-view">
             <header data-toggle="collapse" data-target=".menu-body" aria-expanded="false">
                 <h1>My Dinner</h1>
-                <h1 className="only-when-collapsed currency">
+                <h1 className="currency">
                     {Math.round(totalCost * 100) / 100 + ' ≣'}
                 </h1>
             </header>
             <section className="collapse show menu-body">
                 <GuestCounter nGuests={nGuests} dispatch={dispatch}/>
-                {menuDishes.length !== 0 ?
+                {menuDishes.size !== 0 ?
                     [
                         <MenuTable key={'menutable'}
                                    nGuests={nGuests}
@@ -175,14 +175,14 @@ export default function Menu({
                                    totalCost={totalCost}
                         />,
                         <button key={'button'}
-                                className="btn btn-secondary btn-lg btn-block"
+                                className="btn btn-primary btn-lg btn-block"
                                 id="confirm-dinner"
                                 onClick={() => dispatch(navigateToPage(pages.dinnerOverview))}>
                             Confirm Dinner</button>,
                     ] : [
                         <button className="btn btn-secondary btn-lg btn-block" disabled id="confirm-dinner">
                             No Dished in Menu </button>,
-                        <p className="hemlText">
+                        <p className="helpText">
                             You can search & select dishes. Once you find a dish you like, you can add it to the menu.
                         </p>
                     ]
