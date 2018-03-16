@@ -9,6 +9,7 @@ import * as Redux from "redux";
 import {renderSideEffects, sideEffectMapper, SideEffector} from "./SideEffects";
 import * as core from "./model/core";
 import {navigateToPage} from "./Actions";
+import {urlRouter} from "./model/Pages";
 
 function main() {
     //We instantiate our model
@@ -71,7 +72,7 @@ function main() {
 
     let store = Redux.createStore(reducer);
 
-    store.dispatch(navigateToPage())
+    store.dispatch(navigateToPage("select-dish"));
 
     let sideEffector = new SideEffector(sideEffectMapper, store.dispatch);
 
@@ -89,11 +90,10 @@ function main() {
         sideEffector.perform(sideEffects);
 
         ReactDOM.render(
-            <AppComponent dispatch={store.dispatch}
-                          selectedDish={core.getSelectedDish(state) || state.get('selectedDish') && state.get('selectedDish').toJS()}
-                          page={state.get('page')}
-                          filteredDishesFunc={model.filteredDishes}
-                          dishTypes={model.dishTypes}/>,
+            <AppComponent state={state.toJS()}
+                          dispatch={store.dispatch}
+                          selectedDish={core.getFullDataOnSelectedDish(state) || state.get('selectedDish') && state.get('selectedDish').toJS()}
+                          filteredDishesFunc={model.filteredDishes}/>,
             appContainer);
 
     }

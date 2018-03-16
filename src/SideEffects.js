@@ -34,7 +34,7 @@ function fetchDish(dishId) {
 
 export function renderSideEffects(state) {
     return Set()
-        .add(Core.getSelectedDishId(state) && !Core.getSelectedDish(state) && fetchDish(getSelectedDishId(state)))
+        .add(Core.getSelectedDishId(state) && !Core.getFullDataOnSelectedDish(state) && fetchDish(getSelectedDishId(state)))
         .filter(x => x);
 }
 

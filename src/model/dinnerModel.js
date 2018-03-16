@@ -1,20 +1,8 @@
 import Rx from "rxjs/Rx";
 import * as Keys from "./keys";
 
-export function totalCostOfDish(dish) {
-    return dish.ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0)
-}
-
 //DinnerModel Object constructor
 export default class DinnerModel {
-
-    get nGuestsObservable() {
-        return this._numberOfGuestsSubject;
-    }
-
-    get dishTypes() {
-        return this._dishTypes;
-    }
 
     get nGuests() {
         return this._nGuests;
@@ -100,8 +88,6 @@ export default class DinnerModel {
 
         this._nGuests = 2;
         this._numberOfGuestsSubject = new Rx.BehaviorSubject(this.nGuests);
-
-        this._dishTypes = ["all dishes", "main course", "side dish", "dessert", "appetizer", "salad", "bread", "breakfast", "soup", "beverage", "sauce", "drink"];
 
     }
 }

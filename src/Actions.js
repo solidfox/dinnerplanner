@@ -27,6 +27,10 @@ export function navigateToPage(page) {
     }
 }
 
+export function navigateToRoute() {
+
+}
+
 export function fetchedDish(dish) {
     return {
         type: types.fetchedDish,

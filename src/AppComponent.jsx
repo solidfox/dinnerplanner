@@ -7,25 +7,24 @@ import 'bootstrap';
 import SelectDish from "./view/SelectDish.jsx";
 import React from "react";
 import DishDetails from "./view/DishDetails.jsx";
+import {getBestInformationOnSelectedDish} from "./model/core";
 
 export default function AppComponent({
-                                         page,
-                                         selectedDish,
-                                         searchString,
-                                         menu,
-                                         dishTypes,
+                                         state,
                                          filteredDishesFunc,
                                          dispatch,
                                      }) {
     function AppBody() {
-        switch (page) {
+        switch (state.page) {
             case "":
                 return <WelcomeView/>;
             case "select-dish":
-                return <SelectDish dishTypes={dishTypes} dispatch={dispatch}
-                                   filteredDishesFunc={filteredDishesFunc}/>;
+                return [
+                    <SelectDish dishTypes={state.dishTypes} dispatch={dispatch}
+                                filteredDishesFunc={filteredDishesFunc}/>
+                ];
             case "dish-details":
-                return <DishDetails dish={selectedDish}
+                return <DishDetails dish={getBestInformationOnSelectedDish(state)}
                                     dispatch={dispatch}/>;
             case "dinner-overview":
                 return <DinnerOverview/>;
