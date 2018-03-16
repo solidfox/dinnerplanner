@@ -24,6 +24,7 @@ export default function AppComponent({
                 ];
             case "dish-details":
                 return <DishDetails dish={getBestInformationOnSelectedDish(state)}
+                                    nGuests={state.get("nGuests")}
                                     dispatch={dispatch}/>;
             case "dinner-overview":
                 return <DinnerOverview/>;

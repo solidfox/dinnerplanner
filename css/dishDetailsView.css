@@ -1,6 +1,6 @@
 #dish-details-view > .backToSearch {
     grid-area: backButton;
-    width: 100%;
+    justify-self: left;
 }
 
 #dish-details-view > .description {

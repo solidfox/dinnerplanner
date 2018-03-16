@@ -268,7 +268,7 @@ function createMenuTable(document, removeDishSubject, nGuests, selectedDishes, t
     return menuTable;
 }*/
 
-export function createMenu({
+export function creatMeMenu({
                                document: document,
                                removeDishSubject: removeDishSubject,
                                nGuests: nGuests,

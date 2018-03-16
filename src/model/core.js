@@ -11,7 +11,8 @@ export const initialState = Map({
     dishTypes: ["all dishes", "main course", "side dish", "dessert", "appetizer", "salad", "bread", "breakfast", "soup", "beverage", "sauce", "drink"],
     menu: Set(),
     dishCache: Map(),
-    pendingSideEffects: List()
+    pendingSideEffects: List(),
+    nGuests: 2
 });
 
 export function addDishToCache(state, dish) {
