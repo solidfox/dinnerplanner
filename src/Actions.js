@@ -9,7 +9,10 @@ export const types = {
     clickedDish: scope + "clickedDish",
     addDishToMenu: scope + "addDishToMenu",
     fetchedDish: scope + "fetchedDish",
-    failedToFetchDish: scope + "failedToFetchDish"
+    failedToFetchDish: scope + "failedToFetchDish",
+    decreaseGuest: scope + "decreaseGuest",
+    increaseGuest: scope + "increaseGuest",
+    setGuest: scope + "setGuest",
 };
 
 export function clickedDish({dishId, dishName}) {
@@ -50,5 +53,23 @@ export function addDishToMenu(dish) {
     return {
         type: types.addDishToMenu,
         dish: dish
+    }
+}
+
+export function decreaseGuest() {
+    return {
+        type: types.decreaseGuest,
+    }
+}
+
+export function increaseGuest() {
+    return {
+        type: types.increaseGuest,
+    }
+}
+
+export function setGuest() {
+    return {
+        type: types.setGuest,
     }
 }
