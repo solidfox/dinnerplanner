@@ -12,6 +12,7 @@ import {getBestInformationOnSelectedDish, getMenuDishes} from "./model/core";
 import Menu from "./view/MenuView.jsx";
 import PrintDinner from "./view/DinnerPrintView";
 import * as core from "./model/core";
+import DinnerOverview from "./view/DinnerOverviewView.jsx";
 
 export default function AppComponent({
                                          state,
@@ -45,7 +46,9 @@ export default function AppComponent({
                                  dispatch={dispatch}/>
                 ];
             case "dinner-overview":
-                return <DinnerOverview/>;
+                return <DinnerOverview nGuests={state.get('nGuests')}
+                                       menu={core.getMenuDishes(state)}
+                                       dispatch={dispatch}/>;
             case "print-dinner":
                 return <PrintDinner nGuests={state.get('nGuests')}
                                     menu={core.getMenuDishes(state)}

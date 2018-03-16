@@ -1,51 +1,32 @@
 import {totalCostOfDish} from "../model/dinnerModel";
-import {DishThumbnail} from "../components/DishThumbnail.jsx";
+import DishThumbnail from "../components/DishThumbnail.jsx";
 import {ThumbnailHeading} from "../components/ThumbnailHeading.jsx";
 import ReactDOM from "react-dom";
 import React from "react";
+import {navigateToPage} from "../Actions";
+import {pages} from "../model/Pages";
 
-/** MenuView Object constructor
- *
- * This object represents the code for one specific view (in this case the Example view).
- *
- * It is responsible for:
- * - constructing the view (e.g. if you need to create some HTML elements procedurally)
- * - populating the view with the data
- * - updating the view when the data changes
- *
- * You should create a view Object like this for every view in your UI.
- *
- * @param {jQuery object} container - references the HTML parent element that contains the view.
- * @param {Object} model - the reference to the Dinner Model
- */
-export default class DinnerOverviewView extends View {
+export default function DinnerOverview ({nGuests, menu, dispatch}) {
+    return(
+    <article className="no-menu" id="dinner-overview-view" >
+        <header>
+            <button className="btn btn-warning selectButton"
+                    onClick={() => dispatch(navigateToPage(pages.selectDish))}>
+                Go Back & Edit Dinner </button>
+            <h1>Dinner Overview</h1>
+        </header>
+        {menu.map(dish => <DishThumbnail title={dish.name} dishID={dish.id} imageURL={dish.image} cost={dish.price * nGuests} />)}
+        <ThumbnailHeading header={nGuests + "People"} caption="Total cost" subCaption={totalCostOfDish} />
+        <button className="btn btn-warning selectButton" id="print_recipe"
+                onClick={() => dispatch(navigateToPage(pages.printDinner))}>
+            Print Full Recipe</button>
+    </article>
+    );
+}
 
-    constructor(containerElement, model) {
-        super(containerElement);
+/*
+class DinnerOverviewView extends View {
 
-        this._dishList = containerElement.querySelector("#overview-dish-list");
-
-        this._divider = document.createElement("li");
-        this._divider.classList.add("vertical-divider");
-        this._totals = undefined;
-
-        let interestingChanges = model
-            .nGuestsObservable
-            .combineLatest(
-                model.selectedDishesObservable,
-                (nGuests, selectedDishes) => ({nGuests: nGuests, selectedDishes: selectedDishes})
-            )
-
-        interestingChanges
-            .subscribe(({nGuests: nGuests, selectedDishes: selectedDishes}) => {
-                this.setDishList(selectedDishes, nGuests);
-                this.setTotals(model.totalMenuCost, nGuests);
-            })
-    }
-
-    get locationHash() {
-        return '#dinner-overview';
-    }
 
     setDishList(newList, nGuests) {
         this._dishList.innerHTML = "";
@@ -69,36 +50,4 @@ export default class DinnerOverviewView extends View {
     }
 
 }
-
-export function createOverview() {
-    let overviewElement = [];
-
-    let overviewHeader = document.createElement('header');
-    overviewElement.push(overviewHeader);
-    let buttonBack = document.createElement('button');
-    overviewHeader.appendChild(buttonBack);
-    buttonBack.classList.value = 'btn btn-warning selectButton';
-    buttonBack.addEventListener('click', () => {
-        window.location.hash = '#select-dish'
-    })
-    buttonBack.textContent = 'Go Back & Edit Dinner';
-    let overviewHeading = document.createElement('h1');
-    overviewHeader.appendChild(overviewHeading);
-    overviewHeading.textContent = 'Dinner Overview';
-
-    let dishList = document.createElement('ul');
-    overviewElement.push(dishList);
-    dishList.classList.value = 'dish-thumbnail-list';
-    dishList.id = 'overview-dish-list';
-
-    let printButton = document.createElement('button');
-    overviewElement.push(printButton);
-    printButton.classList.value = 'btn btn-warning selectButton';
-    printButton.id = 'print_recipe';
-    printButton.textContent = 'Print Full Recipe';
-    printButton.addEventListener('click', () => {
-        window.location.hash = '#print-dinner'
-    })
-
-    return overviewElement;
-}
+*/
