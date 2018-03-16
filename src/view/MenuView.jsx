@@ -147,7 +147,7 @@ function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost}) {
             <tr>
                 <th>{'Total for ' + nGuests + ' people: '}</th>
                 <th className="currency" id="menuTotals">
-                    {Math.round(totalCost * 100) / 100}
+                    {nGuests * Math.round(totalCost * 100) / 100}
                 </th>
             </tr>
             </tfoot>
