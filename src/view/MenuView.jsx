@@ -116,17 +116,9 @@ function DishRow(props) {
     );
 }
 
-class MenuTable extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const {
-            removeDishSubject, nGuests, selectedDishes, totalCost,
-        } = this.props;
-
-        return (
+function MenuTable (removeDishSubject, nGuests, selectedDishes, totalCost)
+{
+     return (
             <table className="countTable center" width="100%">
                 <thead>
                 <tr>
@@ -152,8 +144,7 @@ class MenuTable extends React.Component {
                 </tr>
                 </tfoot>
             </table>
-        )
-    }
+        );
 }
 
 

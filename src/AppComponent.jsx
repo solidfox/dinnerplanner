@@ -7,6 +7,7 @@ import 'bootstrap';
 import SelectDish from "./view/SelectDish.jsx";
 import React from "react";
 import DishDetails from "./view/DishDetails.jsx";
+import WelcomeView from "./view/Welcome.jsx";
 import {getBestInformationOnSelectedDish} from "./model/core";
 import Menu from "./view/MenuView.jsx";
 
@@ -31,7 +32,7 @@ export default function AppComponent({
             case "dinner-overview":
                 return <DinnerOverview/>;
             default:
-                return <WelcomeView/>;
+                return <WelcomeView dispatch={dispatch}/>;
         }
     }
 
@@ -40,6 +41,6 @@ export default function AppComponent({
             <h1>Dinner Planner</h1>
         </header>,
         <AppBody key="body"/>,
-        <footer key="footer">Lab Group 5</footer>
+        <footer key="footer">Lab Group 5 - Daniel Schlaug & Siddhant Gupta</footer>
     ];
 }

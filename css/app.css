@@ -114,3 +114,9 @@ table .currency {
 select {
     -webkit-appearance: none;
 }
+
+#welcome-view {
+    align-self: center;
+    margin: auto;
+    text-align:center;
+}
