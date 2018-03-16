@@ -15,12 +15,11 @@ export default function AppComponent({
                                          dispatch,
                                      }) {
     function AppBody() {
-        switch (state.page) {
-            case "":
-                return <WelcomeView/>;
+        switch (state.get('page')) {
             case "select-dish":
                 return [
-                    <SelectDish dishTypes={state.dishTypes} dispatch={dispatch}
+                    <SelectDish dishTypes={state.get('dishTypes')}
+                                dispatch={dispatch}
                                 filteredDishesFunc={filteredDishesFunc}/>
                 ];
             case "dish-details":
@@ -28,6 +27,8 @@ export default function AppComponent({
                                     dispatch={dispatch}/>;
             case "dinner-overview":
                 return <DinnerOverview/>;
+            default:
+                return <WelcomeView/>;
         }
     }
 

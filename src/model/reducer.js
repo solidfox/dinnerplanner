@@ -9,6 +9,7 @@ import {pages} from "./Pages"
 import {types} from "../Actions";
 
 export function reducer(state = core.initialState, action) {
+    console.log(pages);
     switch (action.type) {
         case Actions.types.clickedDish:
             const selectedDish = Map(action).delete('type');

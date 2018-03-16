@@ -72,7 +72,7 @@ function main() {
 
     let store = Redux.createStore(reducer);
 
-    store.dispatch(navigateToPage("select-dish"));
+    // store.dispatch(navigateToPage(urlRouter(window.location)));
 
     let sideEffector = new SideEffector(sideEffectMapper, store.dispatch);
 
@@ -90,9 +90,8 @@ function main() {
         sideEffector.perform(sideEffects);
 
         ReactDOM.render(
-            <AppComponent state={state.toJS()}
+            <AppComponent state={state}
                           dispatch={store.dispatch}
-                          selectedDish={core.getFullDataOnSelectedDish(state) || state.get('selectedDish') && state.get('selectedDish').toJS()}
                           filteredDishesFunc={model.filteredDishes}/>,
             appContainer);
 
