@@ -8,6 +8,7 @@ import AppComponent from "./AppComponent.jsx";
 import * as Redux from "redux";
 import {renderSideEffects, sideEffectMapper, SideEffector} from "./SideEffects";
 import * as core from "./model/core";
+import {navigateToPage} from "./Actions";
 
 function main() {
     //We instantiate our model
@@ -69,6 +70,8 @@ function main() {
     // route(window.location);
 
     let store = Redux.createStore(reducer);
+
+    store.dispatch(navigateToPage())
 
     let sideEffector = new SideEffector(sideEffectMapper, store.dispatch);
 

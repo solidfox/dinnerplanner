@@ -23,7 +23,7 @@ export function getDish(state, dishId) {
 }
 
 export function addDishToMenu(state, dishId) {
-    return state.update('menu', menu => menu.push(dishId));
+    return state.update('menu', menu => menu.add(dishId));
 }
 
 export function setPage(state, page, selectedDish) {

@@ -140,7 +140,7 @@ export default function DishDetail({
     ];
 
     return (
-        <article>
+        <article id="dish-details-view">
             {/*-----------  Button ------------*/}
             <button className="backToSearch btn btn-warning"
                     onClick={() => {

@@ -10,13 +10,16 @@ export function reducer(state = core.initialState, action) {
     switch (action.type) {
         case Actions.types.clickedDish:
             const selectedDish = Map(action).delete('type');
-            return core.setPage(state, "dish-details", selectedDish);
+            return core.setPage(state, pages.dishDetails, selectedDish);
 
         case Actions.types.addDishToMenu:
             return core.addDishToMenu(state, action.dish.id);
 
         case Actions.types.fetchedDish:
             return core.addDishToCache(state, action.dish);
+
+        case Actions.types.navigateToPage:
+            return core.setPage(state, action.page);
 
         default:
             return state;
