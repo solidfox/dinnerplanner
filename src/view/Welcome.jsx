@@ -2,7 +2,7 @@ import React from "react";
 import {pages} from "../model/Pages";
 import {navigateToPage} from "../Actions";
 
-export default function WelcomeView (dispatch)
+export default function WelcomeView ({dispatch})
 {
         return (
             <article className="no-menu" id="welcome-view">
