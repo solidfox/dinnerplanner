@@ -25,7 +25,8 @@ export default function AppComponent({
                 return <SelectDish dishTypes={dishTypes} dispatch={dispatch}
                                    filteredDishesFunc={filteredDishesFunc}/>;
             case "dish-details":
-                return <DishDetails dish={selectedDish}/>;
+                return <DishDetails dish={selectedDish}
+                                    dispatch={dispatch}/>;
             case "dinner-overview":
                 return <DinnerOverview/>;
         }

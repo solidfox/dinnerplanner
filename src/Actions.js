@@ -5,6 +5,7 @@
 const scope = "se.kth.dinnerplanner.siddaniel.";
 
 export const types = {
+    navigateToPage: scope + "navigateToPage",
     clickedDish: scope + "clickedDish",
     addDishToMenu: scope + "addDishToMenu",
     fetchedDish: scope + "fetchedDish",
@@ -16,6 +17,13 @@ export function clickedDish({dishId, dishName}) {
         type: types.clickedDish,
         name: dishName,
         id: dishId,
+    }
+}
+
+export function navigateToPage(page) {
+    return {
+        type: types.navigateToPage,
+        page: page,
     }
 }
 
