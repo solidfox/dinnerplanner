@@ -2,7 +2,8 @@ import Rx from "rxjs/Rx";
 import {catchError} from 'rxjs/operators';
 import React from "react";
 import LoadingArticle from "../components/LoadingArticle.jsx";
-import {addDishToMenu} from "../Actions";
+import {addDishToMenu, navigateToPage} from "../Actions";
+import {pages} from "../model/Pages";
 
 function extractId(searchString) {
     return Number(searchString.split("@")[1]);
@@ -144,9 +145,7 @@ export default function DishDetails({
         <article id="dish-details-view">
             {/*-----------  Button ------------*/}
             <button className="backToSearch btn btn-warning"
-                    onClick={() => {
-                        window.location.hash = '#select-dish'
-                    }}>
+                    onClick={() => dispatch(navigateToPage(pages.selectDish))}>
                 Back to Search</button>
             {/*----------- Title ------------*/}
             <section className="dishName">
