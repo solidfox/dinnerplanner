@@ -1,7 +1,7 @@
 import Rx from "rxjs/Rx";
 import ResponsiveDesign from "../ResponsiveDesign";
 import React from "react";
-import {decreaseGuest, increaseGuest, navigateToPage} from "../Actions";
+import {decreaseGuest, increaseGuest, navigateToPage, setGuest} from "../Actions";
 import {pages} from "../model/Pages";
 
 /** MenuView Object constructor
@@ -29,10 +29,10 @@ import {pages} from "../model/Pages";
 //         let interestingChanges =
 //             model.nGuestsObservable.distinctUntilChanged().combineLatest(
 //                 model.selectedDishesObservable.distinctUntilChanged(),
-//                 (nGuests, selectedDishes) => {
+//                 (nGuests, menuDishes) => {
 //                     return {
 //                         nGuests: nGuests,
-//                         selectedDishes: selectedDishes,
+//                         menuDishes: menuDishes,
 //                         totalCost: model.totalMenuCost,
 //                         dishTypes: model.dishTypes
 //                     };
@@ -42,14 +42,14 @@ import {pages} from "../model/Pages";
 //         interestingChanges.subscribe(event => this.render(event));
 //     }
 //
-//     render({selectedDishes, nGuests, totalCost, dishTypes}) {
+//     render({menuDishes, nGuests, totalCost, dishTypes}) {
 //         this.clear();
 //         console.log("Rendering");
 //         let rendering = createMenu({
 //             document: document,
 //             removeDishSubject: this._removeDishSubject,
 //             nGuests: nGuests,
-//             selectedDishes: selectedDishes,
+//             menuDishes: menuDishes,
 //             totalCost: totalCost,
 //             dishTypes: dishTypes
 //         });
@@ -82,19 +82,23 @@ import {pages} from "../model/Pages";
 //
 // }
 
-function GuestCounter(props) {
+function GuestCounter({dispatch, nGuests}) {
     return (
         <section className="input-group number-of-people-view">
             <div className="input-group-prepend">
                 <label className="input-group-text">People</label>
                 <button className="btn btn-secondary" id="decreaseNumberOfGuests"
-                        onClick={() => props.dispatch(decreaseGuest())}> -
+                        onClick={() => dispatch(decreaseGuest())}> -
                 </button>
             </div>
-            <input className="form-control" id="numberOfGuests" value={props.nGuests} type="number"/>
+            <input className="form-control"
+                   id="numberOfGuests"
+                   value={nGuests}
+                   type="number"
+                   onChange={event => dispatch(setGuest(event.target.value))}/>
             <div className="input-group-append">
                 <button className="btn btn-secondary" id="increaseNumberOfGuests"
-                        onClick={() => props.dispatch(increaseGuest())}> +
+                        onClick={() => dispatch(increaseGuest())}> +
                 </button>
             </div>
         </section>
@@ -116,44 +120,41 @@ function DishRow(props) {
     );
 }
 
-function MenuTable (removeDishSubject, nGuests, selectedDishes, totalCost)
-{
-     return (
-            <table className="countTable center" width="100%">
-                <thead>
-                <tr>
-                    <th>Dish Name</th>
-                    <th></th>
-                    <th align="right">Cost</th>
-                </tr>
-                </thead>
-                <tbody id="menuDishes"> {
-                    selectedDishes.map(dish =>
-                        <DishRow removeDish={removeDishSubject}
-                                 dishID={dish.id}
-                                 dishName={dish.name}
-                                 dishCost={dish.price} nGuests={nGuests}
-                        />)
-                } </tbody>
-                <tfoot>
-                <tr>
-                    <th>{'Total for ' + nGuests + 'people: '}</th>
-                    <th className="currency" id="menuTotals">
-                        {Math.round(totalCost * 100) / 100}
-                    </th>
-                </tr>
-                </tfoot>
-            </table>
-        );
+function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost}) {
+    return (
+        <table className="countTable center" width="100%">
+            <thead>
+            <tr>
+                <th>Dish Name</th>
+                <th></th>
+                <th align="right">Cost</th>
+            </tr>
+            </thead>
+            <tbody id="menuDishes"> {
+                menuDishes.map(dish =>
+                    <DishRow removeDish={removeDishSubject}
+                             dishID={dish.id}
+                             dishName={dish.name}
+                             dishCost={dish.price} nGuests={nGuests}
+                    />)
+            } </tbody>
+            <tfoot>
+            <tr>
+                <th>{'Total for ' + nGuests + 'people: '}</th>
+                <th className="currency" id="menuTotals">
+                    {Math.round(totalCost * 100) / 100}
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    );
 }
 
 
 export default function Menu({
-                                 removeDishSubject: removeDishSubject,
                                  nGuests: nGuests,
-                                 selectedDishes: selectedDishes,
+                                 menuDishes: menuDishes,
                                  totalCost: totalCost,
-                                 dishTypes,
                                  dispatch
                              }) {
     return (
@@ -166,15 +167,15 @@ export default function Menu({
             </header>
             <section className="collapse show menu-body">
                 <GuestCounter nGuests={nGuests} dispatch={dispatch}/>
-                {selectedDishes.length !== 0 ?
+                {menuDishes.length !== 0 ?
                     [
-                        <MenuTable removeDishSubject={removeDishSubject}
+                        <MenuTable key={'menutable'}
                                    nGuests={nGuests}
-                                   dish={dish}
-                                   selectedDishes={selectedDishes}
+                                   menuDishes={menuDishes}
                                    totalCost={totalCost}
                         />,
-                        <button className="btn btn-secondary btn-lg btn-block"
+                        <button key={'button'}
+                                className="btn btn-secondary btn-lg btn-block"
                                 id="confirm-dinner"
                                 onClick={() => dispatch(navigateToPage(pages.dinnerOverview))}>
                             Confirm Dinner</button>,

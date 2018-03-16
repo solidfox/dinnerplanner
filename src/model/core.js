@@ -55,3 +55,8 @@ export function getFullDataOnSelectedDish(state) {
 export function getMenuDishes(state) {
     return state.get('menu').map(dishId => getDish(dishId) || dishId)
 }
+
+export function getTotalMenuCost(state) {
+    return getMenuDishes(state)
+        .reduce((acc, dish) => acc + dish.body.price, 0);
+}

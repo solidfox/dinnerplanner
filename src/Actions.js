@@ -68,8 +68,9 @@ export function increaseGuest() {
     }
 }
 
-export function setGuest() {
+export function setGuest(nGuests) {
     return {
         type: types.setGuest,
+        nGuests: nGuests,
     }
 }

@@ -8,7 +8,7 @@ import SelectDish from "./view/SelectDish.jsx";
 import React from "react";
 import DishDetails from "./view/DishDetails.jsx";
 import WelcomeView from "./view/Welcome.jsx";
-import {getBestInformationOnSelectedDish} from "./model/core";
+import {getBestInformationOnSelectedDish, getMenuDishes} from "./model/core";
 import Menu from "./view/MenuView.jsx";
 import PrintDinner from "./view/DinnerPrintView";
 import * as core from "./model/core";
@@ -22,15 +22,28 @@ export default function AppComponent({
         switch (state.get('page')) {
             case "select-dish":
                 return [
-
-                    <SelectDish dishTypes={state.get('dishTypes')}
+                    <Menu key='menu'
+                          dispatch={dispatch}
+                          nGuests={state.get('nGuests')}
+                          totalCost={core.getTotalMenuCost(state)}
+                          menuDishes={core.getMenuDishes(state)}/>,
+                    <SelectDish key='selectDish'
+                                dishTypes={state.get('dishTypes')}
                                 dispatch={dispatch}
                                 filteredDishesFunc={filteredDishesFunc}/>
                 ];
             case "dish-details":
-                return <DishDetails dish={core.getBestInformationOnSelectedDish(state)}
-                                    nGuests={state.get("nGuests")}
-                                    dispatch={dispatch}/>;
+                return [
+                    <Menu key='menu'
+                          dispatch={dispatch}
+                          nGuests={state.get('nGuests')}
+                          totalCost={core.getTotalMenuCost(state)}
+                          menuDishes={core.getMenuDishes(state)}/>,
+                    <DishDetails key='dishDetails'
+                                 dish={core.getBestInformationOnSelectedDish(state)}
+                                 nGuests={state.get("nGuests")}
+                                 dispatch={dispatch}/>
+                ];
             case "dinner-overview":
                 return <DinnerOverview/>;
             case "print-dinner":

@@ -32,6 +32,14 @@ export function reducer(state = core.initialState, action) {
                     core.setPage(state, page.page),
                     page.selectedDishId);
 
+        case Actions.types.decreaseGuest:
+            return state.update('nGuests', (nGuests => nGuests - 1));
+
+        case Actions.types.increaseGuest:
+            return state.update('nGuests', (nGuests => nGuests + 1));
+
+        case Actions.types.setGuest:
+            return state.update('nGuests', (nGuests => action.nGuests));
 
         default:
             return state;
