@@ -1,10 +1,11 @@
-import {totalCostOfDish} from "../model/dinnerModel";
+
 import DishThumbnail from "../components/DishThumbnail.jsx";
 import {ThumbnailHeading} from "../components/ThumbnailHeading.jsx";
 import ReactDOM from "react-dom";
 import React from "react";
 import {navigateToPage} from "../Actions";
 import {pages} from "../model/Pages";
+import {getTotalMenuCost} from "../model/core";
 
 export default function DinnerOverview ({nGuests, menu, dispatch}) {
     return(
@@ -15,8 +16,10 @@ export default function DinnerOverview ({nGuests, menu, dispatch}) {
                 Go Back & Edit Dinner </button>
             <h1>Dinner Overview</h1>
         </header>
-        {menu.map(dish => <DishThumbnail title={dish.name} dishID={dish.id} imageURL={dish.image} cost={dish.price * nGuests} />)}
-        <ThumbnailHeading header={nGuests + "People"} caption="Total cost" subCaption={totalCostOfDish} />
+        <ul className="dish-thumbnail-list">
+        {menu.map(dish => <DishThumbnail title={dish.name} dishID={dish.id} imageURL={dish.body.image} cost={dish.body.price * nGuests} />)}
+        </ul>
+        <ThumbnailHeading header={nGuests + " People"} caption="Total cost: " subCaption={nGuests * menu.reduce((acc, dish) => acc + dish.body.price, 0)} />
         <button className="btn btn-warning selectButton" id="print_recipe"
                 onClick={() => dispatch(navigateToPage(pages.printDinner))}>
             Print Full Recipe</button>
