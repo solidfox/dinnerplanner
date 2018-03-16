@@ -95,7 +95,7 @@ function CreateIngredientsRow(props) {
     );
 }
 
-export default function DishDetail({
+export default function DishDetails({
                                        dish,
                                        nGuests,
                                        dispatch
@@ -115,8 +115,8 @@ export default function DishDetail({
             <h6 className="capitaliseLabel"> {
                 'Ready in ' + dish.body.readyTime + ' mins • Health Score: '
                 + dish.body.score + '/100 • ' + dish.body.type} </h6>
-            <p>{dish.body.description}</p>
             <br/>
+            <p>{dish.body.description}</p>
             <a href={dish.body.sourceURL} target='_blank'> View More Details > </a>
         </section>,
         // ----------- Ingredients ------------
