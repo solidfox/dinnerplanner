@@ -8,6 +8,8 @@ import SelectDish from "./view/SelectDish.jsx";
 import React from "react";
 import DishDetails from "./view/DishDetails.jsx";
 import {getBestInformationOnSelectedDish} from "./model/core";
+import PrintDinner from "./view/DinnerPrintView";
+import * as core from "./model/core";
 
 export default function AppComponent({
                                          state,
@@ -23,11 +25,15 @@ export default function AppComponent({
                                 filteredDishesFunc={filteredDishesFunc}/>
                 ];
             case "dish-details":
-                return <DishDetails dish={getBestInformationOnSelectedDish(state)}
+                return <DishDetails dish={core.getBestInformationOnSelectedDish(state)}
                                     nGuests={state.get("nGuests")}
                                     dispatch={dispatch}/>;
             case "dinner-overview":
                 return <DinnerOverview/>;
+            case "print-dinner":
+                return <PrintDinner nGuests={state.get('nGuests')}
+                                    menu={core.getMenuDishes(state)}
+                                    dispatch={dispatch}/>;
             default:
                 return <WelcomeView/>;
         }

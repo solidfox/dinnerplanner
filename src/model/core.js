@@ -51,3 +51,7 @@ export function getSelectedDishId(state) {
 export function getFullDataOnSelectedDish(state) {
     return getDish(state, getSelectedDishId(state));
 }
+
+export function getMenuDishes(state) {
+    return state.get('menu').map(dishId => getDish(dishId) || dishId)
+}

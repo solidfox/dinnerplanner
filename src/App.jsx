@@ -72,10 +72,7 @@ function main() {
 
     let store = Redux.createStore(reducer);
 
-    let page = urlRouter(window.location);
-    console.log("Routing to...");
-    console.log(page);
-    store.dispatch(navigateToPage(page));
+    store.dispatch(navigateToPage(urlRouter(window.location)));
 
     let sideEffector = new SideEffector(sideEffectMapper, store.dispatch);
 
