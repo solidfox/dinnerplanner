@@ -18,56 +18,6 @@
 </head>
 <body>
 <div class="page-grid" id="app-container"></div>
-
-<!-- I created a JS function in menuView.src -->
-<article class="menu-view inactive" id="menu-view"></article>
-
-<article class="no-menu inactive" id="welcome-view" style="text-align: center">
-    <h3 class="spacious">Welcome to Dinner Planner of Group 5.</h3>
-    <h4 class="spacious">Press the button to Create a New Dinner Plan.</h4>
-    <button type="button"
-            class="btn btn-danger btn-lg"
-            onclick="window.location.hash = '#select-dish'">
-        Create New Dinner
-    </button>
-</article>
-
-<article class="inactive" id="dish-details-view">
-
-</article>
-
-<article className="inactive" id="select-dish-view">
-
-</article>
-
-<!-- I created a JS function in dinnerOverviewView.src -->
-<article class="no-menu inactive" id="dinner-overview-view">
-    <header>
-        <button class="btn btn-warning selectButton" onclick="window.location.hash = '#select-dish'">Go Back & Edit
-            Dinner
-        </button>
-        <h1>Overview</h1>
-    </header>
-    <ul class="dish-thumbnail-list" id="overview-dish-list">
-    </ul>
-    <button class="btn btn-warning selectButton" id="print_recipe"
-            onclick="window.location.hash = '#print-dinner'">Print Full Recipe
-    </button>
-</article>
-
-
-<!-- I created a JS function in dinnerPrintView.src -->
-<article class="no-menu inactive" id="dinner-print-view">
-   <!-- <header>
-        <button class="btn btn-warning selectButton" onclick="window.location.hash = '#select-dish'">Go Back & Edit
-            Dinner
-        </button>
-        <h1>Dinner for 3</h1>
-    </header>
-    <main id="print-dish-list">
-    </main>-->
-</article>
-
 <!-- The application JavaScript code -->
 <script src="dist/bundle.js"></script>
 

@@ -73,7 +73,7 @@ export default class DinnerModel {
             })
             .then((response) => response.json())
             .then((json) => json.results.map((result) => ({
-                    id: result.id,
+                    id: result.id.toString(),
                     name: result.title,
                     image: json.baseUri + result.image
                 }))
@@ -129,7 +129,7 @@ export function fetchDish(id) {
         })
         .then(response => response.json())
         .then(json => ({
-            id: json.id,
+            id: json.id.toString(),
             name: json.title,
             body: {
                 type: json.dishTypes,

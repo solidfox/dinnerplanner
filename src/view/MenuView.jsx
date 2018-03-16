@@ -1,7 +1,7 @@
 import Rx from "rxjs/Rx";
 import ResponsiveDesign from "../ResponsiveDesign";
 import React from "react";
-import {decreaseGuest, increaseGuest, navigateToPage, setGuest} from "../Actions";
+import {decreaseGuest, increaseGuest, navigateToPage, removeDishFromMenu, setGuest} from "../Actions";
 import {pages} from "../model/Pages";
 
 /** MenuView Object constructor
@@ -105,16 +105,20 @@ function GuestCounter({dispatch, nGuests}) {
     )
 }
 
-function DishRow(props) {
+function DishRow({dishName, dishId, nGuests, dispatch, dishCost}) {
+    console.log("rendering row");
+    console.log(nGuests);
+    console.log(dishCost);
     return (
         <tr>
-            <td className="capitaliseLabel" onClick={window.location.hash = '#dish-details@' + props.dishID}>
-                {props.dishName}</td>
-            <td className="crossEmoji" onClick={props.removeDish.next(props.dishID)}> // Remove Dish Here
+            <td className="capitaliseLabel" onClick={() => dispatch(navigateToPage({page:pages.dishDetails, selectedDishId:dishId}))}>
+            <span className="crossEmoji" onClick={() => dispatch(removeDishFromMenu(dishId))}>
                 ❌
+            </span>
+                {dishName}
             </td>
             <td className="currency">
-                {String(Math.round(props.dishCost * 100) / 100 * props.nGuests)}
+                {Math.round(dishCost * 100) / 100 * nGuests}
             </td>
         </tr>
     );
@@ -126,16 +130,17 @@ function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost}) {
             <thead>
             <tr>
                 <th>Dish Name</th>
-                <th></th>
                 <th align="right">Cost</th>
             </tr>
             </thead>
             <tbody id="menuDishes"> {
                 menuDishes.map(dish =>
                     <DishRow removeDish={removeDishSubject}
+                             key={dish.id}
                              dishID={dish.id}
                              dishName={dish.name}
-                             dishCost={dish.price} nGuests={nGuests}
+                             dishCost={dish.body.price}
+                             nGuests={nGuests}
                     />)
             } </tbody>
             <tfoot>

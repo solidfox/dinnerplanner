@@ -13,6 +13,7 @@ export const types = {
     decreaseGuest: scope + "decreaseGuest",
     increaseGuest: scope + "increaseGuest",
     setGuest: scope + "setGuest",
+    removeDishFromMenu: scope + "removeDishFromMenu",
 };
 
 export function clickedDish({dishId, dishName}) {
@@ -72,5 +73,12 @@ export function setGuest(nGuests) {
     return {
         type: types.setGuest,
         nGuests: nGuests,
+    }
+}
+
+export function removeDishFromMenu(dishId) {
+    return {
+        type: types.removeDishFromMenu,
+        dishId: dishId,
     }
 }

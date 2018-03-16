@@ -17,7 +17,7 @@ export const initialState = Map({
 
 export function addDishToCache(state, dish) {
     return state.update('dishCache', dishCache =>
-        dishCache.set(dish.id + "", dish));
+        dishCache.set(dish.id, dish));
 }
 
 export function getDish(state, dishId) {
@@ -53,7 +53,7 @@ export function getFullDataOnSelectedDish(state) {
 }
 
 export function getMenuDishes(state) {
-    return state.get('menu').map(dishId => getDish(dishId) || dishId)
+    return state.get('menu').map(dishId => getDish(state, dishId) || dishId)
 }
 
 export function getTotalMenuCost(state) {
