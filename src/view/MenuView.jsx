@@ -87,8 +87,8 @@ export default function Menu({
         <article className="menu-view">
             <header data-toggle="collapse" data-target=".menu-body" aria-expanded="false">
                 <h1>My Dinner</h1>
-                <h1 className="currency">
-                    {Math.round(totalCost * 100) / 100 + ' ≣'}
+                <h1>
+                    ≣
                 </h1>
             </header>
             <section className="collapse show menu-body">
