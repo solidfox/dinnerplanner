@@ -34,3 +34,13 @@
     font-style: italic;
     font-size: small;
 }
+
+.menu-dishes .dish {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.menu-dishes .dish .remove-icon {
+    padding-right: 3px;
+}

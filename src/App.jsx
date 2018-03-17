@@ -75,8 +75,6 @@ function main() {
 
     let sideEffector = new SideEffector(sideEffectMapper, store.dispatch);
 
-    let appComponent = null;
-
     function render() {
         const state = store.getState();
 
@@ -90,11 +88,9 @@ function main() {
 
         sideEffector.perform(sideEffects);
 
-        if (appComponent) {
-
-        }
         ReactDOM.render(
-            <AppComponent state={state}
+            <AppComponent key="app"
+                          state={state}
                           dispatch={store.dispatch}
                           filteredDishesFunc={model.filteredDishes}/>,
             appContainer);

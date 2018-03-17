@@ -72,7 +72,7 @@ export function increaseGuest() {
 export function setGuest(nGuests) {
     return {
         type: types.setGuest,
-        nGuests: nGuests,
+        nGuests: Number.parseInt(nGuests),
     }
 }
 

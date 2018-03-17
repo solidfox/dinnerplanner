@@ -29,6 +29,7 @@ function GuestCounter({dispatch, nGuests}) {
                 </button>
             </div>
             <input className="form-control"
+                   key="nGuests"
                    id="numberOfGuests"
                    value={nGuests}
                    type="number"
@@ -45,11 +46,12 @@ function GuestCounter({dispatch, nGuests}) {
 function DishRow({dishName, dishId, nGuests, dispatch, dishCost}) {
     return (
         <tr>
-            <td className="capitaliseLabel" onClick={() => dispatch(navigateToPage({page:pages.dishDetails, selectedDishId:dishId}))}>
-            <span className="crossEmoji" onClick={() => dispatch(removeDishFromMenu(dishId))}>
-                ❌
-            </span>
-                {dishName}
+            <td className="dish"
+                onClick={() => dispatch(navigateToPage({page: pages.dishDetails, selectedDishId: dishId}))}>
+                <div className="remove-icon" onClick={() => dispatch(removeDishFromMenu(dishId))}>
+                    ❌
+                </div>
+                <div>{dishName}</div>
             </td>
             <td className="currency">
                 {Math.round(dishCost * 100) / 100 * nGuests}
@@ -67,7 +69,7 @@ function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost}) {
                 <th align="right">Cost</th>
             </tr>
             </thead>
-            <tbody id="menuDishes">
+            <tbody className="menu-dishes">
             {
                 menuDishes.map(dish =>
                     <DishRow removeDish={removeDishSubject}
@@ -121,7 +123,8 @@ export default function Menu({
                                 onClick={() => dispatch(navigateToPage(pages.dinnerOverview))}>
                             Confirm Dinner</button>,
                     ] : [
-                        <button key="no dishes in menu" className="btn btn-secondary btn-lg btn-block" disabled id="confirm-dinner">
+                        <button key="no dishes in menu" className="btn btn-secondary btn-lg btn-block" disabled
+                                id="confirm-dinner">
                             No Dishes in Menu </button>,
                         <p key="comment" className="helpText">
                             You can search & select dishes. Once you find a dish you like, you can add it to the menu.
