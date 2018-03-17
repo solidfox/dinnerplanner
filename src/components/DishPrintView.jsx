@@ -4,9 +4,9 @@
 import React from "react";
 
 export function DishPrintView({dish}) {
-    return [
-        <img key="img" className="dish" src={dish.body.image}/>,
-        <h2 key="heading" className="capitaliseLabel"> {dish.name} </h2>,
+    return <>
+        <img key="img" className="dish" src={dish.body.image}/>
+        <h2 key="heading" className="capitaliseLabel"> {dish.name} </h2>
         <table key="ingredients">
             <tbody>
             {dish.body.ingredients.map(ingredient =>
@@ -15,12 +15,11 @@ export function DishPrintView({dish}) {
                     <td className="capitaliseLabel">{ingredient.name}</td>
                 </tr>)}
             </tbody>
-        </table>,
+        </table>
         <section key="preparations">
             <h4>Preparation</h4>
             <p>{dish.body.description}</p>
-        </section>,
-        <div key="spacer"/>,
-    ]
-
+        </section>
+        <div key="spacer"/>
+    </>
 }

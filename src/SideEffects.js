@@ -2,7 +2,7 @@ import {Map, Set} from "immutable";
 import * as Actions from "./Actions";
 import * as Core from "./model/core";
 import {getSelectedDishId} from "./model/core";
-import * as Services from "./model/dinnerModel";
+import * as Services from "./model/network";
 import * as Keys from "./model/keys";
 
 /**

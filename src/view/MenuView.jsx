@@ -111,25 +111,25 @@ export default function Menu({
             <section className="collapse show menu-body">
                 <GuestCounter nGuests={nGuests} dispatch={dispatch}/>
                 {menuDishes.size !== 0 ?
-                    [
+                    <>
                         <MenuTable key={'menutable'}
                                    nGuests={nGuests}
                                    menuDishes={menuDishes}
                                    totalCost={totalCost}
-                        />,
+                        />
                         <button key={'button'}
                                 className="btn btn-primary btn-lg btn-block"
                                 id="confirm-dinner"
                                 onClick={() => dispatch(navigateToPage(pages.dinnerOverview))}>
                             Confirm Dinner</button>,
-                    ] : [
+                    </> : <>
                         <button key="no dishes in menu" className="btn btn-secondary btn-lg btn-block" disabled
                                 id="confirm-dinner">
-                            No Dishes in Menu </button>,
+                            No Dishes in Menu </button>
                         <p key="comment" className="helpText">
                             You can search & select dishes. Once you find a dish you like, you can add it to the menu.
                         </p>
-                    ]
+                    </>
 
                 }
             </section>
