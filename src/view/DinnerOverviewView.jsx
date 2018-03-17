@@ -1,10 +1,8 @@
 import DishThumbnail from "../components/DishThumbnail.jsx";
 import {ThumbnailHeading} from "../components/ThumbnailHeading.jsx";
-import ReactDOM from "react-dom";
 import React from "react";
 import {navigateToPage} from "../Actions";
 import {pages} from "../model/Pages";
-import {getTotalMenuCost} from "../model/core";
 
 export default function DinnerOverview({nGuests, menu, dispatch}) {
     return (
@@ -32,31 +30,3 @@ export default function DinnerOverview({nGuests, menu, dispatch}) {
         </article>
     );
 }
-
-/*
-class DinnerOverviewView extends View {
-
-
-    setDishList(newList, nGuests) {
-        this._dishList.innerHTML = "";
-        newList.forEach(dish => {
-            ReactDOM.render((<DishThumbnail title={dish.name} dishID={dish.id} imageURL={dish.image} cost={dish.price * nGuests} />), this._dishList);
-            });
-        if (this._totals) {
-            this._dishList.appendChild(this._divider);
-            this._dishList.appendChild(this._totals);
-        }
-    }
-
-    setTotals(totalCost, nGuests) {
-        if (this._totals) {
-            this._divider.remove();
-            this._totals.remove();
-        }
-        this._totals = <ThumbnailHeading header={nGuests + "People"} caption="Total cost" subCaption={totalCost} />;
-        this._dishList.appendChild(this._divider);
-        this._dishList.appendChild(this._totals);
-    }
-
-}
-*/

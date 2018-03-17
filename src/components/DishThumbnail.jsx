@@ -19,7 +19,7 @@ export default function DishThumbnail({
                 dispatch(clickedDish({dishId:dishId, dishName:title}));
             })}>
             <div className="thumbnail">
-                <img src={imageURL} className="dishImg"></img>
+                <img src={imageURL} className="dishImg" />
                 <label className="capitaliseLabel dishTitle">{title}</label>
                 {cost ? <label className="currency">{cost}</label> : null}
             </div>

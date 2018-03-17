@@ -1,13 +1,7 @@
-import Rx from "rxjs/Rx";
-import {catchError} from 'rxjs/operators';
 import React from "react";
 import LoadingArticle from "../components/LoadingArticle.jsx";
 import {addDishToMenu, navigateToPage} from "../Actions";
 import {pages} from "../model/Pages";
-
-function extractId(searchString) {
-    return Number(searchString.split("@")[1]);
-}
 
 function IngredientsRow({ingredient, nGuests}) {
     return (

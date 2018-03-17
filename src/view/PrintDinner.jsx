@@ -1,5 +1,4 @@
 import {totalCostOfDish} from "../model/network";
-import ReactDOM from "react-dom";
 import {DishPrintView} from "../components/DishPrintView.jsx";
 import React from "react";
 import {navigateToPage} from "../Actions";
