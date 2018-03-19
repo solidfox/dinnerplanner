@@ -32,7 +32,7 @@ function updateUrl(url) {
     }
 }
 
-export function renderSideEffects(state) {
+export function getSideEffects(state) {
     let url = new URL(window.location);
     url.search = "";
     url.pathname = `/${state.get('page')}`;
@@ -75,44 +75,54 @@ export function sideEffectMapper(sideEffects, dispatch) {
     return {reduxAction: {type: "sideEffectCompleted"}, pending: {}};
 }
 
-function splitSideEffects(renderedSideEffects, pendingSideEffects) {
-    let renderedSFIds = renderedSideEffects.map(id);
+function getEffectsToCancel(sideEffectRequests, pendingSideEffects) {
+    let requestedIds = sideEffectRequests.map(id);
 
-    let pendingToCancel = pendingSideEffects
-        .filter((_, pendingId) => !renderedSFIds.has(pendingId));
+    return pendingSideEffects
+        .filter((_, pendingId) => !requestedIds.has(pendingId));
+}
 
-    let effectsToPerform = renderedSideEffects
-        .filter(renderedSideEffect => !pendingSideEffects.has(id(renderedSideEffect)));
-
-    return {pendingToCancel: pendingToCancel, effectsToPerform: effectsToPerform}
+function getEffectsToPerform(sideEffectRequests, pendingSideEffects) {
+    return sideEffectRequests
+        .filter(sideEffectRequest => !pendingSideEffects.has(id(sideEffectRequest)));
 }
 
 export class SideEffector {
     constructor(mapper, dispatch) {
         this._mapper = mapper;
-        this._pending = Map();
-        this._lastEffectIdsToPerform = Set();
+        this._state = Map({lastIdsToPerform: Set(), pendingEffects: Map()});
         this._dispatch = dispatch;
     }
 
     perform(sideEffects) {
-        const pendingIn = this._pending;
-        const {pendingToCancel, effectsToPerform} = splitSideEffects(sideEffects, this._pending);
+        const {state, reduxAction} = this._performWithState(this._state, sideEffects);
+        this._state = state;
+        reduxAction && this._dispatch(reduxAction);
+    }
+
+    _performWithState(sideEffectorState, sideEffectRequests) {
+        let state = sideEffectorState;
+        let pendingEffects = state.get('pendingEffects');
+        const effectsToPerform = getEffectsToPerform(sideEffectRequests, pendingEffects);
         const effectIdsToPerform = Set(effectsToPerform.map(id));
-        if (this._lastEffectIdsToPerform.equals(effectIdsToPerform)) {
-            return
+        if (state.get('lastIdsToPerform').equals(effectIdsToPerform)) {
+            return {state: state}
         }
-        this._lastEffectIdsToPerform = effectIdsToPerform;
-        pendingToCancel.valueSeq().forEach(pending => pending.cancel && pending.cancel());
-        const pendingSubCancelled = pendingIn.deleteAll(pendingToCancel.keys());
+        state = state.set('lastIdsToPerform', effectIdsToPerform);
+
+        const effectsToCancel = getEffectsToCancel(sideEffectRequests, pendingEffects);
+        effectsToCancel.valueSeq().forEach(pending => pending.cancel && pending.cancel());
+        const pendingSubCancelled = state.get('pendingEffects').deleteAll(effectsToCancel.keys());
         console.log("effects to perform");
         console.log(effectsToPerform.toJS());
         if (effectsToPerform.size > 0) {
             const {reduxAction, pending: newPending} = this._mapper(effectsToPerform, this._dispatch);
-            this._pending = pendingSubCancelled.merge(newPending);
-            this._dispatch(reduxAction);
+            return {
+                state: state.set('pendingEffects', pendingSubCancelled.merge(newPending)),
+                reduxAction: reduxAction
+            };
         } else {
-            this._pending = pendingSubCancelled;
+            return {state: state.set('pendingEffects', pendingSubCancelled)};
         }
     }
 }
