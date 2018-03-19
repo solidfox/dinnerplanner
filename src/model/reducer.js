@@ -6,9 +6,15 @@ import {Map, List, Set} from "immutable"
 import * as Actions from "../Actions"
 import * as core from "./core"
 import {pages} from "./Pages"
-import {types} from "../Actions";
+import {types} from "../Actions"
+import * as Immutable from "immutable"
 
-export function reducer(state = core.initialState, action) {
+function validState(state) {
+    return Object.getPrototypeOf(Immutable.Map()).isPrototypeOf(state);
+}
+
+export function reducer(state, action) {
+    state = validState(state) ? state : core.initialState;
     console.log("---------- Reducing action -----------");
     console.log(action);
 
@@ -38,7 +44,7 @@ export function reducer(state = core.initialState, action) {
             return state.update('nGuests', (nGuests => nGuests + 1));
 
         case Actions.types.setGuest:
-            return state.update('nGuests', (nGuests => action.nGuests));
+            return state.update('nGuests', (() => action.nGuests));
 
         default:
             return state;

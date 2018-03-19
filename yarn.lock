@@ -2995,6 +2995,12 @@ jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
 
+json-immutable@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/json-immutable/-/json-immutable-0.4.0.tgz#4e6f1deac028d5178d1be7a133075c7dc69f02e2"
+  dependencies:
+    json-stream-stringify "1.5.x"
+
 json-loader@^0.5.4:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/json-loader/-/json-loader-0.5.7.tgz#dca14a70235ff82f0ac9a3abeb60d337a365185d"
@@ -3016,6 +3022,10 @@ json-stable-stringify@^1.0.1:
   resolved "https://registry.yarnpkg.com/json-stable-stringify/-/json-stable-stringify-1.0.1.tgz#9a759d39c5f2ff503fd5300646ed445f88c4f9af"
   dependencies:
     jsonify "~0.0.0"
+
+json-stream-stringify@1.5.x:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/json-stream-stringify/-/json-stream-stringify-1.5.1.tgz#bab905aea92a2f130a4e142b78e66c8367a1064e"
 
 json-stringify-safe@~5.0.1:
   version "5.0.1"
