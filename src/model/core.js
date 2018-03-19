@@ -59,3 +59,7 @@ export function getTotalMenuCost(state) {
     return getMenuDishes(state)
         .reduce((acc, dish) => acc + dish.body.price, 0);
 }
+
+export function round(value) {
+    return Math.round(value*100) / 100;
+}

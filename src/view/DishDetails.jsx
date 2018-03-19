@@ -3,7 +3,39 @@ import LoadingArticle from "../components/LoadingArticle.jsx";
 import {addDishToMenu, navigateToPage} from "../Actions";
 import {pages} from "../model/Pages";
 
+<<<<<<< Updated upstream
 function IngredientsRow({ingredient, nGuests}) {
+=======
+function extractId(searchString) {
+    return Number(searchString.split("@")[1]);
+}
+
+/** MenuView Object constructor
+ *
+ * This object represents the code for one specific view (in this case the Example view).
+ *
+ * It is responsible for:
+ * - constructing the view (e.g. if you need to create some HTML elements procedurally)
+ * - populating the view with the data
+ * - updating the view when the data changes
+ *
+ * You should create a view Object like this for every view in your UI.
+ *
+ * @param {jQuery object} container - references the HTML parent element that contains the view.
+ * @param {Object} model - the reference to the Dinner Model
+ */
+
+//         let dishObservable = idObservable
+//             .filter(maybeId => maybeId > 0)
+//             .do(console.log)
+//             .flatMap(id => Rx.Observable
+//                 .fromPromise(model.getDish(id))
+//                 .pipe(catchError(error => window.alert(`Error fetching dish: ${error}`)))
+//             );
+
+
+function CreateIngredientsRow(props) {
+>>>>>>> Stashed changes
     return (
         <tr>
             <td>{nGuests * Math.round(ingredient.quantity * 100) / 100 + ' ' + ingredient.unit}</td>
@@ -12,8 +44,18 @@ function IngredientsRow({ingredient, nGuests}) {
     );
 }
 
+<<<<<<< Updated upstream
 export default function DishDetails({dish, nGuests, dispatch}) {
 
+=======
+export default function DishDetails({
+                                       dish,
+                                       nGuests,
+                                       dispatch
+                                   }) {
+
+    console.log();
+>>>>>>> Stashed changes
     const body = !dish.body ? <LoadingArticle/> : [
         // ----------- Image -----------
         <section key="picture" className="picture">
