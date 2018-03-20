@@ -38,45 +38,4 @@ export default function SelectDish({dishTypes, dispatch, foundDishes, currentSea
 
         </article>
     );
-    /*
-    static propTypes() {
-        return {
-            dispatch: PropTypes.func,
-            filteredDishesFunc: PropTypes.func,
-            dishTypes: PropTypes.arrayOf(PropTypes.string),
-            foundDishes: PropTypes.arrayOf(PropTypes.string),
-        }
-    }
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            dishList: [],
-            searchTextSubject: new Rx.BehaviorSubject(""),
-            typeSubject: new Rx.BehaviorSubject(props.dishTypes[0]),
-        };
-
-        let initiateSearch =
-            this.state.searchTextSubject
-                .throttleTime(500)
-                .startWith("")
-                .combineLatest(
-                    this.state.typeSubject
-                        .startWith("all"),
-                    (search, type) => ({search:search, type: type})
-                );
-
-        let dishesObservable = initiateSearch.flatMap(({search, type}) =>
-            Rx.Observable.fromPromise(props.filteredDishesFunc(type, search)));
-
-        dishesObservable.subscribe(dishes => this.setState({
-            dishList:dishes,
-            searchTextSubject: this.state.searchTextSubject,
-            typeSubject: this.state.typeSubject,
-        }));
-    }
-*/
-
-
 }

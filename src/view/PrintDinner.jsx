@@ -1,5 +1,5 @@
 import {totalCostOfDish} from "../model/network";
-import {DishPrintView} from "../components/DishPrintView.jsx";
+import {DishPrintView} from "../components/DishPrint.jsx";
 import React from "react";
 import {navigateToPage} from "../Actions";
 import {pages} from "../model/Pages";
