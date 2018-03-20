@@ -6,6 +6,6 @@ import React from "react";
 
 export default function LoadingArticle() {
     return <div className="loading-animation">
-        <h3>Loading...</h3>
+
     </div>;
 }

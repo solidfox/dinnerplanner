@@ -22,7 +22,8 @@ export default function DishThumbnail({
             <div className="thumbnail">
                 <img src={imageURL} className="dishImg" />
                 <label className="capitaliseLabel dishTitle">{title}</label>
-                {cost ? <label className="currency">{cost}</label> : null}
+                <br/>
+                {cost ? <label className="currency">{cost} per person</label> : null}
             </div>
         </li>)
 }

@@ -15,12 +15,15 @@ export default function DinnerOverview ({nGuests, menu, dispatch}) {
             <h1>Dinner Overview</h1>
         </header>
         <ul className="dish-thumbnail-list">
-        {menu.map(dish => <DishThumbnail title={dish.name} dishID={dish.id} imageURL={dish.body.image} />)}
+        {menu.map(dish => <DishThumbnail title={dish.name} dishID={dish.id} cost={round(dish.body.price)} imageURL={dish.body.image} />)}
         </ul>
-        <ThumbnailHeading header={nGuests + " People"} caption="Total cost: " subCaption={round(nGuests * menu.reduce((acc, dish) => acc + dish.body.price, 0))} />
-        <button className="btn btn-warning selectButton" id="print_recipe"
+        <br />
+        <h3>Total Cost for {nGuests} people = ${round(nGuests * menu.reduce((acc, dish) => acc + dish.body.price, 0))}</h3>
+            <button className="btn btn-primary btn-lg selectButton" id="print_recipe"
                 onClick={() => dispatch(navigateToPage(pages.printDinner))}>
             Print Full Recipe</button>
     </article>
     );
 }
+
+//<ThumbnailHeading header={nGuests + " People"} caption="Total cost: " subCaption={round(nGuests * menu.reduce((acc, dish) => acc + dish.body.price, 0))} />

@@ -3,8 +3,8 @@
 @media all and (min-width: 768px) {
     #print-dish-list {
         display: grid;
-        grid-template-columns: 140px auto auto;
-        grid-auto-rows: auto auto 1em;
+        grid-template-columns: 300px auto auto;
+        grid-auto-rows: auto auto ;
         grid-gap: .5em;
     }
 
@@ -12,7 +12,12 @@
         width: 100%;
         grid-row-end: span 2;
         grid-column-start: 1;
-        align-self: center;
+        align-self: start;
+        margin-top: 10px;
+        max-width: 100%;
+        border-radius: 10px;
+        object-fit: cover;
+        margin-bottom: 10px;
     }
 
     #print-dish-list > h2 {
