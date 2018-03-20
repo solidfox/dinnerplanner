@@ -1,7 +1,7 @@
 import React from "react";
-import DishThumbnail from "../components/DishThumbnail.jsx";
-import {searchText, searchType} from "../Actions";
-import LoadingArticle from "../components/LoadingArticle.jsx";
+import DishThumbnail from "./DishThumbnail.jsx";
+import {searchText, searchType} from "../model/Actions";
+import LoadingArticle from "./LoadingArticle.jsx";
 
 export default function SelectDish({dishTypes, dispatch, foundDishes, currentSearchType, currentSearchText}) {
 

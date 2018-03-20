@@ -3,10 +3,10 @@
  */
 
 import {Map, List, Set} from "immutable"
-import * as Actions from "../Actions"
+import * as Actions from "./Actions"
 import * as core from "./core"
 import {pages} from "./Pages"
-import {types} from "../Actions"
+import {types} from "./Actions"
 import * as Immutable from "immutable"
 import {searchKey} from "./core";
 

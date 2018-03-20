@@ -1,6 +1,6 @@
 import React from "react";
-import LoadingArticle from "../components/LoadingArticle.jsx";
-import {addDishToMenu, navigateToPage} from "../Actions";
+import LoadingArticle from "./LoadingArticle.jsx";
+import {addDishToMenu, navigateToPage} from "../model/Actions";
 import {pages} from "../model/Pages";
 
 function IngredientsRow({ingredient, nGuests}) {

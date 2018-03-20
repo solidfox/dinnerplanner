@@ -1,9 +1,8 @@
-import DishThumbnail from "../components/DishThumbnail.jsx";
-import {ThumbnailHeading} from "../components/ThumbnailHeading.jsx";
-import React from "react";
-import {navigateToPage} from "../Actions";
-import {pages} from "../model/Pages";
-import {round} from "../model/core";
+import DishThumbnail from "./DishThumbnail.jsx"
+import React from "react"
+import {navigateToPage} from "../model/Actions"
+import {pages} from "../model/Pages"
+import {round} from "../model/core"
 
 export default function DinnerOverview ({nGuests, menu, dispatch}) {
     return(
@@ -15,7 +14,11 @@ export default function DinnerOverview ({nGuests, menu, dispatch}) {
             <h1>Dinner Overview</h1>
         </header>
         <ul className="dish-thumbnail-list">
-        {menu.map(dish => <DishThumbnail title={dish.name} dishID={dish.id} cost={round(dish.body.price)} imageURL={dish.body.image} />)}
+        {menu.map(dish => <DishThumbnail key={dish.id}
+                                         title={dish.name}
+                                         dishID={dish.id}
+                                         cost={round(dish.body.price)}
+                                         imageURL={dish.body.image} />)}
         </ul>
         <br />
         <h3>Total Cost for {nGuests} people = ${round(nGuests * menu.reduce((acc, dish) => acc + dish.body.price, 0))}</h3>

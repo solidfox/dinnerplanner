@@ -4,17 +4,17 @@
 
 
 import 'bootstrap';
-import SelectDish from "./view/SelectDish.jsx";
+import SelectDish from "./SelectDish.jsx";
 import React from "react";
-import DishDetails from "./view/DishDetails.jsx";
-import WelcomeView from "./view/Welcome.jsx";
-import {getBestInformationOnSelectedDish, getMenuDishes, getSearchResults, getSearchType, getSearchText} from "./model/core";
-import Menu from "./view/MenuView.jsx";
-import PrintDinner from "./view/PrintDinner";
-import * as core from "./model/core";
-import DinnerOverview from "./view/DinnerOverviewView.jsx";
-import {pages} from "./model/Pages";
-import NoConnection from "./components/NoConnection";
+import DishDetails from "./DishDetails.jsx";
+import WelcomeView from "./Welcome.jsx";
+import {getBestInformationOnSelectedDish, getMenuDishes, getSearchResults, getSearchType, getSearchText} from "../model/core";
+import Menu from "./Menu.jsx";
+import PrintDinner from "./PrintDinner";
+import * as core from "../model/core";
+import DinnerOverview from "./DinnerOverview.jsx";
+import {pages} from "../model/Pages";
+import NoConnection from "./NoConnection";
 
 export default function AppComponent({
                                          state,
@@ -24,7 +24,7 @@ export default function AppComponent({
     const page = state.get('page');
     return <>
         <header key="header">
-            <h1 className="appHeading"><a href="../"> Dinner Planner</a></h1>
+            <h1 className="appHeading"><a href="../../"> Dinner Planner</a></h1>
         </header>
 
         {state.get('connectivity') === 'offline' ? <NoConnection /> : ""}

@@ -4,10 +4,10 @@ import {findDishes} from './model/network.js'
 import ReactDOM from 'react-dom'
 import React from "react"
 import {reducer, initialState} from "./model/reducer"
-import AppComponent from "./AppComponent.jsx"
+import AppComponent from "./components/AppComponent.jsx"
 import * as Redux from "redux"
-import {getSideEffects, sideEffectMapper, SideEffector} from "./SideEffects"
-import {navigateToPage} from "./Actions"
+import {getSideEffects, sideEffectMapper, SideEffector} from "./model/SideEffects"
+import {navigateToPage} from "./model/Actions"
 import {urlRouter} from "./model/Pages"
 import * as Immutable from "immutable"
 import * as json_immutable from "json-immutable"

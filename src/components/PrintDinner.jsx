@@ -1,7 +1,5 @@
-import {totalCostOfDish} from "../model/network";
-import {DishPrintView} from "../components/DishPrint.jsx";
 import React from "react";
-import {navigateToPage} from "../Actions";
+import {navigateToPage} from "../model/Actions";
 import {pages} from "../model/Pages";
 
 
@@ -15,7 +13,12 @@ export default function PrintDinner({nGuests, menu, dispatch}) {
                 <h1>Dinner for {nGuests} People</h1>
             </header>
             <main id='print-dish-list'>
-                {menu.map(dish => <DishPrintView key={dish.id} dish={dish}/>)}
+                {menu.map(dish =>
+                    <React.Fragment key={dish.id}>
+                        <img className="dish" src={dish.body.image}/>
+                        <h2 className="capitaliseLabel"> {dish.name} </h2>
+                        <p>{dish.body.description}</p>
+                    </React.Fragment>)}
             </main>
         </article>
     )

@@ -2,7 +2,7 @@
  * Created by Daniel Schlaug on 2018-01-29.
  */
 import React from "react";
-import {navigateToPage} from "../Actions";
+import {navigateToPage} from "../model/Actions";
 import {pages} from "../model/Pages";
 
 

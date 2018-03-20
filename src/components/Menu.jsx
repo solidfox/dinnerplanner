@@ -1,5 +1,5 @@
 import React from "react";
-import {decreaseGuest, increaseGuest, navigateToPage, removeDishFromMenu, setGuest} from "../Actions";
+import {decreaseGuest, increaseGuest, navigateToPage, removeDishFromMenu, setGuest} from "../model/Actions";
 import {pages} from "../model/Pages";
 import {round} from "../model/core";
 

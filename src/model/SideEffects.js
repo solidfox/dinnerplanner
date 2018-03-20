@@ -1,11 +1,11 @@
 import {Map, Set} from "immutable";
 import * as Actions from "./Actions";
-import * as Core from "./model/core";
-import {getSelectedDishId} from "./model/core";
-import * as network from "./model/network";
-import * as Keys from "./model/keys";
+import * as core from "./core";
+import {getSelectedDishId} from "./core";
+import * as network from "./network";
+import * as Keys from "./keys";
 import * as Rx from "rxjs";
-import {searchKey} from "./model/core";
+import {searchKey} from "./core";
 
 /**
  * Created by Daniel Schlaug on 2018-03-13.
@@ -36,7 +36,7 @@ function updateUrl(url) {
 }
 
 function findDishes({searchText, searchType}) {
-    const searchKey = Core.searchKey(searchText, searchType);
+    const searchKey = core.searchKey(searchText, searchType);
     return {
         type: types.findDishes,
         key: searchKey,
@@ -49,18 +49,18 @@ export function getSideEffects(oldState, state) {
     let url = new URL(window.location);
     url.search = "";
     url.pathname = `/${state.get('page')}`;
-    const selectedDishId = Core.getSelectedDishId(state);
+    const selectedDishId = core.getSelectedDishId(state);
     if (selectedDishId) {
         url.searchParams.set('id', selectedDishId);
     }
     return Set()
         .add(
-            Core.getSelectedDishId(state)
-            && !Core.getFullDataOnSelectedDish(state)
+            core.getSelectedDishId(state)
+            && !core.getFullDataOnSelectedDish(state)
             && fetchDish(getSelectedDishId(state))
         )
         .add(
-            Core.searchParametersChanged(oldState, state)
+            core.searchParametersChanged(oldState, state)
             && findDishes({
                 searchText: state.get('searchText'),
                 searchType: state.get('searchType')
