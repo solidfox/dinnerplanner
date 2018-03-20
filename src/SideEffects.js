@@ -13,7 +13,8 @@ const scope = "se.kth.dinnerplanner.siddaniel.";
 
 const types = {
     fetchDish: scope + "fetchDish",
-    updateUrl: scope + "updateUrl"
+    updateUrl: scope + "updateUrl",
+    findDishes: scope + "findDishes"
 };
 
 function fetchDish(dishId) {
@@ -32,7 +33,16 @@ function updateUrl(url) {
     }
 }
 
-export function getSideEffects(state) {
+function findDishes({searchString, searchType}) {
+    const searchKey = searchString + "/" + searchType;
+    return {
+        type: types.findDishes,
+        key: searchKey,
+        successAction: (foundDishes) => Actions.foundDishes(foundDishes, searchKey)
+    }
+}
+
+export function getSideEffects(oldState, state) {
     let url = new URL(window.location);
     url.search = "";
     url.pathname = `/${state.get('page')}`;
@@ -45,6 +55,13 @@ export function getSideEffects(state) {
             Core.getSelectedDishId(state)
             && !Core.getFullDataOnSelectedDish(state)
             && fetchDish(getSelectedDishId(state))
+        )
+        .add(
+            Core.searchParametersChanged(oldState, state)
+            && findDishes({
+                searchString: state.get('searchString'),
+                searchType: state.get('searchType')
+            })
         )
         .add(
             updateUrl(url)
@@ -70,6 +87,8 @@ export function sideEffectMapper(sideEffects, dispatch) {
                     url.pathname,
                     `${url.pathname}${url.search}`
                 )
+                break;
+            case types.findDishes:
         }
     });
     return {reduxAction: {type: "sideEffectCompleted"}, pending: {}};

@@ -41,12 +41,14 @@ function main() {
 
     let sideEffector = new SideEffector(sideEffectMapper, store.dispatch);
 
+    let oldState = null;
+
     function render() {
         const state = store.getState();
 
         persistState(state);
 
-        const sideEffects = getSideEffects(state);
+        const sideEffects = getSideEffects(oldState, state);
 
         console.log("SideEffects: ");
         console.log(sideEffects.toJS());
@@ -60,6 +62,7 @@ function main() {
                           filteredDishesFunc={filteredDishes}/>,
             appContainer);
 
+        oldState = state;
     }
 
     const appContainer = document.getElementById("app-container");
