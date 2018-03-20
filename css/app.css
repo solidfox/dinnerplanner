@@ -134,3 +134,14 @@ select {
     background: url('/src/assets/load.gif') no-repeat center center;
     background-size: 150px 150px;
 }
+
+.no-connection {
+    background-color: white;
+    position:absolute;
+    top:10px;
+    right:10px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #5a6268;
+    padding: 10px;
+}
+
