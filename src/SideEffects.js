@@ -2,7 +2,7 @@ import {Map, Set} from "immutable";
 import * as Actions from "./Actions";
 import * as Core from "./model/core";
 import {getSelectedDishId} from "./model/core";
-import * as Services from "./model/network";
+import * as network from "./model/network";
 import * as Keys from "./model/keys";
 
 /**
@@ -33,12 +33,12 @@ function updateUrl(url) {
     }
 }
 
-function findDishes({searchString, searchType}) {
-    const searchKey = Core.searchKey(searchString, searchType);
+function findDishes({searchText, searchType}) {
+    const searchKey = Core.searchKey(searchText, searchType);
     return {
         type: types.findDishes,
         key: searchKey,
-        searchString: searchString,
+        searchText: searchText,
         searchType: searchType,
         successAction: (foundDishes) => Actions.cacheFoundDishes(searchKey, foundDishes),
     }
@@ -61,7 +61,7 @@ export function getSideEffects(oldState, state) {
         .add(
             Core.searchParametersChanged(oldState, state)
             && findDishes({
-                searchString: state.get('searchString'),
+                searchText: state.get('searchText'),
                 searchType: state.get('searchType')
             })
         )
@@ -77,9 +77,11 @@ function id(sideEffect) {
 
 export function sideEffectMapper(sideEffects, dispatch) {
     sideEffects.forEach(sideEffect => {
+        console.log("------------ Mapping Side Effect -----------");
+        console.log(sideEffect);
         switch (sideEffect.type) {
             case types.fetchDish:
-                let promise = Services.fetchDish(sideEffect.key);
+                let promise = network.fetchDish(sideEffect.key);
                 promise.then(
                     dish => dispatch(sideEffect.successAction(dish)),
                     error => dispatch(sideEffect.errorAction(sideEffect.key, error)));
@@ -87,19 +89,20 @@ export function sideEffectMapper(sideEffects, dispatch) {
             case types.updateUrl:
                 let url = new URL(sideEffect.key);
                 history.pushState(
-                    {todo:"back navigation not implemented"},
+                    {todo: "back navigation not implemented"},
                     url.pathname,
                     `${url.pathname}${url.search}`
                 );
                 break;
             case types.findDishes:
-                findDishes({
-                    searchString: sideEffect.searchString,
-                    searchType:sideEffect.searchType
+                network.findDishes({
+                    searchText: sideEffect.searchText,
+                    searchType: sideEffect.searchType
                 })
-                .then(
-                    foundDishes => dispatch(sideEffect.successAction(foundDishes)),
-                    error => {}); // TODO
+                    .then(
+                        foundDishes => dispatch(sideEffect.successAction(foundDishes)),
+                        error => {
+                        }); // TODO
         }
     });
     return {reduxAction: {type: "sideEffectCompleted"}, pending: {}};
