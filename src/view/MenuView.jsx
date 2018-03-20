@@ -1,6 +1,7 @@
 import React from "react";
 import {decreaseGuest, increaseGuest, navigateToPage, removeDishFromMenu, setGuest} from "../Actions";
 import {pages} from "../model/Pages";
+import {round} from "../model/core";
 
 function GuestCounter({dispatch, nGuests}) {
     return (
@@ -36,7 +37,7 @@ function DishRow({dishName, dishId, nGuests, dispatch, dishCost}) {
                 <div onClick={() => dispatch(navigateToPage({page: pages.dishDetails, id: dishId, name:dishName}))}>{dishName}</div>
             </td>
             <td className="currency">
-                {Math.round(dishCost * 100) / 100 * nGuests}
+                {round(dishCost * nGuests)}
             </td>
         </tr>
     );
@@ -68,7 +69,7 @@ function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost, dispatch}
             <tr>
                 <th>{'Total for ' + nGuests + ' people: '}</th>
                 <th className="currency" id="menuTotals">
-                    {nGuests * Math.round(totalCost * 100) / 100}
+                    {round(nGuests * totalCost)}
                 </th>
             </tr>
             </tfoot>
