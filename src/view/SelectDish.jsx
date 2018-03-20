@@ -2,9 +2,8 @@ import React from "react";
 import DishThumbnail from "../components/DishThumbnail.jsx";
 import {searchText, searchType} from "../Actions";
 import LoadingArticle from "../components/LoadingArticle.jsx";
-import {getSearchType} from "../model/core";
 
-export default function SelectDish({dishTypes, dispatch, foundDishes, currentSearchType}) {
+export default function SelectDish({dishTypes, dispatch, foundDishes, currentSearchType, currentSearchText}) {
 
     const dishList = !foundDishes ? <LoadingArticle/>
         : <ul className="dish-thumbnail-list" >
@@ -22,7 +21,7 @@ export default function SelectDish({dishTypes, dispatch, foundDishes, currentSea
             <h1>Find a dish</h1>
             <section className="dish-search-form">
                 <input type="text"
-                       placeholder="Filter on titles and ingredients"
+                       placeholder="Filter on titles and ingredients" value={currentSearchText ? currentSearchText : ""}
                        onInput={event => dispatch(searchText(event.target.value))}/>
                 <label>Filter by: </label>
                 <select className="btn btn-danger" value={currentSearchType}

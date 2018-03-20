@@ -8,7 +8,7 @@ import SelectDish from "./view/SelectDish.jsx";
 import React from "react";
 import DishDetails from "./view/DishDetails.jsx";
 import WelcomeView from "./view/Welcome.jsx";
-import {getBestInformationOnSelectedDish, getMenuDishes, getSearchResults, getSearchType} from "./model/core";
+import {getBestInformationOnSelectedDish, getMenuDishes, getSearchResults, getSearchType, getSearchText} from "./model/core";
 import Menu from "./view/MenuView.jsx";
 import PrintDinner from "./view/PrintDinner";
 import * as core from "./model/core";
@@ -43,6 +43,7 @@ export default function AppComponent({
                             dispatch={dispatch}
                             foundDishes={getSearchResults(state)}
                             currentSearchType={getSearchType(state)}
+                            currentSearchText={getSearchText(state)}
                 //            filteredDishesFunc={filteredDishesFunc}
                 />
                 : page === pages.dishDetails ?

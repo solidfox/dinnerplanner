@@ -97,3 +97,6 @@ export function searchParametersChanged(oldState, newState) {
 export function getSearchType(state) {
     return state.get("searchType");
 }
+export function getSearchText(state) {
+    return state.get("searchText");
+}
