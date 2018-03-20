@@ -4,13 +4,13 @@ import * as Keys from "./keys";
 //function that returns all dishes of specific type (i.e. "starter", "main dish" or "dessert")
 //you can use the filter argument to filter out the dish by name or ingredient (use for search)
 //if you don't pass any filter all the dishes will be returned
-export function findDishes(type = undefined, filter) {
-    type = type === 'all' ? undefined : type;
+export function findDishes({searchType = undefined, searchText}) {
+    searchType = searchType === 'all' ? undefined : searchType;
     return fetch(apiEndpoint(
         "search",
         {
-            type: type,
-            filter: filter
+            type: searchType,
+            filter: searchText
         }),
         {
             headers: new Headers({

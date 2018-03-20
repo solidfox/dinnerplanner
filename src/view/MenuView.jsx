@@ -43,7 +43,6 @@ function DishRow({dishName, dishId, nGuests, dispatch, dishCost}) {
 }
 
 function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost, dispatch}) {
-    console.log(menuDishes.toJS());
     return (
         <table className="countTable center" width="100%">
             <thead>
