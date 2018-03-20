@@ -87,8 +87,9 @@ export  function getSearchResults(state) {
 
 export function searchParametersChanged(oldState, newState) {
     return (
-        oldState && oldState.get('searchText') !== newState.get('searchText') ||
-        oldState && oldState.get('searchType') !== newState.get('searchType')
+        !oldState ||
+        oldState.get('searchText') !== newState.get('searchText') ||
+        oldState.get('searchType') !== newState.get('searchType')
     );
 }
 

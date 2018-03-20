@@ -6,6 +6,7 @@ import * as Keys from "./keys";
 //if you don't pass any filter all the dishes will be returned
 export function findDishes({searchType = undefined, searchText}) {
     searchType = searchType === 'all' ? undefined : searchType;
+
     return fetch(apiEndpoint(
         "search",
         {

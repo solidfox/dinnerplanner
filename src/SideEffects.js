@@ -4,6 +4,8 @@ import * as Core from "./model/core";
 import {getSelectedDishId} from "./model/core";
 import * as network from "./model/network";
 import * as Keys from "./model/keys";
+import * as Rx from "rxjs";
+import {searchKey} from "./model/core";
 
 /**
  * Created by Daniel Schlaug on 2018-03-13.
@@ -40,7 +42,6 @@ function findDishes({searchText, searchType}) {
         key: searchKey,
         searchText: searchText,
         searchType: searchType,
-        successAction: (foundDishes) => Actions.cacheFoundDishes(searchKey, foundDishes),
     }
 }
 
@@ -75,7 +76,7 @@ function id(sideEffect) {
     return sideEffect.type + "/" + sideEffect.key;
 }
 
-export function sideEffectMapper(sideEffects, dispatch) {
+export function sideEffectMapper(sideEffects, dispatch, mapperState = Map()) {
     sideEffects.forEach(sideEffect => {
         console.log("------------ Mapping Side Effect -----------");
         console.log(sideEffect);
@@ -95,17 +96,41 @@ export function sideEffectMapper(sideEffects, dispatch) {
                 );
                 break;
             case types.findDishes:
-                network.findDishes({
-                    searchText: sideEffect.searchText,
-                    searchType: sideEffect.searchType
-                })
-                    .then(
-                        foundDishes => dispatch(sideEffect.successAction(foundDishes)),
-                        error => {
-                        }); // TODO
+                let findDishesState = mapperState.get(types.findDishes) || {};
+                console.log("---- Searching ----");
+                console.log(findDishesState);
+                findDishesState.textSubject = findDishesState.textSubject || new Rx.BehaviorSubject(sideEffect.searchText);
+                findDishesState.typeSubject = findDishesState.typeSubject || new Rx.BehaviorSubject(sideEffect.searchType);
+                console.log(findDishesState);
+
+                if (!findDishesState.searchSubscription) {
+                    findDishesState.searchSubscription = findDishesState.textSubject
+                        .throttleTime(500)
+                        .startWith("")
+                        .distinctUntilChanged()
+                        .combineLatest(
+                            findDishesState.typeSubject
+                                .startWith("all dishes")
+                                .distinctUntilChanged(),
+                            (search, type) => ([search, type])
+                        )
+                        .flatMap(([search, type]) =>
+                            Rx.Observable.fromPromise(network.findDishes({
+                                searchText: search,
+                                searchType: type
+                            }))
+                            .map(foundDishes => [searchKey(search, type), foundDishes])
+                        )
+                        .subscribe(([searchKey, foundDishes]) => dispatch(Actions.cacheFoundDishes(searchKey, foundDishes)));
+                } else {
+                    findDishesState.textSubject.next(sideEffect.searchText);
+                    findDishesState.typeSubject.next(sideEffect.searchType);
+                }
+                mapperState = mapperState.set(types.findDishes, findDishesState);
+                break;
         }
     });
-    return {reduxAction: {type: "sideEffectCompleted"}, pending: {}};
+    return {reduxAction: {type: "sideEffectCompleted"}, mapperState: mapperState};
 }
 
 function getEffectsToCancel(sideEffectRequests, pendingSideEffects) {
@@ -149,9 +174,12 @@ export class SideEffector {
         console.log("effects to perform");
         console.log(effectsToPerform.toJS());
         if (effectsToPerform.size > 0) {
-            const {reduxAction, pending: newPending} = this._mapper(effectsToPerform, this._dispatch);
+            console.log(this._state.toJS());
+            const {reduxAction, mapperState} = this._mapper(effectsToPerform, this._dispatch, state.get('mapperState'));
+            state = state.set('mapperState', mapperState);
+            console.log(this._state.toJS());
             return {
-                state: state.set('pendingEffects', pendingSubCancelled.merge(newPending)),
+                state: state,
                 reduxAction: reduxAction
             };
         } else {
