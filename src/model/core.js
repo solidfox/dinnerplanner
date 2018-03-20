@@ -14,7 +14,7 @@ export const initialState = Map({
     menu: Set(),
     dishCache: Map(),
     pendingSideEffects: List(),
-    nGuests: 2
+    nGuests: 1,
 });
 
 export function addDishToCache(state, dish) {
@@ -73,6 +73,12 @@ export function round(value) {
     return Math.round(value * 100) / 100;
 }
 
+export function getCurrentSearchKey(state) {
+    return state.get("searchString") + "/" + state.get("searchType");
+}
+
+export  function getSearchResults(state) {
+    return state.getIn("foundDishes", getCurrentSearchKey(state));
 export function searchParametersChanged(oldState, newState) {
     return (
         oldState && oldState.get('searchString') !== newState.get('searchString') ||
