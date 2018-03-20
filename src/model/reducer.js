@@ -19,12 +19,15 @@ export function reducer(state, action) {
     console.log(action);
 
     switch (action.type) {
-        case Actions.types.clickedDish:
-            const selectedDish = Map(action).delete('type');
-            return core.setPage(state, pages.dishDetails, selectedDish);
 
         case Actions.types.addDishToMenu:
             return core.addDishToMenu(state, action.dish.id);
+
+        case Actions.types.searchText:
+            return state.set('searchText', action.string);
+
+        case Actions.types.searchType:
+            return state.set('searchType', action.dishType);
 
         case Actions.types.removeDishFromMenu:
             return core.removeDishFromMenu(state, action.dishId);

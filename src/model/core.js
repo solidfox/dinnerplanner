@@ -8,11 +8,12 @@ export const initialState = Map({
     page: "select-dish",
     selectedDish: null,
     searchString: "",
+    searchType: "all dishes",
     dishTypes: ["all dishes", "main course", "side dish", "dessert", "appetizer", "salad", "bread", "breakfast", "soup", "beverage", "sauce", "drink"],
     menu: Set(),
     dishCache: Map(),
     pendingSideEffects: List(),
-    nGuests: 2
+    nGuests: 1,
 });
 
 export function addDishToCache(state, dish) {
@@ -69,4 +70,12 @@ export function getTotalMenuCost(state) {
 
 export function round(value) {
     return Math.round(value*100) / 100;
+}
+
+export function getCurrentSearchKey(state) {
+    return state.get("searchString") + "/" + state.get("searchType");
+}
+
+export  function getSearchResults(state) {
+    return state.getIn("foundDishes", getCurrentSearchKey(state));
 }

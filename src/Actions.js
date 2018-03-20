@@ -13,6 +13,8 @@ export const types = {
     increaseGuest: scope + "increaseGuest",
     setGuest: scope + "setGuest",
     removeDishFromMenu: scope + "removeDishFromMenu",
+    searchText: scope + "searchText",
+    searchType: scope + "searchType",
 };
 
 export function navigateToPage(args) {
@@ -30,6 +32,20 @@ export function fetchedDish(dish) {
     return {
         type: types.fetchedDish,
         dish: dish,
+    }
+}
+
+export function searchText(string) {
+    return {
+        type: types.searchText,
+        string: string,
+    };
+}
+
+export function searchType(dishType) {
+    return {
+        type: types.searchType,
+        dishType: dishType,
     }
 }
 

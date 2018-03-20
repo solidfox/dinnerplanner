@@ -3,6 +3,7 @@ import * as Rx from "rxjs";
 import React from "react";
 import DishThumbnail from "../components/DishThumbnail.jsx";
 import PropTypes from 'prop-types';
+import {searchText, searchType} from "../Actions";
 
 export default class SelectDish extends React.Component {
 
@@ -50,10 +51,10 @@ export default class SelectDish extends React.Component {
                 <section className="dish-search-form">
                     <input type="text"
                            placeholder="Filter on titles and ingredients"
-                           onInput={event => this.state.searchTextSubject.next(event.target.value)}/>
+                           onInput={event => this.props.dispatch(searchText(event.target.value))}/>
                     <label>Filter by: </label>
                     <select className="btn btn-danger"
-                            onChange={event => this.state.typeSubject.next(event.target.value)}>
+                            onChange={event => this.props.dispatch(searchType(event.target.value))}>
                         {this.props.dishTypes
                             .map(dishType => <option key={dishType}
                                                      value={dishType}>{dishType}</option>)}
