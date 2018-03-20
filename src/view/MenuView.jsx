@@ -43,7 +43,7 @@ function DishRow({dishName, dishId, nGuests, dispatch, dishCost}) {
     );
 }
 
-function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost}) {
+function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost, dispatch}) {
     return (
         <table className="countTable center" width="100%">
             <thead>
@@ -56,6 +56,7 @@ function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost}) {
             {
                 menuDishes.map(dish =>
                     <DishRow removeDish={removeDishSubject}
+                             dispatch={dispatch}
                              key={dish.id}
                              dishID={dish.id}
                              dishName={dish.name}
@@ -77,12 +78,7 @@ function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost}) {
 }
 
 
-export default function Menu({
-                                 nGuests: nGuests,
-                                 menuDishes: menuDishes,
-                                 totalCost: totalCost,
-                                 dispatch
-                             }) {
+export default function Menu({nGuests, menuDishes, totalCost, dispatch}) {
     return (
         <article className="menu-view">
             <header data-toggle="collapse" data-target=".menu-body" aria-expanded="false">
@@ -99,12 +95,13 @@ export default function Menu({
                                    nGuests={nGuests}
                                    menuDishes={menuDishes}
                                    totalCost={totalCost}
+                                   dispatch={dispatch}
                         />
                         <button key={'button'}
                                 className="btn btn-primary btn-lg btn-block"
                                 id="confirm-dinner"
                                 onClick={() => dispatch(navigateToPage(pages.dinnerOverview))}>
-                            Confirm Dinner</button>,
+                            Confirm Dinner</button>
                     </> : <>
                         <button key="no dishes in menu" className="btn btn-secondary btn-lg btn-block" disabled
                                 id="confirm-dinner">

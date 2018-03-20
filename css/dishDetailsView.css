@@ -88,11 +88,24 @@ table.ingredients > thead {
     align-self: top;
 }
 
+#dish-details-view .loading-animation {
+    grid-area: loading;
+    animation-iteration-count: infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#dish-details-view .loading-animation > h3 {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.66);
+}
+
 @media (min-width: 512px) {
     #dish-details-view {
         display: grid;
-        grid-template-columns: auto auto; /*1fr*/
-        grid-template-rows: auto auto auto 1fr;
+        grid-template-columns: [loading-start] auto auto; /*1fr*/
+        grid-template-rows: auto auto [loading-start] auto 1fr;
         grid-column-gap: 1em;
         grid-template-areas:
                 "backButton backButton"
