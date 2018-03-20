@@ -8,7 +8,7 @@ import SelectDish from "./view/SelectDish.jsx";
 import React from "react";
 import DishDetails from "./view/DishDetails.jsx";
 import WelcomeView from "./view/Welcome.jsx";
-import {getBestInformationOnSelectedDish, getMenuDishes, getSearchResults, getSearchType} from "./model/core";
+import {getBestInformationOnSelectedDish, getMenuDishes, getSearchResults, getSearchType, getSearchText} from "./model/core";
 import Menu from "./view/MenuView.jsx";
 import PrintDinner from "./view/PrintDinner";
 import * as core from "./model/core";
@@ -24,7 +24,7 @@ export default function AppComponent({
     const page = state.get('page');
     return <>
         <header key="header">
-            <h1>Dinner Planner</h1>
+            <h1 className="appHeading"><a href="../"> Dinner Planner</a></h1>
         </header>
 
         {state.get('connectivity') === 'offline' ? <NoConnection /> : ""}
@@ -43,6 +43,7 @@ export default function AppComponent({
                             dispatch={dispatch}
                             foundDishes={getSearchResults(state)}
                             currentSearchType={getSearchType(state)}
+                            currentSearchText={getSearchText(state)}
                 //            filteredDishesFunc={filteredDishesFunc}
                 />
                 : page === pages.dishDetails ?
@@ -57,7 +58,8 @@ export default function AppComponent({
                         <PrintDinner nGuests={state.get('nGuests')}
                                      menu={core.getMenuDishes(state)}
                                      dispatch={dispatch}/>
-                        : <WelcomeView dispatch={dispatch}/>
+                        : <WelcomeView dispatch={dispatch}
+                                       connectivity={state.get('connectivity')} />
         }
         <footer key="footer">Lab Group 5 - Daniel Schlaug & Siddhant Gupta</footer>
     </>;

@@ -138,7 +138,7 @@ select {
 .no-connection {
     background-color: white;
     position:absolute;
-    width: 300px;
+    width: 400px;
     top:10px;
     right:10px;
     border-radius: 10px;
@@ -148,3 +148,11 @@ select {
     padding-right: 10px;
 }
 
+.error {
+    color: red;
+}
+
+a:link, a:visited{
+    color: white;
+    text-decoration: none;
+}
