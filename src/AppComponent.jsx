@@ -24,7 +24,7 @@ export default function AppComponent({
     const page = state.get('page');
     return <>
         <header key="header">
-            <h1>Dinner Planner</h1>
+            <h1 className="appHeading"><a href="../"> Dinner Planner</a></h1>
         </header>
 
         {state.get('connectivity') === 'offline' ? <NoConnection /> : ""}
@@ -58,7 +58,8 @@ export default function AppComponent({
                         <PrintDinner nGuests={state.get('nGuests')}
                                      menu={core.getMenuDishes(state)}
                                      dispatch={dispatch}/>
-                        : <WelcomeView dispatch={dispatch}/>
+                        : <WelcomeView dispatch={dispatch}
+                                       connectivity={state.get('connectivity')} />
         }
         <footer key="footer">Lab Group 5 - Daniel Schlaug & Siddhant Gupta</footer>
     </>;

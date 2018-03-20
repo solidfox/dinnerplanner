@@ -148,3 +148,11 @@ select {
     padding-right: 10px;
 }
 
+.error {
+    color: red;
+}
+
+a:link, a:visited{
+    color: white;
+    text-decoration: none;
+}
