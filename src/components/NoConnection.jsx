@@ -7,5 +7,6 @@ import React from "react";
 export default function NoConnection() {
     return <div className="no-connection">
         <h5>⚠️ Error! No connection found</h5>
+        <p>We recommend checking Internet Connection or API key, and then try reloading.</p>
     </div>;
 }
