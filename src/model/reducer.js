@@ -54,6 +54,12 @@ export function reducer(state, action) {
         case Actions.types.cacheFoundDishes:
             return state.setIn(["foundDishes", action.searchKey], action.foundDishes);
 
+        case "offline":
+            return state.set('connectivity', 'offline');
+
+        case "online":
+            return state.set('connectivity', 'online');
+
         default:
             return state;
     }

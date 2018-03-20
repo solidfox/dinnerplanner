@@ -11,6 +11,7 @@ import {navigateToPage} from "./Actions"
 import {urlRouter} from "./model/Pages"
 import * as Immutable from "immutable"
 import * as json_immutable from "json-immutable"
+import * as Rx from "rxjs";
 
 const LOCAL_STORAGE_KEY = "dinnerPlannerState";
 
@@ -28,6 +29,7 @@ function loadPersistedState() {
 
 function main() {
 
+
     let persistedState = loadPersistedState() || undefined;
     console.log(persistedState);
 
@@ -36,6 +38,16 @@ function main() {
         loadPersistedState(),
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     );
+
+    Rx.Observable.fromEvent(window, 'offline')
+        .subscribe(() => {
+            store.dispatch({type:"offline"})
+        });
+
+    Rx.Observable.fromEvent(window, 'online')
+        .subscribe(() => {
+            store.dispatch({type:"online"})
+        });
 
     store.dispatch(navigateToPage(urlRouter(window.location)));
 

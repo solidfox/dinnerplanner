@@ -14,6 +14,7 @@ import PrintDinner from "./view/PrintDinner";
 import * as core from "./model/core";
 import DinnerOverview from "./view/DinnerOverviewView.jsx";
 import {pages} from "./model/Pages";
+import NoConnection from "./components/NoConnection";
 
 export default function AppComponent({
                                          state,
@@ -25,6 +26,9 @@ export default function AppComponent({
         <header key="header">
             <h1>Dinner Planner</h1>
         </header>
+
+        {state.get('connectivity') === 'offline' ? <NoConnection /> : ""}
+
         {
             page === pages.selectDish ||
             page === pages.dishDetails ? <Menu dispatch={dispatch}

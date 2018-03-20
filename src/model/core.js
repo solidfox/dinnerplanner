@@ -15,6 +15,7 @@ export const initialState = Map({
     dishCache: Map(),
     pendingSideEffects: List(),
     nGuests: 1,
+    connectivity: "online"
 });
 
 export function addDishToCache(state, dish) {
