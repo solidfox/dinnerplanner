@@ -8,6 +8,7 @@ import * as core from "./core"
 import {pages} from "./Pages"
 import {types} from "../Actions"
 import * as Immutable from "immutable"
+import {searchKey} from "./core";
 
 function validState(state) {
     return Object.getPrototypeOf(Immutable.Map()).isPrototypeOf(state);
@@ -38,7 +39,7 @@ export function reducer(state, action) {
         case Actions.types.navigateToPage:
             const page = action.page;
             let thread = core.setPage(state, action.page);
-            thread = core.setSelectedDish(thread, Map({id: action.id ,name: action.name}))
+            thread = core.setSelectedDish(thread, Map({id: action.id ,name: action.name}));
             return thread;
 
         case Actions.types.decreaseGuest:
@@ -49,6 +50,9 @@ export function reducer(state, action) {
 
         case Actions.types.setGuest:
             return state.update('nGuests', (() => action.nGuests));
+
+        case Actions.types.cacheFoundDishes:
+            return state.setIn(["foundDishes", action.searchKey], action.foundDishes);
 
         default:
             return state;

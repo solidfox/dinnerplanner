@@ -15,6 +15,7 @@ export const types = {
     removeDishFromMenu: scope + "removeDishFromMenu",
     searchText: scope + "searchText",
     searchType: scope + "searchType",
+    cacheFoundDishes: scope + "cacheFoundDishes",
 };
 
 export function navigateToPage(args) {
@@ -87,5 +88,13 @@ export function removeDishFromMenu(dishId) {
     return {
         type: types.removeDishFromMenu,
         dishId: dishId,
+    }
+}
+
+export function cacheFoundDishes(searchKey, foundDishes) {
+    return {
+        type: types.cacheFoundDishes,
+        searchKey: searchKey,
+        foundDishes: foundDishes,
     }
 }

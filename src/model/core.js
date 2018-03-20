@@ -73,12 +73,18 @@ export function round(value) {
     return Math.round(value * 100) / 100;
 }
 
+export function searchKey(searchString, searchType) {
+    return searchString + "/" + searchType;
+}
+
 export function getCurrentSearchKey(state) {
-    return state.get("searchString") + "/" + state.get("searchType");
+    return searchKey(state.get("searchString"), state.get("searchType"));
 }
 
 export  function getSearchResults(state) {
     return state.getIn("foundDishes", getCurrentSearchKey(state));
+}
+
 export function searchParametersChanged(oldState, newState) {
     return (
         oldState && oldState.get('searchString') !== newState.get('searchString') ||

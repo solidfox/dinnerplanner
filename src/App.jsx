@@ -1,6 +1,6 @@
 // import Rx from '/node_modules/rxjs/Rx.js';
 // import $ from 'jquery'
-import {filteredDishes} from './model/network.js'
+import {findDishes} from './model/network.js'
 import ReactDOM from 'react-dom'
 import React from "react"
 import {reducer, initialState} from "./model/reducer"
@@ -59,7 +59,7 @@ function main() {
             <AppComponent key="app"
                           state={state}
                           dispatch={store.dispatch}
-                          filteredDishesFunc={filteredDishes}/>,
+                          filteredDishesFunc={findDishes}/>,
             appContainer);
 
         oldState = state;

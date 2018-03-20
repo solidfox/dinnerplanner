@@ -34,11 +34,13 @@ function updateUrl(url) {
 }
 
 function findDishes({searchString, searchType}) {
-    const searchKey = searchString + "/" + searchType;
+    const searchKey = Core.searchKey(searchString, searchType);
     return {
         type: types.findDishes,
         key: searchKey,
-        successAction: (foundDishes) => Actions.foundDishes(foundDishes, searchKey)
+        searchString: searchString,
+        searchType: searchType,
+        successAction: (foundDishes) => Actions.cacheFoundDishes(searchKey, foundDishes),
     }
 }
 
@@ -78,7 +80,9 @@ export function sideEffectMapper(sideEffects, dispatch) {
         switch (sideEffect.type) {
             case types.fetchDish:
                 let promise = Services.fetchDish(sideEffect.key);
-                promise.then(dish => dispatch(sideEffect.successAction(dish)), (error) => dispatch(sideEffect.errorAction(sideEffect.key, error)));
+                promise.then(
+                    dish => dispatch(sideEffect.successAction(dish)),
+                    error => dispatch(sideEffect.errorAction(sideEffect.key, error)));
                 break;
             case types.updateUrl:
                 let url = new URL(sideEffect.key);
@@ -86,9 +90,16 @@ export function sideEffectMapper(sideEffects, dispatch) {
                     {todo:"back navigation not implemented"},
                     url.pathname,
                     `${url.pathname}${url.search}`
-                )
+                );
                 break;
             case types.findDishes:
+                findDishes({
+                    searchString: sideEffect.searchString,
+                    searchType:sideEffect.searchType
+                })
+                .then(
+                    foundDishes => dispatch(sideEffect.successAction(foundDishes)),
+                    error => {}); // TODO
         }
     });
     return {reduxAction: {type: "sideEffectCompleted"}, pending: {}};
