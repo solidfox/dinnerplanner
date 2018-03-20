@@ -4,14 +4,49 @@ import React from "react";
 import DishThumbnail from "../components/DishThumbnail.jsx";
 import PropTypes from 'prop-types';
 import {searchText, searchType} from "../Actions";
+import {getSearchResults} from "../model/core";
+import LoadingArticle from "../components/LoadingArticle.jsx";
 
-export default class SelectDish extends React.Component {
+export default function SelectDish (dishTypes, dispatch, foundDishes) {
 
+        const dishList = !foundDishes ? <LoadingArticle/>
+            :  foundDishes.map(dish => <DishThumbnail dish={dish}
+                                                                  title={dish.name}
+                                                                  dishId={dish.id}
+                                                                  imageURL={dish.image}
+                                                                  dispatch={dispatch}
+                                                                  key={dish.id}
+            />);
+
+        return (
+            <article>
+                <h1>Find a dish</h1>
+                <section className="dish-search-form">
+                    <input type="text"
+                           placeholder="Filter on titles and ingredients"
+                           onInput={event => dispatch(searchText(event.target.value))}/>
+                    <label>Filter by: </label>
+                    <select className="btn btn-danger"
+                            onChange={event => dispatch(searchType(event.target.value))}>
+                        {this.props.dishTypes
+                            .map(dishType => <option key={dishType}
+                                                     value={dishType}>{dishType}</option>)}
+                    </select>
+                </section>
+                <hr/>
+                <ul className="dish-thumbnail-list" >
+                    {dishList}
+
+                </ul>
+            </article>
+        );
+    /*
     static propTypes() {
         return {
             dispatch: PropTypes.func,
             filteredDishesFunc: PropTypes.func,
             dishTypes: PropTypes.arrayOf(PropTypes.string),
+            foundDishes: PropTypes.arrayOf(PropTypes.string),
         }
     }
 
@@ -43,35 +78,7 @@ export default class SelectDish extends React.Component {
             typeSubject: this.state.typeSubject,
         }));
     }
+*/
 
-    render() {
-        return (
-            <article>
-                <h1>Find a dish</h1>
-                <section className="dish-search-form">
-                    <input type="text"
-                           placeholder="Filter on titles and ingredients"
-                           onInput={event => this.props.dispatch(searchText(event.target.value))}/>
-                    <label>Filter by: </label>
-                    <select className="btn btn-danger"
-                            onChange={event => this.props.dispatch(searchType(event.target.value))}>
-                        {this.props.dishTypes
-                            .map(dishType => <option key={dishType}
-                                                     value={dishType}>{dishType}</option>)}
-                    </select>
-                </section>
-                <hr/>
-                <ul className="dish-thumbnail-list" >
-                    {this.state.dishList.map(dish => <DishThumbnail dish={dish}
-                                                                    title={dish.name}
-                                                                    dishId={dish.id}
-                                                                    imageURL={dish.image}
-                                                                    cost={dish.price}
-                                                                    dispatch={this.props.dispatch}
-                                                                    key={dish.id}
-                    />)}
-                </ul>
-            </article>
-        )
-    }
+
 }
