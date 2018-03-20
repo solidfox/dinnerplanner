@@ -28,14 +28,21 @@ export function addDishToMenu(state, dishId) {
     return state.update('menu', menu => menu.add(dishId));
 }
 
-export function setPage(state, page, selectedDish) {
+export function removeDishFromMenu(state, dishId) {
+    return state.update('menu', menu => menu.remove(dishId));
+}
+
+export function setPage(state, page) {
     return state
-        .set("page", page)
-        .set("selectedDish", selectedDish);
+        .set("page", page);
 }
 
 export function getBestInformationOnSelectedDish(state) {
     return getFullDataOnSelectedDish(state) || state.get('selectedDish');
+}
+
+export function setSelectedDish(state, dish) {
+    return state.set('selectedDish', Map(dish));
 }
 
 export function setSelectedDishId(state, dishId) {

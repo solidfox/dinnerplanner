@@ -26,16 +26,17 @@ export function reducer(state, action) {
         case Actions.types.addDishToMenu:
             return core.addDishToMenu(state, action.dish.id);
 
+        case Actions.types.removeDishFromMenu:
+            return core.removeDishFromMenu(state, action.dishId);
+
         case Actions.types.fetchedDish:
             return core.addDishToCache(state, action.dish);
 
         case Actions.types.navigateToPage:
             const page = action.page;
-            return typeof page === 'string' ?
-                core.setPage(state, action.page)
-                : core.setSelectedDishId(
-                    core.setPage(state, page.page),
-                    page.selectedDishId);
+            let thread = core.setPage(state, action.page);
+            thread = core.setSelectedDish(thread, Map({id: action.id ,name: action.name}))
+            return thread;
 
         case Actions.types.decreaseGuest:
             return state.update('nGuests', (nGuests => nGuests - 1));

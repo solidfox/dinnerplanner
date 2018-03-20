@@ -29,12 +29,11 @@ function GuestCounter({dispatch, nGuests}) {
 function DishRow({dishName, dishId, nGuests, dispatch, dishCost}) {
     return (
         <tr>
-            <td className="dish"
-                onClick={() => dispatch(navigateToPage({page: pages.dishDetails, selectedDishId: dishId}))}>
+            <td className="dish">
                 <div className="remove-icon" onClick={() => dispatch(removeDishFromMenu(dishId))}>
                     ❌
                 </div>
-                <div>{dishName}</div>
+                <div onClick={() => dispatch(navigateToPage({page: pages.dishDetails, id: dishId, name:dishName}))}>{dishName}</div>
             </td>
             <td className="currency">
                 {Math.round(dishCost * 100) / 100 * nGuests}
@@ -44,6 +43,7 @@ function DishRow({dishName, dishId, nGuests, dispatch, dishCost}) {
 }
 
 function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost, dispatch}) {
+    console.log(menuDishes.toJS());
     return (
         <table className="countTable center" width="100%">
             <thead>
@@ -55,10 +55,10 @@ function MenuTable({removeDishSubject, nGuests, menuDishes, totalCost, dispatch}
             <tbody className="menu-dishes">
             {
                 menuDishes.map(dish =>
-                    <DishRow removeDish={removeDishSubject}
+                <DishRow removeDish={removeDishSubject}
                              dispatch={dispatch}
                              key={dish.id}
-                             dishID={dish.id}
+                             dishId={dish.id}
                              dishName={dish.name}
                              dishCost={dish.body.price}
                              nGuests={nGuests}

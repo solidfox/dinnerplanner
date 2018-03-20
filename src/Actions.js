@@ -6,7 +6,6 @@ const scope = "";// "se.kth.dinnerplanner.siddaniel.";
 
 export const types = {
     navigateToPage: scope + "navigateToPage",
-    clickedDish: scope + "clickedDish",
     addDishToMenu: scope + "addDishToMenu",
     fetchedDish: scope + "fetchedDish",
     failedToFetchDish: scope + "failedToFetchDish",
@@ -16,23 +15,15 @@ export const types = {
     removeDishFromMenu: scope + "removeDishFromMenu",
 };
 
-export function clickedDish({dishId, dishName}) {
-    return {
-        type: types.clickedDish,
-        name: dishName,
-        id: dishId,
-    }
-}
-
-export function navigateToPage(page) {
+export function navigateToPage(args) {
+    let {page, id, name} = args;
+    page = typeof args === 'string' ? args : page;
     return {
         type: types.navigateToPage,
         page: page,
+        id: id,
+        name: name
     }
-}
-
-export function navigateToRoute() {
-
 }
 
 export function fetchedDish(dish) {

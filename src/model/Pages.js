@@ -14,6 +14,6 @@ export function urlRouter(url) {
     const urlObject = new URL(url);
     return {
         page: urlObject.pathname.split('/')[1],
-        selectedDishId: urlObject.searchParams.get('id')
+        id: urlObject.searchParams.get('id')
     }
 }
