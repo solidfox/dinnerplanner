@@ -91,3 +91,7 @@ export function searchParametersChanged(oldState, newState) {
         oldState && oldState.get('searchType') !== newState.get('searchType')
     );
 }
+
+export function getSearchType(state) {
+    return state.get("searchType");
+}

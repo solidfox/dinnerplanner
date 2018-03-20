@@ -1,22 +1,21 @@
-import {createDishThumbnail} from "../components/DishThumbnail.jsx";
-import * as Rx from "rxjs";
 import React from "react";
 import DishThumbnail from "../components/DishThumbnail.jsx";
-import PropTypes from 'prop-types';
 import {searchText, searchType} from "../Actions";
-import {getSearchResults} from "../model/core";
 import LoadingArticle from "../components/LoadingArticle.jsx";
+import {getSearchType} from "../model/core";
 
-export default function SelectDish({dishTypes, dispatch, foundDishes}) {
+export default function SelectDish({dishTypes, dispatch, foundDishes, currentSearchType}) {
 
     const dishList = !foundDishes ? <LoadingArticle/>
-        : foundDishes.map(dish => <DishThumbnail dish={dish}
+        : <ul className="dish-thumbnail-list" >
+            {foundDishes.map(dish => <DishThumbnail dish={dish}
                                                  title={dish.name}
                                                  dishId={dish.id}
                                                  imageURL={dish.image}
                                                  dispatch={dispatch}
                                                  key={dish.id}
-        />);
+        />)}
+        </ul>;
 
     return (
         <article>
@@ -26,7 +25,7 @@ export default function SelectDish({dishTypes, dispatch, foundDishes}) {
                        placeholder="Filter on titles and ingredients"
                        onInput={event => dispatch(searchText(event.target.value))}/>
                 <label>Filter by: </label>
-                <select className="btn btn-danger"
+                <select className="btn btn-danger" value={currentSearchType}
                         onChange={event => dispatch(searchType(event.target.value))}>
                     {dishTypes
                         .map(dishType => <option key={dishType}
@@ -34,10 +33,9 @@ export default function SelectDish({dishTypes, dispatch, foundDishes}) {
                 </select>
             </section>
             <hr/>
-            <ul className="dish-thumbnail-list">
+
                 {dishList}
 
-            </ul>
         </article>
     );
     /*
