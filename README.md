@@ -1,6 +1,8 @@
 Interaction Programing - Lab assignment - React
 =================================================
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/18fed630cda247e2ae7b24ab519779dd)](https://app.codacy.com/app/me_136/dinnerplanner?utm_source=github.com&utm_medium=referral&utm_content=solidfox/dinnerplanner&utm_campaign=badger)
+
 **Group 5**
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/26eb7a64eded4d47bbf10b562f04875b)](https://www.codacy.com/app/me_136/dinnerplanner?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=solidfox/dinnerplanner&amp;utm_campaign=Badge_Grade)
