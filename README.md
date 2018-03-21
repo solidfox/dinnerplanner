@@ -1,6 +1,8 @@
 Interaction Programing - Lab assignment - React
 =================================================
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/18fed630cda247e2ae7b24ab519779dd)](https://app.codacy.com/app/me_136/dinnerplanner?utm_source=github.com&utm_medium=referral&utm_content=solidfox/dinnerplanner&utm_campaign=badger)
+
 **Group 5**
 
 This project contains the startup code for React version of the Interaction Programing course lab assignment. For more details on how to complete the assignment follow the instructions on the [course website](https://www.kth.se/social/course/DH2642).
