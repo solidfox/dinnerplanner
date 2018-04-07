@@ -5,7 +5,7 @@
 
 import 'bootstrap';
 import SelectDish from "./SelectDish.jsx";
-import React from "react";
+import React, {Fragment} from "react";
 import DishDetails from "./DishDetails.jsx";
 import WelcomeView from "./Welcome.jsx";
 import {getBestInformationOnSelectedDish, getMenuDishes, getSearchResults, getSearchType, getSearchText} from "../model/core";

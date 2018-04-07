@@ -5,13 +5,13 @@
 // var webpack = require('webpack');
 
 var config = {
-    context: __dirname + '/src', // `__dirname` is root of project and `src` is source
+    context: __dirname + '/src',
     entry: {
-        app: './App.jsx',
+        app: './index.js',
     },
     output: {
-        path: __dirname + '/dist', // `dist` is the destination
-        publicPath: '/dist/',
+        path: __dirname + '/public/dist',
+        publicPath: '/dist',
         filename: 'bundle.js',
     },
     resolve: {
@@ -31,7 +31,7 @@ var config = {
     // For development https://webpack.js.org/configuration/devtool/#for-development
     devtool: 'source-map',
     devServer: {
-        contentBase: __dirname, // `__dirname` is root of the project
+        contentBase: __dirname + "/public", // `__dirname` is root of the project
         historyApiFallback: true,
         // hot: true,
     },

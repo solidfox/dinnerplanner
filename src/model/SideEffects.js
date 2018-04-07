@@ -87,12 +87,19 @@ export function sideEffectMapper(sideEffects, dispatch, mapperState = Map()) {
                     dish => dispatch(sideEffect.successAction(dish)),
                     error => dispatch(sideEffect.errorAction(sideEffect.key, error)));
                 break;
-            case types.updateUrl:
-                let url = new URL(sideEffect.key);
-                history.pushState(
+          case types.updateUrl:
+                let currentUrl = new URL(window.location);
+                let hostname = currentUrl.hostname;
+                let path = new URL(sideEffect.key);
+                let pathname = path.pathname;
+                if (hostname.endsWith("github.io")) {
+                  pathname = "/dinnerplanner" + pathname;
+                }
+                
+                window.history.pushState(
                     {todo: "back navigation not implemented"},
-                    url.pathname,
-                    `${url.pathname}${url.search}`
+                    pathname,
+                    `${pathname}${path.search}`
                 );
                 break;
             case types.findDishes:
