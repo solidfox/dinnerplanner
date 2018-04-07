@@ -1,0 +1,67 @@
+
+
+.thumbnail {
+    display: block;
+    width: 200px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    height: auto;
+    box-shadow: 0px 0px 20px #f2e1e0;
+    transition: all 500ms ease;
+}
+
+.thumbnail:hover{
+    transform: scale(1.05);
+    box-shadow: 0px 0px 20px #dab4b1;
+}
+
+.thumbnail.header {
+    align-items: left;
+    text-align: left;
+}
+
+.thumbnail.header > h1 {
+    margin: 0;
+}
+
+.thumbnail .currency {
+    color: darkred;
+}
+
+.dish-thumbnail-list {
+    list-style-type: none;
+    vertical-align: top;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+    padding: 0px;
+    margin: -15px;
+}
+
+.dish-thumbnail-list > li {
+    text-align: center;
+    margin: 15px;
+    display: inline;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dishImg {
+    object-fit: cover;
+    height: 200px;
+    width: 200px;
+
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+}
+
+.dishTitle {
+    margin: 10px;
+    font-size: normal;
+    font-weight: normal;
+    font-family: inherit;
+    height: available;
+}

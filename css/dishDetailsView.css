@@ -1,0 +1,116 @@
+#dish-details-view > .backToSearch {
+    grid-area: backButton;
+    justify-self: left;
+}
+
+#dish-details-view > .description {
+    grid-area: description;
+}
+
+#dish-details-view > .picture{
+    grid-area: picture;
+}
+
+#dish-details-view > .dishName{
+    grid-area: title;
+    width: 100%;
+}
+
+
+
+#dish-details-view > .ingredients {
+    padding: 1em;
+    background-color: #ffffff;
+    margin-top: 10px;
+    border-radius: 20px;
+    grid-area: ingredients;
+    box-shadow: 0px 0px 20px #f2e1e0;
+}
+
+.softHeading {
+    padding-top: 10px;
+}
+
+article > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+    align-self: stretch;
+}
+
+article > header > * {
+    margin: 0px;
+}
+
+.backToSearch {
+    order: 2;
+}
+
+.addToMenu {
+    order: 1;
+}
+
+
+table.ingredients {
+    width: 100%;
+}
+
+.imageDish {
+    max-width: 100%;
+
+    border-radius: 20px;
+    object-fit: cover;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+table.ingredients > tfoot,
+table.ingredients > thead {
+    border-color: #f9c219;
+}
+.ingredients > button {
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+#dish-details-view > .preparation {
+    grid-area: preparation;
+}
+
+#dish-details-view section.ingredients {
+    min-height: 0;
+    height: min-content;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    align-self: top;
+}
+
+#dish-details-view .loading-animation {
+    grid-area: loading;
+    animation-iteration-count: infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#dish-details-view .loading-animation > h3 {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.66);
+}
+
+@media (min-width: 512px) {
+    #dish-details-view {
+        display: grid;
+        grid-template-columns: [loading-start] auto auto; /*1fr*/
+        grid-template-rows: auto auto [loading-start] auto 1fr;
+        grid-column-gap: 1em;
+        grid-template-areas:
+                "backButton backButton"
+                "title title"
+                "picture ingredients"
+                "preparation ingredients";
+    }
+}

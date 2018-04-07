@@ -1,0 +1,161 @@
+
+
+html {
+    height: 100%;
+    --accent-color: rgb(178, 35, 125);
+}
+
+body {
+    height: 100%;
+}
+
+#app-container {
+    min-height: 100%;
+}
+
+#app-container > * {
+    padding: 1em;
+}
+
+#app-container > header {
+    background: linear-gradient(45deg, var(--accent-color), rgb(178, 80, 34));
+    color:rgba(255,255,255,0.9);
+}
+
+#app-container > footer {
+    background: #aaa;
+    color:white;
+}
+
+#app-container > header,
+#app-container > footer {
+    text-align: center;
+}
+
+#app-container > header > *:last-child {
+    margin-bottom: 0;
+}
+
+#app-container > article h1 {
+    font-size: 2em;
+}
+
+.capitaliseLabel {
+    text-transform: capitalize;
+}
+
+.spacious {
+    padding: 30px;
+}
+
+.inactive {
+    display: none !important;
+}
+
+li.vertical-divider {
+    width: 1px;
+    background: #e5e5e5;
+    align-self: stretch;
+}
+
+
+tfoot {
+    border-top: 1px solid rgb(183, 196, 198);
+}
+thead {
+    border-bottom: 1px solid rgb(183, 196, 198);
+}
+
+table th,
+table td {
+    padding: .3em .5em;
+}
+tr > *:first-child {
+    padding-left: 0;
+}
+tr > *:last-child {
+    padding-right: 0;
+}
+
+table .currency {
+    width: 1px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.currency::before {
+    content: "$";
+}
+
+
+#overview-dish-list {
+    justify-content: center;
+}
+
+.dish-search-form {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    grid-column-gap: 1em;
+    align-items: center;
+}
+
+.dish-search-form select {
+    text-transform: capitalize;
+}
+
+.dish-search-form > input {
+    width: auto;
+    align-self: stretch;
+}
+
+.dish-search-form > label {
+    font-weight: bold;
+    /*line-height: 40px;*/
+    margin: 0;
+}
+
+select {
+    -webkit-appearance: none;
+}
+
+#welcome-view {
+    align-self: center;
+    margin: auto;
+    text-align:center;
+}
+
+@keyframes loading-bg {
+    0% {background-color: white}
+    50% {background-color: rgb(165, 70, 82)
+    }
+    100% {background-color: white}
+}
+
+.loading-animation {
+    width: 100%;
+    height: 100%;
+    background: url('/src/assets/load.gif') no-repeat center center;
+    background-size: 150px 150px;
+}
+
+.no-connection {
+    background-color: white;
+    position:absolute;
+    width: 400px;
+    top:10px;
+    right:10px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #5a6268;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.error {
+    color: red;
+}
+
+a:link, a:visited{
+    color: white;
+    text-decoration: none;
+}

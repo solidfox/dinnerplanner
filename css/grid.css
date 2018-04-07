@@ -1,0 +1,31 @@
+@media all and (min-width: 768px) {
+    .page-grid {
+        display: grid;
+        grid-template-columns: [main-start] 20em 1fr [main-end];
+        grid-template-rows: auto [main-start] minmax(auto, 1fr) [main-end] auto;
+        grid-template-areas:
+                "header header"
+                "menu article"
+                "footer footer";
+    }
+}
+
+.page-grid > header {
+    grid-area: header;
+}
+
+.page-grid > .no-menu {
+    grid-area: main;
+}
+
+.page-grid > .menu-view {
+    grid-area: menu;
+}
+
+.page-grid > article {
+    grid-area: article;
+}
+
+.page-grid > footer {
+    grid-area: footer;
+}

@@ -1,0 +1,47 @@
+
+.menu-view {
+    background:#eee;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#numberOfGuests {
+    text-align: center;
+}
+
+.menu-body > * {
+    margin-top: 1em;
+}
+
+.menu-view h1 {
+    margin-bottom: 0;
+}
+
+.menu-view header {
+    margin: 0;
+}
+
+*[aria-expanded="true"] > .only-when-collapsed {
+    display: none;
+}
+
+.crossEmoji {
+    font-size: small;
+}
+
+.helpText {
+    font-style: italic;
+    font-size: small;
+}
+
+.menu-dishes .dish {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: default;
+}
+
+.menu-dishes .dish .remove-icon {
+    padding-right: 3px;
+}
