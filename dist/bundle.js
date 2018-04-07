@@ -55426,7 +55426,7 @@ function AppComponent(_ref) {
       filteredDishesFunc = _ref.filteredDishesFunc,
       dispatch = _ref.dispatch;
   var page = state.get('page');
-  return _react.default.createElement(_react.Fragment, null, _react.default.createElement("header", {
+  return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("header", {
     key: "header"
   }, _react.default.createElement("h1", {
     className: "appHeading"
@@ -72256,7 +72256,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = DishDetails;
 
-var _react = _interopRequireWildcard(__webpack_require__(11));
+var _react = _interopRequireDefault(__webpack_require__(11));
 
 var _LoadingArticle = _interopRequireDefault(__webpack_require__(191));
 
@@ -72265,8 +72265,6 @@ var _Actions = __webpack_require__(15);
 var _Pages = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function IngredientsRow(_ref) {
   var ingredient = _ref.ingredient,
@@ -72280,7 +72278,7 @@ function DishDetails(_ref2) {
   var dish = _ref2.dish,
       nGuests = _ref2.nGuests,
       dispatch = _ref2.dispatch;
-  var body = !dish.body ? _react.default.createElement(_LoadingArticle.default, null) : _react.default.createElement(_react.Fragment, null, _react.default.createElement("section", {
+  var body = !dish.body ? _react.default.createElement(_LoadingArticle.default, null) : _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("section", {
     key: "picture",
     className: "picture"
   }, _react.default.createElement("img", {
@@ -72502,7 +72500,7 @@ function Menu(_ref4) {
   }, _react.default.createElement(GuestCounter, {
     nGuests: nGuests,
     dispatch: dispatch
-  }), menuDishes.size !== 0 ? _react.default.createElement(Fragment, null, _react.default.createElement(MenuTable, {
+  }), menuDishes.size !== 0 ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(MenuTable, {
     key: 'menutable',
     nGuests: nGuests,
     menuDishes: menuDishes,
@@ -72515,7 +72513,7 @@ function Menu(_ref4) {
     onClick: function onClick() {
       return dispatch((0, _Actions.navigateToPage)(_Pages.pages.dinnerOverview));
     }
-  }, "Confirm Dinner")) : _react.default.createElement(Fragment, null, _react.default.createElement("button", {
+  }, "Confirm Dinner")) : _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("button", {
     key: "no dishes in menu",
     className: "btn btn-secondary btn-lg btn-block",
     disabled: true,
@@ -73375,7 +73373,8 @@ function sideEffectMapper(sideEffects, dispatch) {
       case types.updateUrl:
         var currentUrl = new URL(window.location);
         var hostname = currentUrl.hostname;
-        var pathname = new URL(sideEffect.key).pathname;
+        var path = new URL(sideEffect.key);
+        var pathname = path.pathname;
 
         if (hostname.endsWith("github.io")) {
           pathname = "dinnerplanner" + pathname;
@@ -73383,7 +73382,7 @@ function sideEffectMapper(sideEffects, dispatch) {
 
         window.history.pushState({
           todo: "back navigation not implemented"
-        }, url.pathname, "".concat(url.pathname).concat(url.search));
+        }, pathname, "".concat(pathname).concat(path.search));
         break;
 
       case types.findDishes:
