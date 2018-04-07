@@ -73373,7 +73373,14 @@ function sideEffectMapper(sideEffects, dispatch) {
         break;
 
       case types.updateUrl:
-        var url = new URL(sideEffect.key);
+        var currentUrl = new URL(window.location);
+        var hostname = currentUrl.hostname;
+        var pathname = new URL(sideEffect.key).pathname;
+
+        if (hostname.endsWith("github.io")) {
+          pathname = "dinnerplanner" + pathname;
+        }
+
         window.history.pushState({
           todo: "back navigation not implemented"
         }, url.pathname, "".concat(url.pathname).concat(url.search));
