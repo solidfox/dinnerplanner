@@ -73374,11 +73374,9 @@ function sideEffectMapper(sideEffects, dispatch) {
         var currentUrl = new URL(window.location);
         var hostname = currentUrl.hostname;
         var path = new URL(sideEffect.key);
-        var pathname = path.pathname;
-
-        if (hostname.endsWith("github.io")) {
-          pathname = "dinnerplanner" + pathname;
-        }
+        var pathname = path.pathname; // if (hostname.endsWith("github.io")) {
+        //   pathname = "dinnerplanner" + pathname;
+        // }
 
         window.history.pushState({
           todo: "back navigation not implemented"
