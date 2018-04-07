@@ -73375,11 +73375,9 @@ function sideEffectMapper(sideEffects, dispatch) {
         var hostname = currentUrl.hostname;
         var path = new URL(sideEffect.key);
         var pathname = path.pathname;
-        console.log("************************GOJGOJ***************************");
-        console.log(pathname);
 
         if (hostname.endsWith("github.io")) {
-          pathname = "dinnerplanner" + pathname;
+          pathname = "/dinnerplanner" + pathname;
         }
 
         window.history.pushState({
