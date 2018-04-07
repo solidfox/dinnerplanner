@@ -73378,6 +73378,8 @@ function sideEffectMapper(sideEffects, dispatch) {
         //   pathname = "dinnerplanner" + pathname;
         // }
 
+        console.log("***************************************************");
+        console.log(pathname);
         window.history.pushState({
           todo: "back navigation not implemented"
         }, pathname, "".concat(pathname).concat(path.search));
